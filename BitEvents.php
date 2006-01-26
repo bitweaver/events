@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.1 2006/01/26 00:54:45 bitweaver Exp $
-* $Id: BitEvents.php,v 1.1 2006/01/26 00:54:45 bitweaver Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.2 2006/01/26 11:36:22 squareing Exp $
+* $Id: BitEvents.php,v 1.2 2006/01/26 11:36:22 squareing Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.1 $ $Date: 2006/01/26 00:54:45 $ $Author: bitweaver $
+* @version $Revision: 1.2 $ $Date: 2006/01/26 11:36:22 $ $Author: squareing $
 * @class BitEvents
 */
 
@@ -57,13 +57,13 @@ class BitEvents extends LibertyAttachable {
 			$lookupColumn = $this->verifyId( $this->mEventsId ) ? 'events_id' : 'content_id';
 			$lookupId = $this->verifyId( $this->mEventsId ) ? $this->mEventsId : $this->mContentId;
 			$query = "SELECT ts.*, tc.*, " .
-			"uue.`login` AS modifier_user, uue.`real_name` AS modifier_real_name, " .
-			"uuc.`login` AS creator_user, uuc.`real_name` AS creator_real_name " .
-			"FROM `".BIT_DB_PREFIX."bit_events` ts " .
-			"INNER JOIN `".BIT_DB_PREFIX."tiki_content` tc ON( tc.`content_id` = ts.`content_id` )" .
-			"LEFT JOIN `".BIT_DB_PREFIX."users_users` uue ON( uue.`user_id` = tc.`modifier_user_id` )" .
-			"LEFT JOIN `".BIT_DB_PREFIX."users_users` uuc ON( uuc.`user_id` = tc.`user_id` )" .
-			"WHERE ts.`$lookupColumn`=?";
+				"uue.`login` AS modifier_user, uue.`real_name` AS modifier_real_name, " .
+				"uuc.`login` AS creator_user, uuc.`real_name` AS creator_real_name " .
+				"FROM `".BIT_DB_PREFIX."bit_events` ts " .
+				"INNER JOIN `".BIT_DB_PREFIX."tiki_content` tc ON( tc.`content_id` = ts.`content_id` )" .
+				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uue ON( uue.`user_id` = tc.`modifier_user_id` )" .
+				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uuc ON( uuc.`user_id` = tc.`user_id` )" .
+				"WHERE ts.`$lookupColumn`=?";
 			$result = $this->mDb->query( $query, array( $lookupId ) );
 
 			if( $result && $result->numRows() ) {
@@ -74,6 +74,7 @@ class BitEvents extends LibertyAttachable {
 				$this->mInfo['creator'] =( isset( $result->fields['creator_real_name'] )? $result->fields['creator_real_name'] : $result->fields['creator_user'] );
 				$this->mInfo['editor'] =( isset( $result->fields['modifier_real_name'] )? $result->fields['modifier_real_name'] : $result->fields['modifier_user'] );
 				$this->mInfo['display_url'] = $this->getDisplayUrl();
+				$this->mInfo['parsed_data'] = $this->parseData( $this->mInfo['data'], $this->mInfo['format_guid'] );
 
 				LibertyAttachable::load();
 			}
@@ -213,7 +214,7 @@ class BitEvents extends LibertyAttachable {
 	function isValid() {
 		return( $this->verifyId( $this->mEventsId ) );
 	}
-	
+
 	/**
 	* This function generates a list of records from the tiki_content database for use in a list page
 	**/
@@ -225,7 +226,7 @@ class BitEvents extends LibertyAttachable {
 			$pParamHash['sort_mode'] = $_REQUEST['sort_mode'];
 			}
 		}
-		
+
 		LibertyContent::prepGetList( $pParamHash );
 
 		$find = $pParamHash['find'];

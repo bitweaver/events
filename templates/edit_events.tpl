@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.1 2006/01/26 00:54:46 bitweaver Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.2 2006/01/26 11:36:22 squareing Exp $ *}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -59,7 +59,7 @@
 				<input type="hidden" id="event_time" name="event_time"/>
 				<span class="highlight" style="cursor:pointer;" title="{tr}Date Selector{/tr}" id="datrigger">{$gContent->mInfo.event_time|bit_date_format:"%m/%d/%Y %H:%M"}</span>
 						&nbsp;&nbsp;&nbsp;<small>&laquo;&nbsp;{tr}click to change date{/tr}</small>
-						{formhelp note="The date the events on"}
+						{formhelp note="The date the event is on"}
 				{/forminput}
 				{/strip}
 				<script type="text/javascript">//<![CDATA[

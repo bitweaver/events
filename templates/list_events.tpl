@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.2 2006/01/26 01:35:54 hash9 Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.3 2006/01/26 11:36:22 squareing Exp $ *}
 <div class="floaticon">{bithelp}</div>
 
 <div class="listing events display">
@@ -7,15 +7,16 @@
 	</div>
 
 	<div class="body">
+		{minifind sort_mode=$sort_mode}
 		{form id="checkform"}
 {strip}
-{* can't use strip for the entire page due to javascript later on *}
 			<input type="hidden" name="offset" value="{$control.offset|escape}" />
 			<input type="hidden" name="sort_mode" value="{$control.sort_mode|escape}" />
 
 			<table class="data">
+				<caption>{tr}List of Events{/tr}</caption>
 				<tr>
-					<th>{smartlink ititle="Event Date" isort=event_time idefault=1 iorder=desc offset=$control.offset}</th>					
+					<th>{smartlink ititle="Event Date" isort=event_time idefault=1 iorder=desc offset=$control.offset}</th>
 					<th>{smartlink ititle="Title" isort=title offset=$control.offset}</th>
 
 					<th>{smartlink ititle="Description" isort=description offset=$control.offset}</th>
@@ -75,6 +76,5 @@
 		{/form}
 	</div><!-- end .body -->
 
-	{pagination_c}
-	{minifind sort_mode=$sort_mode}
+	{pagination}
 </div><!-- end .admin -->
