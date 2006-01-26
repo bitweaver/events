@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.1 2006/01/26 00:54:46 bitweaver Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.2 2006/01/26 01:35:54 hash9 Exp $ *}
 <div class="floaticon">{bithelp}</div>
 
 <div class="listing events display">
@@ -28,11 +28,11 @@
 				{section name=changes loop=$list}
 					<tr class="{cycle values="even,odd"}">
 						<td>{$list[changes].event_time|bit_date_format:"%m/%d/%Y %H:%M"}</td>
-						
+
 						<td><a href="{$smarty.const.EVENTS_PKG_URL}index.php?events_id={$list[changes].events_id|escape:"url"}" title="{$list[changes].events_id}">{$list[changes].title}</a></td>
-							
+
 						<td>{$list[changes].description}</td>
-						
+
 						{if $gBitUser->hasPermission( 'bit_p_remove_events' )}
 							<td class="actionicon">
 								{smartlink ititle="Edit" ifile="edit.php" ibiticon="liberty/edit" events_id=$list[changes].events_id}

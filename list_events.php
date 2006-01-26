@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.1 2006/01/26 00:54:45 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.2 2006/01/26 01:35:54 hash9 Exp $
 // Copyright (c) 2004 bitweaver Events
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
@@ -22,11 +22,10 @@ $gBitSystem->verifyPermission('bit_p_read_events' );
    if so, we call histlib's method remove_all_versions for all the checked events.
 */
 if (isset($_REQUEST["submit_mult"]) && isset($_REQUEST["checked"]) && $_REQUEST["submit_mult"] == "remove_events") {
-        
 
         // Now check permissions to remove the selected events
         $gBitSystem->verifyPermission( 'bit_p_remove_events' );
-                                                                                                                                                                            
+
         if( !empty( $_REQUEST['cancel'] ) ) {
                 // user cancelled - just continue on, doing nothing
         } elseif( empty( $_REQUEST['confirm'] ) ) {
@@ -49,11 +48,8 @@ if (isset($_REQUEST["submit_mult"]) && isset($_REQUEST["checked"]) && $_REQUEST[
         }
 }
 
-
 $events = new BitEvents();
 $listevents = $events->getList( $_REQUEST );
-
-
 
 $gBitSmarty->assign_by_ref('control', $_REQUEST["control"]);
 $gBitSmarty->assign_by_ref('list', $listevents["data"]);

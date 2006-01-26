@@ -20,5 +20,5 @@
 
 <div class="header">
 	<h1>{$gContent->mInfo.title|default:"Events"}</h1>
-	<h2>{$gContent->mInfo.description}</h2>
+	<h2>{$gContent->mInfo.description} ({$gContent->mInfo.event_time|bit_date_format:"%m/%d/%Y %H:%M"})</h2>
 </div><!-- end .header -->
