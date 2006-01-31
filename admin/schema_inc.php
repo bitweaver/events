@@ -1,7 +1,7 @@
 <?php
 
 $tables = array(
-	'bit_events' => "
+	'events' => "
 		events_id I4 AUTO PRIMARY,
 		content_id I4 NOTNULL,
 		description C(160)
@@ -26,20 +26,20 @@ $gBitInstaller->registerPackageInfo( EVENTS_PKG_NAME, array(
 
 // ### Indexes
 $indices = array(
-	'bit_events_events_id_idx' => array('table' => 'bit_events', 'cols' => 'events_id', 'opts' => NULL ),
+	'events_events_id_idx' => array('table' => 'events', 'cols' => 'events_id', 'opts' => NULL ),
 );
 $gBitInstaller->registerSchemaIndexes( EVENTS_PKG_NAME, $indices );
 
 /*// ### Sequences
 $sequences = array (
-	'bit_events_id_seq' => array( 'start' => 1 )
+	'events_id_seq' => array( 'start' => 1 )
 );
 $gBitInstaller->registerSchemaSequences( EVENTS_PKG_NAME, $sequences );
 */
 
 
 $gBitInstaller->registerSchemaDefault( EVENTS_PKG_NAME, array(
-	//      "INSERT INTO `".BIT_DB_PREFIX."bit_events_types` (`type`) VALUES ('Events')",
+	//      "INSERT INTO `".BIT_DB_PREFIX."events_types` (`type`) VALUES ('Events')",
 ) );
 
 // ### Default UserPermissions

@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.2 2006/01/26 11:36:22 squareing Exp $
-* $Id: BitEvents.php,v 1.2 2006/01/26 11:36:22 squareing Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.3 2006/01/31 20:17:17 bitweaver Exp $
+* $Id: BitEvents.php,v 1.3 2006/01/31 20:17:17 bitweaver Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.2 $ $Date: 2006/01/26 11:36:22 $ $Author: squareing $
+* @version $Revision: 1.3 $ $Date: 2006/01/31 20:17:17 $ $Author: bitweaver $
 * @class BitEvents
 */
 
@@ -59,7 +59,7 @@ class BitEvents extends LibertyAttachable {
 			$query = "SELECT ts.*, tc.*, " .
 				"uue.`login` AS modifier_user, uue.`real_name` AS modifier_real_name, " .
 				"uuc.`login` AS creator_user, uuc.`real_name` AS creator_real_name " .
-				"FROM `".BIT_DB_PREFIX."bit_events` ts " .
+				"FROM `".BIT_DB_PREFIX."events` ts " .
 				"INNER JOIN `".BIT_DB_PREFIX."tiki_content` tc ON( tc.`content_id` = ts.`content_id` )" .
 				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uue ON( uue.`user_id` = tc.`modifier_user_id` )" .
 				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uuc ON( uuc.`user_id` = tc.`user_id` )" .
@@ -96,7 +96,7 @@ class BitEvents extends LibertyAttachable {
 	**/
 	function store( &$pParamHash ) {
 		if( $this->verify( $pParamHash )&& LibertyAttachable::store( $pParamHash ) ) {
-			$table = BIT_DB_PREFIX."bit_events";
+			$table = BIT_DB_PREFIX."events";
 			$this->mDb->StartTrans();
 			if( $this->mEventsId ) {
 				$locId = array( "name" => "events_id", "value" => $pParamHash['events_id'] );
@@ -107,7 +107,7 @@ class BitEvents extends LibertyAttachable {
 					// if pParamHash['events_id'] is set, some is requesting a particular events_id. Use with caution!
 					$pParamHash['events_store']['events_id'] = $pParamHash['events_id'];
 				} else {
-					$pParamHash['events_store']['events_id'] = $this->mDb->GenID( 'bit_events_events_id_seq' );
+					$pParamHash['events_store']['events_id'] = $this->mDb->GenID( 'events_events_id_seq' );
 				}
 				$this->mEventsId = $pParamHash['events_store']['events_id'];
 
@@ -196,7 +196,7 @@ class BitEvents extends LibertyAttachable {
 		$ret = FALSE;
 		if( $this->isValid() ) {
 			$this->mDb->StartTrans();
-			$query = "DELETE FROM `".BIT_DB_PREFIX."bit_events` WHERE `content_id` = ?";
+			$query = "DELETE FROM `".BIT_DB_PREFIX."events` WHERE `content_id` = ?";
 			$result = $this->mDb->query( $query, array( $this->mContentId ) );
 			if( LibertyAttachable::expunge() ) {
 				$ret = TRUE;
@@ -252,7 +252,7 @@ class BitEvents extends LibertyAttachable {
 		}
 
 		$query = "SELECT ts.*, tc.`content_id`, tc.`title`, tc.`data`, tc.`modifier_user_id` AS `modifier_user_id`, tc.`user_id` AS`creator_user_id`, tc.`last_modified` AS `last_modified`, tc.`event_time` AS `event_time`
-			FROM `".BIT_DB_PREFIX."bit_events` ts INNER JOIN `".BIT_DB_PREFIX."tiki_content` tc ON( tc.`content_id` = ts.`content_id` )
+			FROM `".BIT_DB_PREFIX."events` ts INNER JOIN `".BIT_DB_PREFIX."tiki_content` tc ON( tc.`content_id` = ts.`content_id` )
 			".( !empty( $mid )? $mid.' AND ' : ' WHERE ' )." tc.`content_type_guid` = '".BITEVENTS_CONTENT_TYPE_GUID."'
 			ORDER BY ".$this->mDb->convert_sortmode( $sort_mode );
 		$query_cant = "select count( * )from `".BIT_DB_PREFIX."tiki_content` tc ".( !empty( $mid )? $mid.' AND ' : ' WHERE ' )." tc.`content_type_guid` = '".BITEVENTS_CONTENT_TYPE_GUID."'";
