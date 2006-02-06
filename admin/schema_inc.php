@@ -57,6 +57,6 @@ $gBitInstaller->registerPreferences( EVENTS_PKG_NAME, array(
 	array( EVENTS_PKG_NAME, 'events_list_events_id', 'y' ),
 	array( EVENTS_PKG_NAME, 'events_list_title', 'y' ),
 	array( EVENTS_PKG_NAME, 'events_list_description', 'y' ),
-	array( EVENTS_PKG_NAME, 'listEvents', 'y' ),
+	array( EVENTS_PKG_NAME, 'feature_list_events', 'y' ),
 ) );
 ?>
