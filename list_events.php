@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.3 2006/01/26 11:36:22 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.4 2006/02/06 23:34:16 lsces Exp $
 // Copyright (c) 2004 bitweaver Events
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
@@ -51,8 +51,8 @@ if (isset($_REQUEST["submit_mult"]) && isset($_REQUEST["checked"]) && $_REQUEST[
 $events = new BitEvents();
 $listevents = $events->getList( $_REQUEST );
 
-$gBitSmarty->assign_by_ref('listInfo', $_REQUEST["control"]);
-$gBitSmarty->assign_by_ref('list', $listevents["data"]);
+$gBitSmarty->assign_by_ref('listInfo', $_REQUEST['listInfo']);
+$gBitSmarty->assign_by_ref('list', $listevents['data']);
 
 // Display the template
 $gBitSystem->display('bitpackage:events/list_events.tpl', tra('Events') );

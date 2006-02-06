@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.3 2006/01/31 20:17:17 bitweaver Exp $
-* $Id: BitEvents.php,v 1.3 2006/01/31 20:17:17 bitweaver Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.4 2006/02/06 23:34:16 lsces Exp $
+* $Id: BitEvents.php,v 1.4 2006/02/06 23:34:16 lsces Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.3 $ $Date: 2006/01/31 20:17:17 $ $Author: bitweaver $
+* @version $Revision: 1.4 $ $Date: 2006/02/06 23:34:16 $ $Author: lsces $
 * @class BitEvents
 */
 
@@ -56,13 +56,13 @@ class BitEvents extends LibertyAttachable {
 			// This is a significant performance optimization
 			$lookupColumn = $this->verifyId( $this->mEventsId ) ? 'events_id' : 'content_id';
 			$lookupId = $this->verifyId( $this->mEventsId ) ? $this->mEventsId : $this->mContentId;
-			$query = "SELECT ts.*, tc.*, " .
+			$query = "SELECT ts.*, lc.*, " .
 				"uue.`login` AS modifier_user, uue.`real_name` AS modifier_real_name, " .
 				"uuc.`login` AS creator_user, uuc.`real_name` AS creator_real_name " .
 				"FROM `".BIT_DB_PREFIX."events` ts " .
-				"INNER JOIN `".BIT_DB_PREFIX."tiki_content` tc ON( tc.`content_id` = ts.`content_id` )" .
-				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uue ON( uue.`user_id` = tc.`modifier_user_id` )" .
-				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uuc ON( uuc.`user_id` = tc.`user_id` )" .
+				"INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = ts.`content_id` )" .
+				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uue ON( uue.`user_id` = lc.`modifier_user_id` )" .
+				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uuc ON( uuc.`user_id` = lc.`user_id` )" .
 				"WHERE ts.`$lookupColumn`=?";
 			$result = $this->mDb->query( $query, array( $lookupId ) );
 
@@ -216,7 +216,7 @@ class BitEvents extends LibertyAttachable {
 	}
 
 	/**
-	* This function generates a list of records from the tiki_content database for use in a list page
+	* This function generates a list of records from the liberty_content database for use in a list page
 	**/
 	function getList( &$pParamHash ) {
 		if ( empty( $pParamHash['sort_mode'] ) ) {
@@ -229,33 +229,31 @@ class BitEvents extends LibertyAttachable {
 
 		LibertyContent::prepGetList( $pParamHash );
 
-		$find = $pParamHash['find'];
-		$sort_mode = $pParamHash['sort_mode'];
-		$max_records = $pParamHash['max_records'];
-		$offset = $pParamHash['offset'];
+		// this will set $find, $sort_mode, $max_records and $offset
+		extract( $pParamHash );
 
 		if( is_array( $find ) ) {
 			// you can use an array of pages
-			$mid = " WHERE tc.`title` IN( ".implode( ',',array_fill( 0,count( $find ),'?' ) )." )";
+			$mid = " WHERE lc.`title` IN( ".implode( ',',array_fill( 0,count( $find ),'?' ) )." )";
 			$bindvars = $find;
 		} else if( is_string( $find ) ) {
 			// or a string
-			$mid = " WHERE UPPER( tc.`title` )like ? ";
+			$mid = " WHERE UPPER( lc.`title` )like ? ";
 			$bindvars = array( '%' . strtoupper( $find ). '%' );
 		} else if( @$this->verifyId( $pUserId ) ) {
 			// or a string
-			$mid = " WHERE tc.`creator_user_id` = ? ";
+			$mid = " WHERE lc.`creator_user_id` = ? ";
 			$bindvars = array( $pUserId );
 		} else {
 			$mid = "";
 			$bindvars = array();
 		}
 
-		$query = "SELECT ts.*, tc.`content_id`, tc.`title`, tc.`data`, tc.`modifier_user_id` AS `modifier_user_id`, tc.`user_id` AS`creator_user_id`, tc.`last_modified` AS `last_modified`, tc.`event_time` AS `event_time`
-			FROM `".BIT_DB_PREFIX."events` ts INNER JOIN `".BIT_DB_PREFIX."tiki_content` tc ON( tc.`content_id` = ts.`content_id` )
-			".( !empty( $mid )? $mid.' AND ' : ' WHERE ' )." tc.`content_type_guid` = '".BITEVENTS_CONTENT_TYPE_GUID."'
+		$query = "SELECT ts.*, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS`creator_user_id`, lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time`
+			FROM `".BIT_DB_PREFIX."events` ts INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = ts.`content_id` )
+			".( !empty( $mid )? $mid.' AND ' : ' WHERE ' )." lc.`content_type_guid` = '".BITEVENTS_CONTENT_TYPE_GUID."'
 			ORDER BY ".$this->mDb->convert_sortmode( $sort_mode );
-		$query_cant = "select count( * )from `".BIT_DB_PREFIX."tiki_content` tc ".( !empty( $mid )? $mid.' AND ' : ' WHERE ' )." tc.`content_type_guid` = '".BITEVENTS_CONTENT_TYPE_GUID."'";
+		$query_cant = "select count( * )from `".BIT_DB_PREFIX."liberty_content` lc ".( !empty( $mid )? $mid.' AND ' : ' WHERE ' )." lc.`content_type_guid` = '".BITEVENTS_CONTENT_TYPE_GUID."'";
 		$result = $this->mDb->query( $query,$bindvars,$max_records,$offset );
 		$ret = array();
 		while( $res = $result->fetchRow() ) {

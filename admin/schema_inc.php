@@ -30,12 +30,12 @@ $indices = array(
 );
 $gBitInstaller->registerSchemaIndexes( EVENTS_PKG_NAME, $indices );
 
-/*// ### Sequences
+// ### Sequences
 $sequences = array (
-	'events_id_seq' => array( 'start' => 1 )
+	'events_events_id_seq' => array( 'start' => 1 )
 );
 $gBitInstaller->registerSchemaSequences( EVENTS_PKG_NAME, $sequences );
-*/
+
 
 
 $gBitInstaller->registerSchemaDefault( EVENTS_PKG_NAME, array(
