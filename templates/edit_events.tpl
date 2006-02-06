@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.3 2006/01/30 17:34:22 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.4 2006/02/06 22:56:44 squareing Exp $ *}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -43,7 +43,7 @@
 					{/forminput}
 				</div>
 
-				{if $gBitSystemPrefs.feature_wiki_description eq 'y'}
+				{if $gBitSystem->isFeatureActive( 'wiki_description' )}
 					<div class="row">
 						{formlabel label="Description" for="description"}
 						{forminput}
