@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.4 2006/02/06 23:34:16 lsces Exp $
-* $Id: BitEvents.php,v 1.4 2006/02/06 23:34:16 lsces Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.5 2006/02/08 23:24:27 spiderr Exp $
+* $Id: BitEvents.php,v 1.5 2006/02/08 23:24:27 spiderr Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.4 $ $Date: 2006/02/06 23:34:16 $ $Author: lsces $
+* @version $Revision: 1.5 $ $Date: 2006/02/08 23:24:27 $ $Author: spiderr $
 * @class BitEvents
 */
 
@@ -99,8 +99,7 @@ class BitEvents extends LibertyAttachable {
 			$table = BIT_DB_PREFIX."events";
 			$this->mDb->StartTrans();
 			if( $this->mEventsId ) {
-				$locId = array( "name" => "events_id", "value" => $pParamHash['events_id'] );
-				$result = $this->mDb->associateUpdate( $table, $pParamHash['events_store'], $locId );
+				$result = $this->mDb->associateUpdate( $table, $pParamHash['events_store'], array( 'events_id' => $pParamHash['events_id'] ) );
 			} else {
 				$pParamHash['events_store']['content_id'] = $pParamHash['content_id'];
 				if( @$this->verifyId( $pParamHash['events_id'] ) ) {
