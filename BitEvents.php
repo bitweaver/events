@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.5 2006/02/08 23:24:27 spiderr Exp $
-* $Id: BitEvents.php,v 1.5 2006/02/08 23:24:27 spiderr Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.6 2006/02/09 13:27:25 lsces Exp $
+* $Id: BitEvents.php,v 1.6 2006/02/09 13:27:25 lsces Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.5 $ $Date: 2006/02/08 23:24:27 $ $Author: spiderr $
+* @version $Revision: 1.6 $ $Date: 2006/02/09 13:27:25 $ $Author: lsces $
 * @class BitEvents
 */
 
@@ -218,6 +218,8 @@ class BitEvents extends LibertyAttachable {
 	* This function generates a list of records from the liberty_content database for use in a list page
 	**/
 	function getList( &$pParamHash ) {
+		global $gBitSystem, $gBitUser;
+		
 		if ( empty( $pParamHash['sort_mode'] ) ) {
 			if ( empty( $_REQUEST["sort_mode"] ) ) {
 				$pParamHash['sort_mode'] = 'event_time_desc';
@@ -248,6 +250,12 @@ class BitEvents extends LibertyAttachable {
 			$bindvars = array();
 		}
 
+		if( !$gBitSystem->isPackageActive( 'gatekeeper' ) ) { 
+			$groups = array_keys($gBitUser->mGroups);
+			$mid .= ( empty( $mid ) ? " WHERE " : " AND " )." lc.`group_id` IN ( ".implode( ',',array_fill ( 0, count( $groups ),'?' ) )." )";
+			$bindvars = array_merge( $bindvars, $groups );
+		}		
+		
 		$query = "SELECT ts.*, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS`creator_user_id`, lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time`
 			FROM `".BIT_DB_PREFIX."events` ts INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = ts.`content_id` )
 			".( !empty( $mid )? $mid.' AND ' : ' WHERE ' )." lc.`content_type_guid` = '".BITEVENTS_CONTENT_TYPE_GUID."'
