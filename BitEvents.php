@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.6 2006/02/09 13:27:25 lsces Exp $
-* $Id: BitEvents.php,v 1.6 2006/02/09 13:27:25 lsces Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.7 2006/02/10 13:22:11 lsces Exp $
+* $Id: BitEvents.php,v 1.7 2006/02/10 13:22:11 lsces Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.6 $ $Date: 2006/02/09 13:27:25 $ $Author: lsces $
+* @version $Revision: 1.7 $ $Date: 2006/02/10 13:22:11 $ $Author: lsces $
 * @class BitEvents
 */
 
@@ -55,16 +55,20 @@ class BitEvents extends LibertyAttachable {
 			// LibertyContent::load()assumes you have joined already, and will not execute any sql!
 			// This is a significant performance optimization
 			$lookupColumn = $this->verifyId( $this->mEventsId ) ? 'events_id' : 'content_id';
-			$lookupId = $this->verifyId( $this->mEventsId ) ? $this->mEventsId : $this->mContentId;
-			$query = "SELECT ts.*, lc.*, " .
+			$bindVars = array(); $selectSql = ''; $joinSql = ''; $whereSql = '';
+			array_push( $bindVars, $lookupId = @BitBase::verifyId( $this->mEventsId )? $this->mEventsId : $this->mContentId );
+			$this->getServicesSql( 'content_load_function', $selectSql, $joinSql, $whereSql, $bindVars );
+
+			$query = "SELECT e.*, lc.*, " .
 				"uue.`login` AS modifier_user, uue.`real_name` AS modifier_real_name, " .
 				"uuc.`login` AS creator_user, uuc.`real_name` AS creator_real_name " .
-				"FROM `".BIT_DB_PREFIX."events` ts " .
-				"INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = ts.`content_id` )" .
+				"$selectSql " .
+				"FROM `".BIT_DB_PREFIX."events` e " .
+				"INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) $joinSql" .
 				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uue ON( uue.`user_id` = lc.`modifier_user_id` )" .
 				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uuc ON( uuc.`user_id` = lc.`user_id` )" .
-				"WHERE ts.`$lookupColumn`=?";
-			$result = $this->mDb->query( $query, array( $lookupId ) );
+				"WHERE e.`$lookupColumn`=? $whereSql";
+			$result = $this->mDb->query( $query, $bindVars );
 
 			if( $result && $result->numRows() ) {
 				$this->mInfo = $result->fields;
@@ -230,45 +234,48 @@ class BitEvents extends LibertyAttachable {
 
 		LibertyContent::prepGetList( $pParamHash );
 
+		$joinSql = '';
+		$selectSql = '';
+		$bindVars = array();
+		array_push( $bindVars, $this->mContentTypeGuid );
+		$this->getServicesSql( 'content_list_function', $selectSql, $joinSql, $whereSql, $bindVars );
+
 		// this will set $find, $sort_mode, $max_records and $offset
 		extract( $pParamHash );
 
 		if( is_array( $find ) ) {
 			// you can use an array of pages
-			$mid = " WHERE lc.`title` IN( ".implode( ',',array_fill( 0,count( $find ),'?' ) )." )";
-			$bindvars = $find;
+			$whereSql .= " WHERE lc.`title` IN( ".implode( ',',array_fill( 0,count( $find ),'?' ) )." )";
+			$bindVars[] = $find;
 		} else if( is_string( $find ) ) {
 			// or a string
-			$mid = " WHERE UPPER( lc.`title` )like ? ";
-			$bindvars = array( '%' . strtoupper( $find ). '%' );
+			$whereSql .= " WHERE UPPER( lc.`title` )like ? ";
+			$bindVars[] = '%' . strtoupper( $find ). '%';
 		} else if( @$this->verifyId( $pUserId ) ) {
 			// or a string
-			$mid = " WHERE lc.`creator_user_id` = ? ";
-			$bindvars = array( $pUserId );
-		} else {
-			$mid = "";
-			$bindvars = array();
+			$whereSql .= " WHERE lc.`creator_user_id` = ? ";
+			$bindVars[] = array( $pUserId );
 		}
-
-		if( !$gBitSystem->isPackageActive( 'gatekeeper' ) ) { 
-			$groups = array_keys($gBitUser->mGroups);
-			$mid .= ( empty( $mid ) ? " WHERE " : " AND " )." lc.`group_id` IN ( ".implode( ',',array_fill ( 0, count( $groups ),'?' ) )." )";
-			$bindvars = array_merge( $bindvars, $groups );
-		}		
 		
-		$query = "SELECT ts.*, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS`creator_user_id`, lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time`
-			FROM `".BIT_DB_PREFIX."events` ts INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = ts.`content_id` )
-			".( !empty( $mid )? $mid.' AND ' : ' WHERE ' )." lc.`content_type_guid` = '".BITEVENTS_CONTENT_TYPE_GUID."'
+		$query = "SELECT e.*, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS`creator_user_id`,
+			lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time` $selectSql
+			$selectSql
+			FROM `".BIT_DB_PREFIX."events` e
+			INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) $joinSql
+			WHERE lc.`content_type_guid` = ? $whereSql
 			ORDER BY ".$this->mDb->convert_sortmode( $sort_mode );
-		$query_cant = "select count( * )from `".BIT_DB_PREFIX."liberty_content` lc ".( !empty( $mid )? $mid.' AND ' : ' WHERE ' )." lc.`content_type_guid` = '".BITEVENTS_CONTENT_TYPE_GUID."'";
-		$result = $this->mDb->query( $query,$bindvars,$max_records,$offset );
+		$query_cant = "SELECT COUNT( * )
+				FROM `".BIT_DB_PREFIX."events` e
+				INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) $joinSql
+				WHERE lc.`content_type_guid` = ? $whereSql";
+		$result = $this->mDb->query( $query, $bindVars, $max_records, $offset );
 		$ret = array();
 		while( $res = $result->fetchRow() ) {
 			$ret[] = $res;
 		}
 		$pParamHash["data"] = $ret;
 
-		$pParamHash["cant"] = $this->mDb->getOne( $query_cant,$bindvars );
+		$pParamHash["cant"] = $this->mDb->getOne( $query_cant, $bindVars );
 
 		LibertyContent::postGetList( $pParamHash );
 		return $pParamHash;
