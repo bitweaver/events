@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.8 2006/02/10 13:28:31 lsces Exp $
-* $Id: BitEvents.php,v 1.8 2006/02/10 13:28:31 lsces Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.9 2006/02/10 13:41:34 lsces Exp $
+* $Id: BitEvents.php,v 1.9 2006/02/10 13:41:34 lsces Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.8 $ $Date: 2006/02/10 13:28:31 $ $Author: lsces $
+* @version $Revision: 1.9 $ $Date: 2006/02/10 13:41:34 $ $Author: lsces $
 * @class BitEvents
 */
 
@@ -234,8 +234,9 @@ class BitEvents extends LibertyAttachable {
 
 		LibertyContent::prepGetList( $pParamHash );
 
-		$joinSql = '';
 		$selectSql = '';
+		$joinSql = '';
+		$whereSql = '';
 		$bindVars = array();
 		array_push( $bindVars, $this->mContentTypeGuid );
 		$this->getServicesSql( 'content_list_function', $selectSql, $joinSql, $whereSql, $bindVars );
@@ -246,7 +247,7 @@ class BitEvents extends LibertyAttachable {
 		if( is_array( $find ) ) {
 			// you can use an array of pages
 			$whereSql .= " AND lc.`title` IN( ".implode( ',',array_fill( 0,count( $find ),'?' ) )." )";
-			$bindVars[] = $find;
+			$bindVars = array_merge( $bindVars, $find );
 		} else if( is_string( $find ) ) {
 			// or a string
 			$whereSql .= " AND UPPER( lc.`title` )like ? ";
