@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.7 2006/02/10 13:22:11 lsces Exp $
-* $Id: BitEvents.php,v 1.7 2006/02/10 13:22:11 lsces Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.8 2006/02/10 13:28:31 lsces Exp $
+* $Id: BitEvents.php,v 1.8 2006/02/10 13:28:31 lsces Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.7 $ $Date: 2006/02/10 13:22:11 $ $Author: lsces $
+* @version $Revision: 1.8 $ $Date: 2006/02/10 13:28:31 $ $Author: lsces $
 * @class BitEvents
 */
 
@@ -245,15 +245,15 @@ class BitEvents extends LibertyAttachable {
 
 		if( is_array( $find ) ) {
 			// you can use an array of pages
-			$whereSql .= " WHERE lc.`title` IN( ".implode( ',',array_fill( 0,count( $find ),'?' ) )." )";
+			$whereSql .= " AND lc.`title` IN( ".implode( ',',array_fill( 0,count( $find ),'?' ) )." )";
 			$bindVars[] = $find;
 		} else if( is_string( $find ) ) {
 			// or a string
-			$whereSql .= " WHERE UPPER( lc.`title` )like ? ";
+			$whereSql .= " AND UPPER( lc.`title` )like ? ";
 			$bindVars[] = '%' . strtoupper( $find ). '%';
 		} else if( @$this->verifyId( $pUserId ) ) {
 			// or a string
-			$whereSql .= " WHERE lc.`creator_user_id` = ? ";
+			$whereSql .= " AND lc.`creator_user_id` = ? ";
 			$bindVars[] = array( $pUserId );
 		}
 		
