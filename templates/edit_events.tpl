@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.4 2006/02/06 22:56:44 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.5 2006/03/01 20:16:07 spiderr Exp $ *}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -78,11 +78,11 @@
 				{strip}
 				{include file="bitpackage:liberty/edit_format.tpl"}
 
-				{if $gBitSystemPrefs.package_smileys eq 'y'}
+				{if $gBitSystem->isFeatureActive('package_smileys')}
 					{include file="bitpackage:smileys/smileys_full.tpl"}
 				{/if}
 
-				{if $gBitSystemPrefs.package_quicktags eq 'y'}
+				{if $gBitSystem->isFeatureActive('package_quicktags')}
 					{include file="bitpackage:quicktags/quicktags_full.tpl"}
 				{/if}
 
