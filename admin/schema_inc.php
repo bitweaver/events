@@ -13,15 +13,12 @@ global $gBitInstaller;
 $gBitInstaller->makePackageHomeable( EVENTS_PKG_NAME );
 
 foreach( array_keys( $tables ) AS $tableName ) {
-    $gBitInstaller->registerSchemaTable( EVENTS_PKG_NAME, $tableName, $tables[$tableName] );
+	$gBitInstaller->registerSchemaTable( EVENTS_PKG_NAME, $tableName, $tables[$tableName] );
 }
 
 $gBitInstaller->registerPackageInfo( EVENTS_PKG_NAME, array(
 	'description' => "Events package.",
 	'license' => '<a href="http://www.gnu.org/licenses/licenses.html#LGPL">LGPL</a>',
-	'version' => '0.1',
-	'state' => 'beta',
-	'dependencies' => '',
 ) );
 
 // ### Indexes
