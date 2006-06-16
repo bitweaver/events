@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.5 2006/03/01 20:16:07 spiderr Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.6 2006/06/16 14:45:39 squareing Exp $ *}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -15,7 +15,7 @@
 	{if $preview}
 		<h2>Preview {$gContent->mInfo.title}</h2>
 		<div class="preview">
-			{include file="bitpackage:events/events_display.tpl" page=`$gContent->mInfo.events_id`}
+			{include file="bitpackage:events/event_display.tpl" page=`$gContent->mInfo.events_id`}
 		</div>
 	{/if}
 
