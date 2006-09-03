@@ -1,7 +1,7 @@
 <div class="display events">
 	<div class="floaticon">
 		{if $gBitUser->hasPermission( 'bit_p_edit_events' )}
-			<a href="edit.php?events_id={$gContent->mInfo.events_id}">{biticon ipackage=liberty iname="edit" iexplain="edit"}</a>
+			<a href="edit.php?events_id={$gContent->mInfo.events_id}">{biticon ipackage="icons" iname="accessories-text-editor" iexplain="edit"}</a>
 		{/if}
 	</div><!-- end .floaticon -->
 

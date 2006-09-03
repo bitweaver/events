@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.3 2006/01/26 11:36:22 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.4 2006/09/03 20:07:16 squareing Exp $ *}
 <div class="floaticon">{bithelp}</div>
 
 <div class="listing events display">
@@ -36,7 +36,7 @@
 
 						{if $gBitUser->hasPermission( 'bit_p_remove_events' )}
 							<td class="actionicon">
-								{smartlink ititle="Edit" ifile="edit.php" ibiticon="liberty/edit" events_id=$list[changes].events_id}
+								{smartlink ititle="Edit" ifile="edit.php" ibiticon="icons/accessories-text-editor" events_id=$list[changes].events_id}
 								<input type="checkbox" name="checked[]" title="{$list[changes].title}" value="{$list[changes].events_id|escape}" />
 							</td>
 						{/if}
