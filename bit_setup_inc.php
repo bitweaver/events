@@ -3,6 +3,7 @@ global $gBitSystem;
 $registerHash = array(
 	'package_name' => 'events',
 	'package_path' => dirname( __FILE__ ).'/',
+	'homeable' => TRUE,
 );
 $gBitSystem->registerPackage( $registerHash );
 
