@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.4 2006/09/03 20:07:16 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.5 2007/03/14 11:37:06 phoenixandy Exp $ *}
 <div class="floaticon">{bithelp}</div>
 
 <div class="listing events display">
@@ -28,7 +28,7 @@
 
 				{section name=changes loop=$list}
 					<tr class="{cycle values="even,odd"}">
-						<td>{$list[changes].event_time|bit_date_format:"%m/%d/%Y %H:%M"}</td>
+						<td>{$list[changes].event_time|bit_short_datetime}</td>
 
 						<td><a href="{$smarty.const.EVENTS_PKG_URL}index.php?events_id={$list[changes].events_id|escape:"url"}" title="{$list[changes].events_id}">{$list[changes].title}</a></td>
 
