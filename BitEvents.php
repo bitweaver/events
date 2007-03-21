@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.9 2006/02/10 13:41:34 lsces Exp $
-* $Id: BitEvents.php,v 1.9 2006/02/10 13:41:34 lsces Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.10 2007/03/21 18:36:56 phoenixandy Exp $
+* $Id: BitEvents.php,v 1.10 2007/03/21 18:36:56 phoenixandy Exp $
 */
 
 /**
@@ -10,11 +10,12 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.9 $ $Date: 2006/02/10 13:41:34 $ $Author: lsces $
+* @version $Revision: 1.10 $ $Date: 2007/03/21 18:36:56 $ $Author: phoenixandy $
 * @class BitEvents
 */
 
 require_once( LIBERTY_PKG_PATH.'LibertyAttachable.php' );
+include_once( KERNEL_PKG_PATH.'BitDate.php' );
 
 /**
 * This is used to uniquely identify the object
@@ -44,6 +45,7 @@ class BitEvents extends LibertyAttachable {
 			'handler_file' => 'BitEvents.php',
 			'maintainer_url' => 'http://wired.st-and.ac.uk/~hash9/'
 		) );
+                $this->mDate = new BitDate(0);
 	}
 
 	/**
@@ -75,6 +77,9 @@ class BitEvents extends LibertyAttachable {
 				$this->mContentId = $result->fields['content_id'];
 				$this->mEventsId = $result->fields['events_id'];
 
+				if ( !empty ( $result->fields['event_time'] ) ) {
+					$this->mInfo['event_time'] = $this->mDate->getDisplayDateFromUTC( $result->fields['event_time'] );
+				}
 				$this->mInfo['creator'] =( isset( $result->fields['creator_real_name'] )? $result->fields['creator_real_name'] : $result->fields['creator_user'] );
 				$this->mInfo['editor'] =( isset( $result->fields['modifier_real_name'] )? $result->fields['modifier_real_name'] : $result->fields['modifier_user'] );
 				$this->mInfo['display_url'] = $this->getDisplayUrl();
@@ -99,6 +104,7 @@ class BitEvents extends LibertyAttachable {
 	* @access public
 	**/
 	function store( &$pParamHash ) {
+	vd();
 		if( $this->verify( $pParamHash )&& LibertyAttachable::store( $pParamHash ) ) {
 			$table = BIT_DB_PREFIX."events";
 			$this->mDb->StartTrans();
@@ -140,7 +146,7 @@ class BitEvents extends LibertyAttachable {
 		global $gBitUser, $gBitSystem;
 
 		// make sure we're all loaded up of we have a mEventsId
-		if( $this->verifyId( $this->mEventsId ) && empty( $this->mInfo ) ) {
+		if( $this->verifyId( $this->mEventsId )/* && empty( $this->mInfo )*/ ) {
 			$this->load();
 		}
 
@@ -157,8 +163,14 @@ class BitEvents extends LibertyAttachable {
 			$pParamHash['events_store']['content_id'] = $pParamHash['content_id'];
 		}
 
-		$pParamHash['content_store']['event_time'] = !empty( $pParamHash['event_time'] ) ? $pParamHash['event_time'] : $gBitSystem->getUTCTime();
-		
+		if( !empty( $pParamHash['event_time'] ) ) {
+			$pParamHash['event_time'] = $this->mDate->getUTCFromDisplayDate( $pParamHash['event_time']);
+		} else if ( !empty( $this->mInfo['event_time'] ) ) {
+			$pParamHash['event_time'] = $this->mDate->getUTCFromDisplayDate( $this->mInfo['event_time']);
+		} else {
+			$pParamHash['event_time'] = $gBitSystem->getUTCTime();
+		}
+
 		// check some lengths, if too long, then truncate
 		if( $this->isValid() && !empty( $this->mInfo['description'] ) && empty( $pParamHash['description'] ) ) {
 			// someone has deleted the description, we need to null it out
@@ -277,6 +289,8 @@ class BitEvents extends LibertyAttachable {
 		$pParamHash["data"] = $ret;
 
 		$pParamHash["cant"] = $this->mDb->getOne( $query_cant, $bindVars );
+
+		$accessError = $this->invokeServices( 'content_verify_access', $res, FALSE );
 
 		LibertyContent::postGetList( $pParamHash );
 		return $pParamHash;
