@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_events/index.php,v 1.2 2006/01/26 11:36:22 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_events/index.php,v 1.3 2007/03/21 23:42:48 phoenixandy Exp $
 // Copyright (c) 2004 bitweaver Events
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
@@ -15,7 +15,7 @@ $gBitSystem->verifyPermission('bit_p_read_events' );
 
 if (isset($_REQUEST['events_id'] ) ) {
 	require_once(EVENTS_PKG_PATH.'lookup_events_inc.php' );
-
+	$gContent->invokeServices( 'content_display_function' );
 	// Display the template
 	$gBitSystem->display('bitpackage:events/event_display.tpl', tra('Events') );
 } else {

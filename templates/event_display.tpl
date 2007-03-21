@@ -1,7 +1,8 @@
 <div class="display events">
 	<div class="floaticon">
+		{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='icon' serviceHash=$gContent->mInfo}
 		{if $gBitUser->hasPermission( 'bit_p_edit_events' )}
-			<a href="edit.php?events_id={$gContent->mInfo.events_id}">{biticon ipackage="icons" iname="accessories-text-editor" iexplain="edit"}</a>
+			<a title="{tr}Edit{/tr}" href="edit.php?events_id={$gContent->mInfo.events_id}">{biticon ipackage="icons" iname="accessories-text-editor" iexplain="edit"}</a>
 		{/if}
 	</div><!-- end .floaticon -->
 
@@ -14,8 +15,11 @@
 	</div><!-- end .header -->
 
 	<div class="body">
+		{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='body' serviceHash=$gContent->mInfo}
 		<div class="content">
 			{$gContent->mInfo.parsed_data}
 		</div><!-- end .content -->
 	</div><!-- end .body -->
+{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='view' serviceHash=$gContent->mInfo}
+
 </div><!-- end .events -->

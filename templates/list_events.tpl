@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.5 2007/03/14 11:37:06 phoenixandy Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.6 2007/03/21 23:42:51 phoenixandy Exp $ *}
 <div class="floaticon">{bithelp}</div>
 
 <div class="listing events display">
@@ -39,6 +39,9 @@
 								{smartlink ititle="Edit" ifile="edit.php" ibiticon="icons/accessories-text-editor" events_id=$list[changes].events_id}
 								<input type="checkbox" name="checked[]" title="{$list[changes].title}" value="{$list[changes].events_id|escape}" />
 							</td>
+							<td style="text-align:right; vertical-align:top;">
+	                                                        {include file="bitpackage:liberty/services_inc.tpl" serviceLocation='list' serviceHash=$listpages[changes]}
+	                                                </td>
 						{/if}
 					</tr>
 				{sectionelse}

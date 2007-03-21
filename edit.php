@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.1 2006/01/26 00:54:45 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.2 2007/03/21 23:42:48 phoenixandy Exp $
 // Copyright (c) 2004 bitweaver Events
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
@@ -35,6 +35,9 @@ if (isset($_REQUEST["data"])) {
 // If we are in preview mode then preview it!
 if (isset($_REQUEST["preview"])) {
     $gBitSmarty->assign('preview', 'y');
+    $gContent->invokeServices( 'content_preview_function' );
+} else {
+    $gContent->invokeServices( 'content_edit_function' );
 }
 
 // Pro
