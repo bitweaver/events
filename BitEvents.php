@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.12 2007/04/05 14:56:13 phoenixandy Exp $
-* $Id: BitEvents.php,v 1.12 2007/04/05 14:56:13 phoenixandy Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.13 2007/04/05 15:48:15 nickpalmer Exp $
+* $Id: BitEvents.php,v 1.13 2007/04/05 15:48:15 nickpalmer Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.12 $ $Date: 2007/04/05 14:56:13 $ $Author: phoenixandy $
+* @version $Revision: 1.13 $ $Date: 2007/04/05 15:48:15 $ $Author: nickpalmer $
 * @class BitEvents
 */
 
@@ -43,8 +43,7 @@ class BitEvents extends LibertyAttachable {
 			'handler_class' => 'BitEvents',
 			'handler_package' => 'events',
 			'handler_file' => 'BitEvents.php',
-			'maintainer_url' => 'http://wired.st-and.ac.uk/~hash9/',
-			'display_template' => 'bitpackage:events/render_template.tpl',
+			'maintainer_url' => 'http://wired.st-and.ac.uk/~hash9/'
 		) );
 		$offset = BitDate::get_display_offset();
 		$this->mDate = new BitDate($offset);
