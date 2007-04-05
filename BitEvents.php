@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.10 2007/03/21 18:36:56 phoenixandy Exp $
-* $Id: BitEvents.php,v 1.10 2007/03/21 18:36:56 phoenixandy Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.11 2007/04/05 14:30:01 nickpalmer Exp $
+* $Id: BitEvents.php,v 1.11 2007/04/05 14:30:01 nickpalmer Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.10 $ $Date: 2007/03/21 18:36:56 $ $Author: phoenixandy $
+* @version $Revision: 1.11 $ $Date: 2007/04/05 14:30:01 $ $Author: nickpalmer $
 * @class BitEvents
 */
 
@@ -43,9 +43,11 @@ class BitEvents extends LibertyAttachable {
 			'handler_class' => 'BitEvents',
 			'handler_package' => 'events',
 			'handler_file' => 'BitEvents.php',
-			'maintainer_url' => 'http://wired.st-and.ac.uk/~hash9/'
+			'maintainer_url' => 'http://wired.st-and.ac.uk/~hash9/',
+			'display_template' => 'bitpackage:events/render_template.tpl',
 		) );
-                $this->mDate = new BitDate(0);
+		$offset = BitDate::get_display_offset();
+		$this->mDate = new BitDate($offset);
 	}
 
 	/**
@@ -53,6 +55,7 @@ class BitEvents extends LibertyAttachable {
 	* @param pParamHash be sure to pass by reference in case we need to make modifcations to the hash
 	**/
 	function load() {
+		global $gBitSystem;
 		if( $this->verifyId( $this->mEventsId ) || $this->verifyId( $this->mContentId ) ) {
 			// LibertyContent::load()assumes you have joined already, and will not execute any sql!
 			// This is a significant performance optimization
@@ -77,13 +80,20 @@ class BitEvents extends LibertyAttachable {
 				$this->mContentId = $result->fields['content_id'];
 				$this->mEventsId = $result->fields['events_id'];
 
-				if ( !empty ( $result->fields['event_time'] ) ) {
-					$this->mInfo['event_time'] = $this->mDate->getDisplayDateFromUTC( $result->fields['event_time'] );
-				}
 				$this->mInfo['creator'] =( isset( $result->fields['creator_real_name'] )? $result->fields['creator_real_name'] : $result->fields['creator_user'] );
 				$this->mInfo['editor'] =( isset( $result->fields['modifier_real_name'] )? $result->fields['modifier_real_name'] : $result->fields['modifier_user'] );
 				$this->mInfo['display_url'] = $this->getDisplayUrl();
 				$this->mInfo['parsed_data'] = $this->parseData( $this->mInfo['data'], $this->mInfo['format_guid'] );
+
+				$prefChecks = array('show_start_time', 'show_end_time');
+				foreach ($prefChecks as $key => $var) {
+					if ($this->getPreference($var) == 'on') {
+						$this->mInfo[$var] = 1;
+					}
+					else {
+						$this->mInfo[$var] = 0;
+					}
+				}				
 
 				LibertyAttachable::load();
 			}
@@ -104,7 +114,6 @@ class BitEvents extends LibertyAttachable {
 	* @access public
 	**/
 	function store( &$pParamHash ) {
-	vd();
 		if( $this->verify( $pParamHash )&& LibertyAttachable::store( $pParamHash ) ) {
 			$table = BIT_DB_PREFIX."events";
 			$this->mDb->StartTrans();
@@ -144,7 +153,6 @@ class BitEvents extends LibertyAttachable {
 	**/
 	function verify( &$pParamHash ) {
 		global $gBitUser, $gBitSystem;
-
 		// make sure we're all loaded up of we have a mEventsId
 		if( $this->verifyId( $this->mEventsId )/* && empty( $this->mInfo )*/ ) {
 			$this->load();
@@ -161,6 +169,87 @@ class BitEvents extends LibertyAttachable {
 
 		if( @$this->verifyId( $pParamHash['content_id'] ) ) {
 			$pParamHash['events_store']['content_id'] = $pParamHash['content_id'];
+		}
+
+		$prefChecks = array('show_start_time', 'show_end_time');
+		foreach ($prefChecks as $var) {
+			if (isset($pParamHash[$var])) {
+				$this->storePreference($var, $pParamHash[$var]);
+			}
+			else {
+				$this->storePreference($var);
+			}
+		}
+
+		if( !empty( $pParamHash['start_date']) && !empty($pParamHash['start_time']) ) {
+			if (isset($pParamHash['start_time']['Meridian'])) {
+				$pParamHash['event_time'] = 
+					$this->mDate->gmmktime(($pParamHash['start_time']['Meridian'] == 'pm' ?
+							      $pParamHash['start_time']['Hour'] + 12 : 
+							      $pParamHash['start_time']['Hour']),
+							     $pParamHash['start_time']['Minute'],
+							     isset($pParamHash['start_time']['Second']) ? 
+							     $pParamHash['start_time']['Second'] : 0, 
+							     $pParamHash['start_date']['Month'], 
+							     $pParamHash['start_date']['Day'],
+							     $pParamHash['start_date']['Year']
+							     );
+			}
+			else {
+				$pParamHash['event_time'] =
+					$this->mDate->gmmktime($pParamHash['start_time']['Hour'],
+							     $pParamHash['start_time']['Minute'],
+							     isset($pParamHash['start_time']['Second']) ? 
+							     $pParamHash['start_time']['Second'] : 0, 
+							     $pParamHash['start_date']['Month'], 
+							     $pParamHash['start_date']['Day'],
+							     $pParamHash['start_date']['Year']
+							     );
+			}
+		}
+		
+		if( !empty($pParamHash['end_time']) && !empty($pParamHash['event_time']) ) {
+			if (empty($pParamHash['start_date'])) {
+				$pParamHash['start_date']['Month'] = $this->mDate->strftime("%m", $pParamHash['event_time'], true);
+				$pParamHash['start_date']['Day'] = $this->mDate->strftime("%d", $pParamHash['event_time'], true);
+				$pParamHash['start_date']['Year'] = $this->mDate->strftime("%Y", $pParamHash['event_time'], true);
+			}
+			if ((!isset($pParamHash['end_time']['Meridian']) || 
+			     ($pParamHash['end_time']['Meridian'] == 'am' ||
+			      $pParamHash['end_time']['Meridian'] == 'pm')) &&
+			    (isset($pParamHash['end_time']['Hour']) &&
+			     is_numeric($pParamHash['end_time']['Hour'])) && 				   
+			    (!isset($pParamHash['end_time']['Minute']) || 
+			     is_numeric($pParamHash['end_time']['Minute']) && 
+			     (!isset($pParamHash['end_time']['Second']) || 
+			      is_numeric($pParamHash['end_time']['Second'])))) {
+				
+				if (isset($pParamHash['end_time']['Meridian'])) {
+					$pParamHash['events_store']['end_time'] = 
+					  $this->mDate->gmmktime(($pParamHash['end_time']['Meridian'] == 'pm' ?
+								      $pParamHash['end_time']['Hour'] + 12 : 
+								      $pParamHash['end_time']['Hour']),
+								     $pParamHash['end_time']['Minute'],
+								     isset($pParamHash['end_time']['Second']) ? 
+								     $pParamHash['end_time']['Second'] : 0,
+								     $pParamHash['start_date']['Month'], 
+								     $pParamHash['start_date']['Day'],
+								     $pParamHash['start_date']['Year']
+								     );
+				}
+				else {
+					$pParamHash['events_store']['end_time'] =
+					  $this->mDate->gmmktime($pParamHash['end_time']['Hour'],
+								     $pParamHash['end_time']['Minute'],
+								     isset($pParamHash['end_time']['Second']) ? 
+								     $pParamHash['end_time']['Second'] : 0,
+								     $pParamHash['start_date']['Month'], 
+								     $pParamHash['start_date']['Day'],
+								     $pParamHash['start_date']['Year']
+								     );
+				}					       
+				$pParamHash['events_store']['end_time'] = $this->mDate->getUTCFromDisplayDate($pParamHash['events_store']['end_time']);
+			}
 		}
 
 		if( !empty( $pParamHash['event_time'] ) ) {
@@ -200,7 +289,6 @@ class BitEvents extends LibertyAttachable {
 			// no name specified
 			$this->mErrors['title'] = 'You must specify a name';
 		}
-
 		return( count( $this->mErrors )== 0 );
 	}
 
@@ -307,6 +395,16 @@ class BitEvents extends LibertyAttachable {
 			$ret = EVENTS_PKG_URL."index.php?events_id=".$this->mEventsId;
 		}
 		return $ret;
+	}
+
+	/* Limits content status types for users who can not enter all status */
+	function getContentStatus() {
+	  global $gBitSystem;
+	  if ($gBitSystem->isFeatureActive('events_moderation')) {
+		return LibertyContent::getContentStatus(-100,0);
+	  }
+	  return parent::getContentStatus();
+	    
 	}
 
 }

@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.7 2007/03/21 23:42:51 phoenixandy Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.8 2007/04/05 14:30:01 nickpalmer Exp $ *}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -48,8 +48,8 @@
 	
 		{form enctype="multipart/form-data" id="editeventsform"}
 			{jstabs}
-				{jstab title="$editLabel Body"}
-					{legend legend="$editLabel Body"}
+				{jstab title="$editLabel"}
+					{legend legend="$editLabel"}
 						{strip}
 						<input type="hidden" name="events_id" value="{$gContent->mInfo.events_id}" />
 						<input type="hidden" name="events_date" value="{$gContent->mInfo.events_date}" />
@@ -61,24 +61,36 @@
 							{/forminput}
 						</div>
 
-						{if $gBitSystem->isFeatureActive( 'wiki_description' )}
-							<div class="row">
-								{formlabel label="Description" for="description"}
-								{forminput}
-									<input size="60" type="text" name="description" id="description" value="{$gContent->mInfo.description|escape}" />
-									{formhelp note="Brief description of the page. This is visible when you hover over a link to this page and just below the title of the wiki page."}
-								{/forminput}
-							</div>
-						{/if}
+						<div class="row">
+							{formlabel label="Description" for="description"}
+							{forminput}
+								<input size="60" type="text" name="description" id="description" value="{$gContent->mInfo.description|escape}" />
+								{formhelp note="Brief description of the event."}
+							{/forminput}
+						</div>
 				
 						<!-- value="$event_time|bit_short_datetime}" -->
+{if $gBitSystem->isFeatureActive( 'site_use_jscalendar' )}
+
 						{forminput}
 							<input type="hidden" id="event_time" name="event_time"/>
 							<span class="highlight" style="cursor:pointer;" title="{tr}Date Selector{/tr}" id="datrigger">{$gContent->mInfo.event_time|bit_short_datetime}</span>
 							&nbsp;&nbsp;&nbsp;<small>&laquo;&nbsp;{tr}click to change date{/tr}</small>
 							{formhelp note="The date the event is on"}
 						{/forminput}
+{else}
+						{formlabel label="Event Date"}
+						{forminput}
+							{html_select_date time=$gContent->mInfo.event_time field_array="start_date" prefix="" end_year=$gBitSystem->getConfig('events_end_year', "+1")}
+						{/forminput}
+						{formlabel label="Start Time"}
+						{forminput}
+							<input type="checkbox" name="show_start_time" {if $gContent->getField('show_start_time')}checked{/if} /> 
+							{html_select_time time=$gContent->mInfo.event_time minute_interval=$gBitSystem->getConfig('events_minute_interval', 15) field_array="start_time" prefix="" display_seconds=0 use_24_hours=$gBitSystem->isFeatureActive('events_use_24')}
+						{/forminput}
+{/if}
 						{/strip}
+{if $gBitSystem->isFeatureActive( 'site_use_jscalendar' )}
 						<script type="text/javascript">//<![CDATA[
 							Calendar.setup( {ldelim}
 								date			: "{$gContent->mInfo.event_time|bit_short_datetime}",	// initial date
@@ -88,14 +100,21 @@
 								daFormat		: "{"%d/%m/%Y %H:%M"}",	// format of the displayed date
 								electric		: false,
 								showsTime		: true,
-								timeFormat		: "12"
+								timeFormat		: {if $gBitSystem->isFeatureActive('events_use_24')}"24"{else}"12"{/if}
 							{rdelim} );
 						//]]>
 						</script>
+{/if}
 						{strip}
 
-						{include file="bitpackage:liberty/edit_content_status_inc.tpl"}
-				
+						{formlabel label="End Time"}
+						{forminput}
+							<input type="checkbox" name="show_end_time" {if $gContent->getField('show_end_time')}checked{/if} />
+							{html_select_time time=$gContent->mInfo.end_time minute_interval=$gBitSystem->getConfig('events_minute_interval', 15) field_array="end_time" prefix="" display_seconds=0 use_24_hours=$gBitSystem->isFeatureActive('events_use_24')}
+						{/forminput}
+
+
+
 						{include file="bitpackage:liberty/edit_format.tpl"}
 
 						{if $gBitSystem->isFeatureActive('package_smileys')}
@@ -107,6 +126,7 @@
 						{/if}
 
 						<div class="row">
+							{formlabel label="Details"}
 							{forminput}
 								<textarea id="{$textarea_id}" name="edit" rows="{$smarty.cookies.rows|default:20}" cols="50">{$gContent->mInfo.data|escape:html}</textarea>
 							{/forminput}
@@ -121,6 +141,15 @@
 				
 						{/strip}
 					{/legend}
+				{/jstab}
+
+				{jstab title="Attachments"}
+					<div class=row>
+					{legend legend="Attachments"}
+						{include file="bitpackage:liberty/edit_storage.tpl"}
+
+					{/legend}
+					</div>
 				{/jstab}
 
 				{include file="bitpackage:liberty/edit_services_inc.tpl serviceFile=content_edit_tab_tpl}

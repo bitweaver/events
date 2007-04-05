@@ -3,6 +3,7 @@
 $tables = array(
 	'events' => "
 		events_id I4 AUTO PRIMARY,
+		end_time I4,
 		content_id I4 NOTNULL,
 		description C(160)
 	",
@@ -49,9 +50,8 @@ $gBitInstaller->registerUserPermissions( EVENTS_PKG_NAME, array(
 // ### Default Preferences
 $gBitInstaller->registerPreferences( EVENTS_PKG_NAME, array(
 	array( EVENTS_PKG_NAME, 'events_default_ordering', 'events_id_desc' ),
-	array( EVENTS_PKG_NAME, 'events_list_events_id', 'y' ),
-	array( EVENTS_PKG_NAME, 'events_list_title', 'y' ),
-	array( EVENTS_PKG_NAME, 'events_list_description', 'y' ),
-	array( EVENTS_PKG_NAME, 'feature_list_events', 'y' ),
+	array( EVENTS_PKG_NAME, 'events_end_year', '+1'),
+	//array( EVENTS_PKG_NAME, 'events_moderation', 'n'),
+	//array( EVENTS_PKG_NAME, 'events_use_24', 'n' ),
 ) );
 ?>

@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.2 2007/03/21 23:42:48 phoenixandy Exp $
+// $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.3 2007/04/05 14:30:01 nickpalmer Exp $
 // Copyright (c) 2004 bitweaver Events
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
@@ -63,7 +63,7 @@ if ($gBitSystem->isPackageActive( 'quicktags' ) ) {
 // WYSIWYG and Quicktag variable
 $gBitSmarty->assign( 'textarea_id', 'editevents' );
 
-//$gBitSmarty->assign( 'event_date', 0);
+$gBitSmarty->assign( 'loadAjax', TRUE );
 
 // Display the template
 $gBitSystem->display('bitpackage:events/edit_events.tpl', tra('Events') );
