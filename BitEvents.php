@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.11 2007/04/05 14:30:01 nickpalmer Exp $
-* $Id: BitEvents.php,v 1.11 2007/04/05 14:30:01 nickpalmer Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.12 2007/04/05 14:56:13 phoenixandy Exp $
+* $Id: BitEvents.php,v 1.12 2007/04/05 14:56:13 phoenixandy Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.11 $ $Date: 2007/04/05 14:30:01 $ $Author: nickpalmer $
+* @version $Revision: 1.12 $ $Date: 2007/04/05 14:56:13 $ $Author: phoenixandy $
 * @class BitEvents
 */
 
@@ -364,7 +364,7 @@ class BitEvents extends LibertyAttachable {
 			FROM `".BIT_DB_PREFIX."events` e
 			INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) $joinSql
 			WHERE lc.`content_type_guid` = ? $whereSql
-			ORDER BY ".$this->mDb->convert_sortmode( $sort_mode );
+			ORDER BY ".$this->mDb->convertSortmode( $sort_mode );
 		$query_cant = "SELECT COUNT( * )
 				FROM `".BIT_DB_PREFIX."events` e
 				INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) $joinSql
