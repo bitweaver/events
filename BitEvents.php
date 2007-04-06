@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.13 2007/04/05 15:48:15 nickpalmer Exp $
-* $Id: BitEvents.php,v 1.13 2007/04/05 15:48:15 nickpalmer Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.14 2007/04/06 14:36:46 nickpalmer Exp $
+* $Id: BitEvents.php,v 1.14 2007/04/06 14:36:46 nickpalmer Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.13 $ $Date: 2007/04/05 15:48:15 $ $Author: nickpalmer $
+* @version $Revision: 1.14 $ $Date: 2007/04/06 14:36:46 $ $Author: nickpalmer $
 * @class BitEvents
 */
 
@@ -403,8 +403,10 @@ class BitEvents extends LibertyAttachable {
 		return LibertyContent::getContentStatus(-100,0);
 	  }
 	  return parent::getContentStatus();
-	    
 	}
 
+	function getRenderFile() {
+		return EVENTS_PKG_PATH."display_event_inc.php";
+	}
 }
 ?>
