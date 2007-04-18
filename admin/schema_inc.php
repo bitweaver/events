@@ -2,7 +2,7 @@
 
 $tables = array(
 	'events' => "
-		events_id I4 AUTO PRIMARY,
+		events_id I4 PRIMARY,
 		end_time I4,
 		content_id I4 NOTNULL,
 		description C(160)
@@ -21,12 +21,14 @@ $gBitInstaller->registerPackageInfo( EVENTS_PKG_NAME, array(
 ) );
 
 // ### Indexes
+
 $indices = array(
 	'events_events_id_idx' => array('table' => 'events', 'cols' => 'events_id', 'opts' => NULL ),
 );
 $gBitInstaller->registerSchemaIndexes( EVENTS_PKG_NAME, $indices );
 
 // ### Sequences
+
 $sequences = array (
 	'events_events_id_seq' => array( 'start' => 1 )
 );
