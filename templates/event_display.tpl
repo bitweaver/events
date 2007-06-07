@@ -2,7 +2,7 @@
 {if $gContent->isValid()}
 	<div class="floaticon">
 		{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='icon' serviceHash=$gContent->mInfo}
-		{if $gBitUser->hasPermission( 'bit_p_edit_events' )}
+		{if $gBitUser->hasPermission( 'p_edit_events' )}
 			<a title="{tr}Edit{/tr}" href="edit.php?events_id={$gContent->mInfo.events_id}">{biticon ipackage="icons" iname="accessories-text-editor" iexplain="edit"}</a>
 		{/if}
 	</div><!-- end .floaticon -->

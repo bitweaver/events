@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.4 2006/02/06 23:34:16 lsces Exp $
+// $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.5 2007/06/07 23:34:14 nickpalmer Exp $
 // Copyright (c) 2004 bitweaver Events
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
@@ -11,7 +11,7 @@ require_once(EVENTS_PKG_PATH.'BitEvents.php' );
 $gBitSystem->verifyPackage('events' );
 
 // Now check permissions to access this page
-$gBitSystem->verifyPermission('bit_p_read_events' );
+$gBitSystem->verifyPermission('p_read_events' );
 
 /* mass-remove:
 the checkboxes are sent as the array $_REQUEST["checked[]"], values are the wiki-PageNames,
@@ -24,7 +24,7 @@ if so, we call histlib's method remove_all_versions for all the checked events.
 if (isset($_REQUEST["submit_mult"]) && isset($_REQUEST["checked"]) && $_REQUEST["submit_mult"] == "remove_events") {
 
 	// Now check permissions to remove the selected events
-	$gBitSystem->verifyPermission( 'bit_p_remove_events' );
+	$gBitSystem->verifyPermission( 'p_remove_events' );
 
 	if( !empty( $_REQUEST['cancel'] ) ) {
 		// user cancelled - just continue on, doing nothing

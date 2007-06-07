@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.4 2007/04/20 11:05:01 nickpalmer Exp $
+// $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.5 2007/06/07 23:34:14 nickpalmer Exp $
 // Copyright (c) 2004 bitweaver Events
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
@@ -11,7 +11,7 @@ require_once('../bit_setup_inc.php' );
 $gBitSystem->verifyPackage('events' );
 
 // Now check permissions to access this page
-$gBitSystem->verifyPermission('bit_p_edit_events' );
+$gBitSystem->verifyPermission('p_edit_events' );
 
 require_once(EVENTS_PKG_PATH.'lookup_events_inc.php' );
 
