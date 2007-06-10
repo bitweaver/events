@@ -1,11 +1,49 @@
 <?php
 
+/* repeating events schema explained: Designed to capture RFC2455 repeating format excluding secondly repeats.
+	If an event repeats then it gets the following:
+	frequency: enum(norepeat=0, minutely=1, hourly, daily, weekly, monthly, yearly}
+	count: If this is < 0 then the event repeats indefinately. If count is > 0 this overrides end_date and specifies the total number of repeats.
+	end_date: The end date to end repeating on.
+	interval: The interval at which the repeat is done. >=1
+	bylists: RFC2455 formatted bylists which can be used to expand the event into the events_on table.
+
+	The events_on table is designed to make calendar rendering go faster. There is a cron job that deletes events that are over a certain
+	age to keep table size down and expands repeating events some set amount into the future. Then the calendar render can find all
+	events which occurs in a certain range quickly.
+*/
+
 $tables = array(
+	'events_types' => "
+		type_id I4 PRIMARY,
+		name C(30) NOTNULL,
+		description C(160)
+	",		
 	'events' => "
 		events_id I4 PRIMARY,
 		end_time I4,
 		content_id I4 NOTNULL,
-		description C(160)
+		description C(160),
+		cost C(160),
+		type_id I4,
+		location_id I4
+		frequency I4 NOTNULL,
+		interval I4,
+		count I4,
+		end_date I4,
+		bylists X
+		CONSTRAINT '
+            , CONSTRAINT `events_type_ref` FOREIGN KEY (`type_id`) REFERENCES `".BIT_DB_PREFIX."events_types`( `type_id` )
+            , CONSTRAINT `events_location_ref` FOREIGN KEY (`location_id`) REFERENCES `".BIT_DB_PREFIX."liberty_content`( `content_id` )
+            , CONSTRAINT `events_content_ref` FOREIGN KEY (`content_id`) REFERENCES `".BIT_DB_PREFIX."liberty_content`( `content_id` )
+		'
+	",
+	'events_on' => "
+		content_id I4 PRIMARY,
+		event_on I4 NOTNULL
+		CONSTRAINT '
+            , CONSTRAINT `events_on_content_ref` FOREIGN KEY (`content_id`) REFERENCES `".BIT_DB_PREFIX."liberty_content`( `content_id` )
+		'
 	",
 );
 
@@ -24,13 +62,16 @@ $gBitInstaller->registerPackageInfo( EVENTS_PKG_NAME, array(
 
 $indices = array(
 	'events_events_id_idx' => array('table' => 'events', 'cols' => 'events_id', 'opts' => NULL ),
+	'events_types_id_idx' => array('table' => 'events_types', 'cols' => 'type_id', 'opts' => NULL ),
+	'events_on_on_idx' => array('table' => 'events_on', 'cols' => 'event_on', 'opts' => NULL ),
 );
 $gBitInstaller->registerSchemaIndexes( EVENTS_PKG_NAME, $indices );
 
 // ### Sequences
 
 $sequences = array (
-	'events_events_id_seq' => array( 'start' => 1 )
+	'events_events_id_seq' => array( 'start' => 1 ),
+	'events_types_id_seq' => array( 'start' => 1 )
 );
 $gBitInstaller->registerSchemaSequences( EVENTS_PKG_NAME, $sequences );
 
