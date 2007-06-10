@@ -1,10 +1,10 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.9 2007/06/07 23:34:14 nickpalmer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.10 2007/06/10 09:34:43 squareing Exp $ *}
 
 {strip}
 
 <div class="floaticon">{bithelp}</div>
 
-<div class="listing events display">
+<div class="listing events">
 
 	<div class="header">
 		<h1>{tr}Events{/tr} ({$list|@count})</h1>
@@ -28,31 +28,23 @@
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="3">
+						<td colspan="3" class="actionicon">
 							{literal}
 								<script type="text/javascript">//<![CDATA[
 									// check / uncheck all.
-									document.write("<input name='switcher' id='switcher' type='checkbox' onclick=\"switchCheckboxes(this.form.id,'checked[]','switcher')\" />");
+									document.write("<input name='switcher' id='switcher' type='checkbox' onclick=\"switchCheckboxes(this.form.id,'events_id[]','switcher')\" />");
 									document.write("&nbsp;");
 									document.write("<label for='switcher'>{tr}Select All{/tr}</label> ");
 								//]]></script>
 							{/literal}
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3">
-								<select name="submit_mult">
-									<option value="" selected="selected">{tr}with checked{/tr}:&nbsp;</option>
+							<br />
+							<select name="submit_mult">
+								<option value="" selected="selected">{tr}with checked{/tr}:&nbsp;</option>
 									{if $gBitUser->hasPermission( 'p_remove_events' )}
 										<option value="remove_events">{tr}remove{/tr}</option>
 									{/if}
-									<option value="open_events">{tr}display{/tr}</option>
-								</select>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3">
-								<input type="submit" value="{tr}ok{/tr}" />
+								<option value="open_events">{tr}display{/tr}</option>
+							</select>
 						</td>
 					</tr>
 				</tfoot>
@@ -61,9 +53,10 @@
 						<tr class="{cycle values="even,odd"}" title="{$list[changes].title|escape}">
 							<td class="date">
 								{* $list[changes].event_time|bit_short_date *}
-								{* ^ ugly / nice: *}
+								{* ^ ugly / v nice ---- it depends on how you set up your date format. we should really use bit_short_date that all date entries are uniform - xing *}
 								{$list[changes].event_time|date_format:"%d.&nbsp;%b&nbsp;%Y"}
 								<br />
+								{* $list[changes].event_time|bit_short_time *}
 								{$list[changes].event_time|date_format:"%H:%M"}
 							</td>
 							<td>
@@ -77,13 +70,12 @@
 									{if $gBitUser->hasPermission( 'p_edit_events' )}
 										{smartlink ititle="Edit" ifile="edit.php" ibiticon="icons/accessories-text-editor" events_id=$list[changes].events_id}
 									{/if}
-									<input type="checkbox" name="checked[]" id="ev_{$list[changes].events_id}" value="{$list[changes].events_id|escape}" />
+									<input type="checkbox" name="events_id[]" id="ev_{$list[changes].events_id}" value="{$list[changes].events_id|escape}" />
 								</span>
 								<label for="ev_{$list[changes].events_id}">	
 									{$list[changes].description}
 								</label>
 							</td>
-							
 						</tr>
 					{sectionelse}
 						<tr class="norecords">
@@ -94,11 +86,15 @@
 					{/section}
 				</tbody>
 			</table>
+
+			<div class="row submit">
+				<input type="submit" value="{tr}Apply{/tr}" />
+			</div>
 		{/form}
 	</div><!-- end .body -->
 
 	{pagination}
 	
-</div><!-- end .admin -->
+</div><!-- end .events -->
 
 {/strip}
