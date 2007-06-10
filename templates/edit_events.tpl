@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.8 2007/04/05 14:30:01 nickpalmer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.9 2007/06/10 02:55:35 nickpalmer Exp $ *}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -58,14 +58,23 @@
 							{formlabel label="Title" for="title"}
 							{forminput}
 								<input type="text" size="60" maxlength="200" name="title" id="title" value="{if $preview}{$gContent->mInfo.title}{else}{$gContent->mInfo.title}{/if}" />
+								{formhelp note="The title or name of the event."}
 							{/forminput}
 						</div>
 
 						<div class="row">
-							{formlabel label="Description" for="description"}
+							{formlabel label="Summary" for="description"}
 							{forminput}
 								<input size="60" type="text" name="description" id="description" value="{$gContent->mInfo.description|escape}" />
 								{formhelp note="Brief description of the event."}
+							{/forminput}
+						</div>
+
+						<div class="row">
+							{formlabel label="Cost" for="cost"}
+							{forminput}
+								<input size="60" type="text" name="cost" id="cost" value="{$gContent->mInfo.cost|escape}" />
+								{formhelp note="The cost of the event. (Free, $10, $5 in advance $10 at door, etc)"}
 							{/forminput}
 						</div>
 				
@@ -82,11 +91,13 @@
 						{formlabel label="Event Date"}
 						{forminput}
 							{html_select_date time=$gContent->mInfo.event_time field_array="start_date" prefix="" end_year=$gBitSystem->getConfig('events_end_year', "+1")}
+							{formhelp note="The date the event is on."}
 						{/forminput}
 						{formlabel label="Start Time"}
 						{forminput}
 							<input type="checkbox" name="show_start_time" {if $gContent->getField('show_start_time')}checked{/if} /> 
 							{html_select_time time=$gContent->mInfo.event_time minute_interval=$gBitSystem->getConfig('events_minute_interval', 15) field_array="start_time" prefix="" display_seconds=0 use_24_hours=$gBitSystem->isFeatureActive('events_use_24')}
+							{formhelp note="The time the event starts. If no start time is specified the event is assumed to be an all day event."}
 						{/forminput}
 {/if}
 						{/strip}
@@ -111,31 +122,16 @@
 						{forminput}
 							<input type="checkbox" name="show_end_time" {if $gContent->getField('show_end_time')}checked{/if} />
 							{html_select_time time=$gContent->mInfo.end_time minute_interval=$gBitSystem->getConfig('events_minute_interval', 15) field_array="end_time" prefix="" display_seconds=0 use_24_hours=$gBitSystem->isFeatureActive('events_use_24')}
+							{formhelp note="The time the event is over."}
 						{/forminput}
 
 
-
-						{include file="bitpackage:liberty/edit_format.tpl"}
-
-						{if $gBitSystem->isFeatureActive('package_smileys')}
-							{include file="bitpackage:smileys/smileys_full.tpl"}
-						{/if}
-
-						{if $gBitSystem->isFeatureActive('package_quicktags')}
-							{include file="bitpackage:quicktags/quicktags_full.tpl"}
-						{/if}
-
-						<div class="row">
-							{formlabel label="Details"}
-							{forminput}
-								<textarea id="{$textarea_id}" name="edit" rows="{$smarty.cookies.rows|default:20}" cols="50">{$gContent->mInfo.data|escape:html}</textarea>
-							{/forminput}
-						</div>
+						{textarea label="Description" help="The long description of the event including any images."}{$gContent->mInfo.data}{/textarea}
 			
 						{include file="bitpackage:liberty/edit_services_inc.tpl serviceFile=content_edit_mini_tpl}
 
 						<div class="row submit">
-							<input type="submit" name="preview" value="{tr}preview{/tr}" /> 
+							<input type="submit" name="preview" value="{tr}Preview{/tr}" /> 
 							<input type="submit" name="save_events" value="{tr}Save{/tr}" />
 						</div>
 				

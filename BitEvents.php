@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.15 2007/06/10 01:19:55 nickpalmer Exp $
-* $Id: BitEvents.php,v 1.15 2007/06/10 01:19:55 nickpalmer Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.16 2007/06/10 02:55:35 nickpalmer Exp $
+* $Id: BitEvents.php,v 1.16 2007/06/10 02:55:35 nickpalmer Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.15 $ $Date: 2007/06/10 01:19:55 $ $Author: nickpalmer $
+* @version $Revision: 1.16 $ $Date: 2007/06/10 02:55:35 $ $Author: nickpalmer $
 * @class BitEvents
 */
 
@@ -100,6 +100,26 @@ class BitEvents extends LibertyAttachable {
 		return( count( $this->mInfo ) );
 	}
 
+	function preview( &$pParamHash ) {
+		global $gBitSmarty, $gBitSystem;
+		vd($pParamHash);
+		$this->verify( $pParamHash );
+		// This is stupid! verify does NOT work how it should.
+		// verify should call the super class verify at all levels.
+		LibertyAttachable::verify($pParamHash);
+		LibertyContent::verify($pParamHash);
+
+		$this->mInfo = array_merge($pParamHash['events_store'],$pParamHash['content_store'],$pParamHash['events_prefs_store']);
+		$this->mInfo['data'] = $pParamHash['edit'];
+		$this->mInfo['parsed'] = $this->parseData($pParamHash['edit'], empty($pParamHash['format_guid']) ? $pParamHash['format_guid'] : $gBitSystem->getConfig('default_format'));
+
+		$this->invokeServices( 'content_preview_function' );    
+		vd($this->mInfo);
+
+		$gBitSmarty->assign('preview', true);
+
+	}
+
 	/**
 	* Any method named Store inherently implies data will be written to the database
 	* @param pParamHash be sure to pass by reference in case we need to make modifcations to the hash
@@ -115,7 +135,19 @@ class BitEvents extends LibertyAttachable {
 	function store( &$pParamHash ) {
 		if( $this->verify( $pParamHash )&& LibertyAttachable::store( $pParamHash ) ) {
 			$table = BIT_DB_PREFIX."events";
+
+			$prefChecks = array('show_start_time', 'show_end_time');
+			foreach ($prefChecks as $var) {
+				if (isset($pParamHash['events_prefs_store'][$var])) {
+					$this->storePreference($var, $pParamHash['events_prefs_store'][$var]);
+				}
+				else {
+					$this->storePreference($var);
+				}
+			}
+
 			$this->mDb->StartTrans();
+
 			if( $this->mEventsId ) {
 				$result = $this->mDb->associateUpdate( $table, $pParamHash['events_store'], array( 'events_id' => $pParamHash['events_id'] ) );
 			} else {
@@ -134,6 +166,7 @@ class BitEvents extends LibertyAttachable {
 
 			$this->mDb->CompleteTrans();
 			$this->load();
+			vd($this->mInfo);
 		}
 		return( count( $this->mErrors )== 0 );
 	}
@@ -170,14 +203,22 @@ class BitEvents extends LibertyAttachable {
 			$pParamHash['events_store']['content_id'] = $pParamHash['content_id'];
 		}
 
+		if( !empty( $pParamHash['cost'] ) ) {
+		    $pParamHash['events_store']['cost'] = substr( trim($pParamHash['cost']), 0, 160 );
+		}
+
 		$prefChecks = array('show_start_time', 'show_end_time');
 		foreach ($prefChecks as $var) {
 			if (isset($pParamHash[$var])) {
-				$this->storePreference($var, $pParamHash[$var]);
+				$pParamHash['events_prefs_store'][$var] = $pParamHash[$var];
 			}
-			else {
-				$this->storePreference($var);
-			}
+		}
+
+		if ( !empty($pParamHash['frequency'] ) ) {
+			$pParamHash['events_store']['frequency'] = $pParamHash['frequency'];
+		}
+		else {
+			$pParamHash['events_store']['frequency'] = 0;
 		}
 
 		if( !empty( $pParamHash['start_date']) && !empty($pParamHash['start_time']) ) {
@@ -288,6 +329,7 @@ class BitEvents extends LibertyAttachable {
 			// no name specified
 			$this->mErrors['title'] = 'You must specify a name';
 		}
+
 		return( count( $this->mErrors )== 0 );
 	}
 

@@ -26,7 +26,7 @@ $tables = array(
 		description C(160),
 		cost C(160),
 		type_id I4,
-		location_id I4
+		location_id I4,
 		frequency I4 NOTNULL,
 		interval I4,
 		count I4,
