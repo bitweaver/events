@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.5 2007/06/07 23:34:14 nickpalmer Exp $
+// $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.6 2007/06/10 11:02:56 nickpalmer Exp $
 // Copyright (c) 2004 bitweaver Events
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
@@ -52,7 +52,7 @@ $events = new BitEvents();
 $listevents = $events->getList( $_REQUEST );
 
 $gBitSmarty->assign_by_ref('listInfo', $_REQUEST['listInfo']);
-$gBitSmarty->assign_by_ref('list', $listevents['data']);
+$gBitSmarty->assign_by_ref('list', $listevents);
 
 // Display the template
 $gBitSystem->display('bitpackage:events/list_events.tpl', tra('Events') );

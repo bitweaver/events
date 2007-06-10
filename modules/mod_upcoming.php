@@ -3,7 +3,7 @@
  * Params: 
  * - title : if is "title", show the title of the post, else show the date of creation
  *
- * @version $Header: /cvsroot/bitweaver/_bit_events/modules/mod_upcoming.php,v 1.1 2007/06/10 01:19:55 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/modules/mod_upcoming.php,v 1.2 2007/06/10 11:02:57 nickpalmer Exp $
  * @package blogs
  * @subpackage modules
  */
@@ -43,7 +43,7 @@ $list = $events->getList( $listHash );
 $maxPreviewLength = (!empty($module_params['max_preview_length']) ? $module_params['max_preview_length'] : MAX_EVENTS_PREVIEW_LENGTH);
 
 $gBitSmarty->assign('maxPreviewLength', $maxPreviewLength);
-$gBitSmarty->assign('modUpcomingEvents', $list['data']);
+$gBitSmarty->assign('modUpcomingEvents', $list);
 
 $gBitSmarty->assign('eventsPackageActive', $gBitSystem->isPackageActive('events'));
 

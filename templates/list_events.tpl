@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.10 2007/06/10 09:34:43 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.11 2007/06/10 11:02:57 nickpalmer Exp $ *}
 
 {strip}
 
@@ -52,12 +52,19 @@
 					{section name=changes loop=$list}
 						<tr class="{cycle values="even,odd"}" title="{$list[changes].title|escape}">
 							<td class="date">
-								{* $list[changes].event_time|bit_short_date *}
-								{* ^ ugly / v nice ---- it depends on how you set up your date format. we should really use bit_short_date that all date entries are uniform - xing *}
-								{$list[changes].event_time|date_format:"%d.&nbsp;%b&nbsp;%Y"}
-								<br />
-								{* $list[changes].event_time|bit_short_time *}
-								{$list[changes].event_time|date_format:"%H:%M"}
+								{$list[changes].event_time|bit_long_date}
+								{if $list[changes].show_start_time}
+									&nbsp;{$list[changes].event_time|bit_short_time}
+								{/if}
+								{if $list[changes].show_end_time}
+									{if $list[changes].show_start_time}
+										<div class=row>{tr}until{/tr}</div>
+									{else}
+										{tr}Ending{/tr}:&nbsp; 
+									{/if}
+									{$list[changes].end_time|bit_long_date}&nbsp;
+									{$list[changes].end_time|bit_short_time}
+								{/if}
 							</td>
 							<td>
 								<a href="{$smarty.const.EVENTS_PKG_URL}index.php?events_id={$list[changes].events_id|escape:"url"}" title="{$list[changes].title}">

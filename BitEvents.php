@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.18 2007/06/10 10:23:23 nickpalmer Exp $
-* $Id: BitEvents.php,v 1.18 2007/06/10 10:23:23 nickpalmer Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.19 2007/06/10 11:02:56 nickpalmer Exp $
+* $Id: BitEvents.php,v 1.19 2007/06/10 11:02:56 nickpalmer Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.18 $ $Date: 2007/06/10 10:23:23 $ $Author: nickpalmer $
+* @version $Revision: 1.19 $ $Date: 2007/06/10 11:02:56 $ $Author: nickpalmer $
 * @class BitEvents
 */
 
@@ -409,10 +409,13 @@ class BitEvents extends LibertyAttachable {
 
 
 		$query = "SELECT e.*, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS`creator_user_id`,
-			lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time`, lc.`format_guid` $selectSql
+			lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time`, lc.`format_guid`, lcps.`pref_value` AS `show_start_time`, lcpe.`pref_value` AS `show_end_time`  $selectSql
 			$selectSql
 			FROM `".BIT_DB_PREFIX."events` e
-			INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) $joinSql
+			INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) 
+			LEFT JOIN `".BIT_DB_PREFIX."liberty_content_prefs` lcps ON (lc.`content_id` = lcps.`content_id` AND lcps.`pref_name` = 'show_start_time')
+			LEFT JOIN `".BIT_DB_PREFIX."liberty_content_prefs` lcpe ON (lc.`content_id` = lcpe.`content_id` AND lcpe.`pref_name` = 'show_end_time')
+			$joinSql
 			WHERE lc.`content_type_guid` = ? $whereSql
 			ORDER BY ".$this->mDb->convertSortmode( $sort_mode );
 		$query_cant = "SELECT COUNT( * )
@@ -432,7 +435,7 @@ class BitEvents extends LibertyAttachable {
 		$pParamHash["cant"] = $this->mDb->getOne( $query_cant, $bindVars );
 
 		LibertyContent::postGetList( $pParamHash );
-		return $pParamHash;
+		return $ret;
 	}
 
 	/**

@@ -12,6 +12,8 @@
 	{if $contentHash.show_end_time}
 		{if $contentHash.show_start_time}
 			<div class=row>{tr}until{/tr}</div>
+		{else}
+			{tr}Ending{/tr}:&nbsp; 
 		{/if}
 		{$contentHash.end_time|bit_long_date}&nbsp;
 		{$contentHash.end_time|bit_short_time}
