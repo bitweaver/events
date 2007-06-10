@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.9 2007/06/10 02:55:35 nickpalmer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.10 2007/06/10 07:10:10 squareing Exp $ *}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -57,7 +57,7 @@
 						<div class="row">
 							{formlabel label="Title" for="title"}
 							{forminput}
-								<input type="text" size="60" maxlength="200" name="title" id="title" value="{if $preview}{$gContent->mInfo.title}{else}{$gContent->mInfo.title}{/if}" />
+								<input type="text" size="50" maxlength="200" name="title" id="title" value="{if $preview}{$gContent->mInfo.title}{else}{$gContent->mInfo.title}{/if}" />
 								{formhelp note="The title or name of the event."}
 							{/forminput}
 						</div>
@@ -65,7 +65,7 @@
 						<div class="row">
 							{formlabel label="Summary" for="description"}
 							{forminput}
-								<input size="60" type="text" name="description" id="description" value="{$gContent->mInfo.description|escape}" />
+								<input size="50" type="text" name="description" id="description" value="{$gContent->mInfo.description|escape}" />
 								{formhelp note="Brief description of the event."}
 							{/forminput}
 						</div>
@@ -73,7 +73,7 @@
 						<div class="row">
 							{formlabel label="Cost" for="cost"}
 							{forminput}
-								<input size="60" type="text" name="cost" id="cost" value="{$gContent->mInfo.cost|escape}" />
+								<input size="50" type="text" name="cost" id="cost" value="{$gContent->mInfo.cost|escape}" />
 								{formhelp note="The cost of the event. (Free, $10, $5 in advance $10 at door, etc)"}
 							{/forminput}
 						</div>
