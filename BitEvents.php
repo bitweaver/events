@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.17 2007/06/10 09:33:56 squareing Exp $
-* $Id: BitEvents.php,v 1.17 2007/06/10 09:33:56 squareing Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.18 2007/06/10 10:23:23 nickpalmer Exp $
+* $Id: BitEvents.php,v 1.18 2007/06/10 10:23:23 nickpalmer Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.17 $ $Date: 2007/06/10 09:33:56 $ $Author: squareing $
+* @version $Revision: 1.18 $ $Date: 2007/06/10 10:23:23 $ $Author: nickpalmer $
 * @class BitEvents
 */
 
@@ -377,7 +377,7 @@ class BitEvents extends LibertyAttachable {
 		$whereSql = '';
 		$bindVars = array();
 		array_push( $bindVars, $this->mContentTypeGuid );
-		$this->getServicesSql( 'content_list_function', $selectSql, $joinSql, $whereSql, $bindVars );
+		$this->getServicesSql( 'content_list_sql_function', $selectSql, $joinSql, $whereSql, $bindVars );
 
 		// this will set $find, $sort_mode, $max_records and $offset
 		extract( $pParamHash );
@@ -430,8 +430,6 @@ class BitEvents extends LibertyAttachable {
 		$pParamHash["data"] = $ret;
 
 		$pParamHash["cant"] = $this->mDb->getOne( $query_cant, $bindVars );
-
-		$accessError = $this->invokeServices( 'content_verify_access', $ret, FALSE );
 
 		LibertyContent::postGetList( $pParamHash );
 		return $pParamHash;
