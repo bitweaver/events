@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.14 2007/04/06 14:36:46 nickpalmer Exp $
-* $Id: BitEvents.php,v 1.14 2007/04/06 14:36:46 nickpalmer Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.15 2007/06/10 01:19:55 nickpalmer Exp $
+* $Id: BitEvents.php,v 1.15 2007/06/10 01:19:55 nickpalmer Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.14 $ $Date: 2007/04/06 14:36:46 $ $Author: nickpalmer $
+* @version $Revision: 1.15 $ $Date: 2007/06/10 01:19:55 $ $Author: nickpalmer $
 * @class BitEvents
 */
 
@@ -357,8 +357,20 @@ class BitEvents extends LibertyAttachable {
 			$bindVars[] = array( $pUserId );
 		}
 		
+		if (!empty($event_before)) {
+			$whereSql .= "AND lc.`event_time` <= ?";
+			$bindVars[] = $event_before;
+		}
+
+
+		if (!empty($event_after)) {
+			$whereSql .= "AND lc.`event_time` > ?";
+			$bindVars[] = $event_after;
+		}
+
+
 		$query = "SELECT e.*, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS`creator_user_id`,
-			lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time` $selectSql
+			lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time`, lc.`format_guid` $selectSql
 			$selectSql
 			FROM `".BIT_DB_PREFIX."events` e
 			INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) $joinSql
@@ -371,13 +383,16 @@ class BitEvents extends LibertyAttachable {
 		$result = $this->mDb->query( $query, $bindVars, $max_records, $offset );
 		$ret = array();
 		while( $res = $result->fetchRow() ) {
+			if (!empty($parse_split)) {
+				$res = array_merge($this->parseSplit($res), $res);
+			}
 			$ret[] = $res;
 		}
 		$pParamHash["data"] = $ret;
 
 		$pParamHash["cant"] = $this->mDb->getOne( $query_cant, $bindVars );
 
-		$accessError = $this->invokeServices( 'content_verify_access', $res, FALSE );
+		$accessError = $this->invokeServices( 'content_verify_access', $ret, FALSE );
 
 		LibertyContent::postGetList( $pParamHash );
 		return $pParamHash;
