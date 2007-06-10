@@ -1,7 +1,7 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.16 2007/06/10 02:55:35 nickpalmer Exp $
-* $Id: BitEvents.php,v 1.16 2007/06/10 02:55:35 nickpalmer Exp $
+* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.17 2007/06/10 09:33:56 squareing Exp $
+* $Id: BitEvents.php,v 1.17 2007/06/10 09:33:56 squareing Exp $
 */
 
 /**
@@ -10,7 +10,7 @@
 *
 * @date created 2004/8/15
 * @author spider <spider@steelsun.com>
-* @version $Revision: 1.16 $ $Date: 2007/06/10 02:55:35 $ $Author: nickpalmer $
+* @version $Revision: 1.17 $ $Date: 2007/06/10 09:33:56 $ $Author: squareing $
 * @class BitEvents
 */
 
@@ -102,7 +102,6 @@ class BitEvents extends LibertyAttachable {
 
 	function preview( &$pParamHash ) {
 		global $gBitSmarty, $gBitSystem;
-		vd($pParamHash);
 		$this->verify( $pParamHash );
 		// This is stupid! verify does NOT work how it should.
 		// verify should call the super class verify at all levels.
@@ -114,7 +113,6 @@ class BitEvents extends LibertyAttachable {
 		$this->mInfo['parsed'] = $this->parseData($pParamHash['edit'], empty($pParamHash['format_guid']) ? $pParamHash['format_guid'] : $gBitSystem->getConfig('default_format'));
 
 		$this->invokeServices( 'content_preview_function' );    
-		vd($this->mInfo);
 
 		$gBitSmarty->assign('preview', true);
 
@@ -166,7 +164,6 @@ class BitEvents extends LibertyAttachable {
 
 			$this->mDb->CompleteTrans();
 			$this->load();
-			vd($this->mInfo);
 		}
 		return( count( $this->mErrors )== 0 );
 	}
