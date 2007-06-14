@@ -28,7 +28,7 @@ $tables = array(
 		type_id I4,
 		location_id I4,
 		frequency I4 NOTNULL,
-		`interval` I4,
+		event_interval I4,
 		count I4,
 		end_date I4,
 		bylists X
