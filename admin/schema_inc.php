@@ -45,6 +45,18 @@ $tables = array(
             , CONSTRAINT `events_on_content_ref` FOREIGN KEY (`content_id`) REFERENCES `".BIT_DB_PREFIX."liberty_content`( `content_id` )
 		'
 	",
+	'events_invites' => "
+		invites_id I4 PRIMARY,
+		content_id I4 NOTNULL,
+		event_content_id I4 NOTNULL,
+		user_id I4 NOTNULL,
+		interest I4 NOTNULL,
+		guests I4
+		CONSTRAINT '
+			, CONSTRAINT `events_users_content_ref` FOREIGN KEY (`content_id`) REFERENCES `".BIT_DB_PREFIX."liberty_content`( `content_id`)
+			, CONSTRAINT `events_users_event_content_ref` FOREIGN KEY (`event_content_id`) REFERENCES `".BIT_DB_PREFIX."liberty_content`( `content_id`)
+		'
+	",
 );
 
 global $gBitInstaller;
@@ -62,8 +74,11 @@ $gBitInstaller->registerPackageInfo( EVENTS_PKG_NAME, array(
 
 $indices = array(
 	'events_events_id_idx' => array('table' => 'events', 'cols' => 'events_id', 'opts' => NULL ),
+	'events_events_location_idx' => array('table' => 'events', 'cols' => 'location_id', 'opts' => NULL ),
 	'events_types_id_idx' => array('table' => 'events_types', 'cols' => 'type_id', 'opts' => NULL ),
 	'events_on_on_idx' => array('table' => 'events_on', 'cols' => 'event_on', 'opts' => NULL ),
+	'events_invites_event_idx' => array('table' => 'events_invites', 'cols' => 'event_content_id', 'opts' => NULL),
+	'events_invites_user_idx' => array('table' => 'events_invites', 'cols' => 'user_id', 'opts' => NULL),
 );
 $gBitInstaller->registerSchemaIndexes( EVENTS_PKG_NAME, $indices );
 
@@ -71,11 +86,10 @@ $gBitInstaller->registerSchemaIndexes( EVENTS_PKG_NAME, $indices );
 
 $sequences = array (
 	'events_events_id_seq' => array( 'start' => 1 ),
-	'events_types_id_seq' => array( 'start' => 1 )
+	'events_types_id_seq' => array( 'start' => 1 ),
+	'events_invites_id_seq' => array( 'start' => 1),
 );
 $gBitInstaller->registerSchemaSequences( EVENTS_PKG_NAME, $sequences );
-
-
 
 $gBitInstaller->registerSchemaDefault( EVENTS_PKG_NAME, array(
 	//      "INSERT INTO `".BIT_DB_PREFIX."events_types` (`type`) VALUES ('Events')",
