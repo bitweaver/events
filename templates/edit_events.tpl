@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.10 2007/06/10 07:10:10 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.11 2007/06/16 10:16:35 lsces Exp $ *}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -139,14 +139,16 @@
 					{/legend}
 				{/jstab}
 
-				{jstab title="Attachments"}
-					<div class=row>
-					{legend legend="Attachments"}
-						{include file="bitpackage:liberty/edit_storage.tpl"}
+				{if $gBitUser->hasPermission('p_liberty_attach_attachments') }
+					{jstab title="Attachments"}
+						<div class=row>
+						{legend legend="Attachments"}
+							{include file="bitpackage:liberty/edit_storage.tpl"}
 
-					{/legend}
-					</div>
-				{/jstab}
+						{/legend}
+						</div>
+					{/jstab}
+				{/if}
 
 				{include file="bitpackage:liberty/edit_services_inc.tpl serviceFile=content_edit_tab_tpl}
 
