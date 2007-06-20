@@ -1,5 +1,5 @@
 <div class="display events">
-{if $preview || $gContent->isValid()}
+{if $liberty_preview || $preview || $gContent->isValid()}
 	<div class="floaticon">
 		{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='icon' serviceHash=$gContent->mInfo}
 		{if $gBitUser->hasPermission( 'p_edit_events' )}
@@ -23,7 +23,7 @@
 			{$gContent->mInfo.parsed_data}
 		</div><!-- end .content -->
 	</div><!-- end .body -->
-{if !$preview}
+{if !($liberty_preview or $preview)}
 {include file="bitpackage:liberty/services_inc.tpl" serviceLocation='view' serviceHash=$gContent->mInfo}
 {/if}
 {else}
