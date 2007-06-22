@@ -1,9 +1,14 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.6 2007/06/10 11:02:56 nickpalmer Exp $
-// Copyright (c) 2004 bitweaver Events
-// All Rights Reserved. See copyright.txt for details and a complete list of authors.
-// Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
-// Initialization
+/**
+ * @version $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.7 2007/06/22 07:22:36 lsces Exp $
+ * Copyright (c) 2004 bitweaver Events
+ * @package events
+ * @subpackage functions
+ */
+
+/**
+ * required setup
+ */
 require_once('../bit_setup_inc.php' );
 require_once(EVENTS_PKG_PATH.'BitEvents.php' );
 

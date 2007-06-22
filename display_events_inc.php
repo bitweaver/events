@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/display_events_inc.php,v 1.1 2007/06/20 23:11:40 nickpalmer Exp $
- * @package fisheye
+ * @version $Header: /cvsroot/bitweaver/_bit_events/display_events_inc.php,v 1.2 2007/06/22 07:22:36 lsces Exp $
+ * @package events
  * @subpackage functions
  */
 

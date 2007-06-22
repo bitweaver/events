@@ -1,7 +1,17 @@
 <?php
-	global $gContent;
-	require_once( EVENTS_PKG_PATH.'BitEvents.php');
-	require_once( LIBERTY_PKG_PATH.'lookup_content_inc.php' );
+/**
+ * @version $Header: /cvsroot/bitweaver/_bit_events/lookup_events_inc.php,v 1.2 2007/06/22 07:22:36 lsces Exp $
+ * Copyright (c) 2004 bitweaver Events
+ * @package events
+ * @subpackage functions
+ */
+
+/**
+ * required setup
+ */
+global $gContent;
+require_once( EVENTS_PKG_PATH.'BitEvents.php');
+require_once( LIBERTY_PKG_PATH.'lookup_content_inc.php' );
 
 	// if we already have a gContent, we assume someone else created it for us, and has properly loaded everything up.
 	if( empty( $gContent ) || !is_object( $gContent ) || !$gContent->isValid() ) {

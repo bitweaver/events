@@ -1,27 +1,28 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.19 2007/06/10 11:02:56 nickpalmer Exp $
-* $Id: BitEvents.php,v 1.19 2007/06/10 11:02:56 nickpalmer Exp $
-*/
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.20 2007/06/22 07:22:36 lsces Exp $
+ * Events class to illustrate best practices when creating a new bitweaver package that
+ * builds on core bitweaver functionality, such as the Liberty CMS engine
+ *
+ * @author spider <spider@steelsun.com>
+ * @package events
+ */
 
 /**
-* Events class to illustrate best practices when creating a new bitweaver package that
-* builds on core bitweaver functionality, such as the Liberty CMS engine
-*
-* @date created 2004/8/15
-* @author spider <spider@steelsun.com>
-* @version $Revision: 1.19 $ $Date: 2007/06/10 11:02:56 $ $Author: nickpalmer $
-* @class BitEvents
-*/
-
+ * required setup
+ */
 require_once( LIBERTY_PKG_PATH.'LibertyAttachable.php' );
 include_once( KERNEL_PKG_PATH.'BitDate.php' );
 
 /**
-* This is used to uniquely identify the object
-*/
+ * This is used to uniquely identify the object
+ */
 define( 'BITEVENTS_CONTENT_TYPE_GUID', 'bitevents' );
 
+/**
+ * @package events
+ * @subpackage BitEvents
+ */
 class BitEvents extends LibertyAttachable {
 	/**
 	* Primary key for our mythical Events class object & table
@@ -61,7 +62,7 @@ class BitEvents extends LibertyAttachable {
 			$lookupColumn = $this->verifyId( $this->mEventsId ) ? 'events_id' : 'content_id';
 			$bindVars = array(); $selectSql = ''; $joinSql = ''; $whereSql = '';
 			array_push( $bindVars, $lookupId = @BitBase::verifyId( $this->mEventsId )? $this->mEventsId : $this->mContentId );
-			$this->getServicesSql( 'content_load_function', $selectSql, $joinSql, $whereSql, $bindVars );
+			$this->getServicesSql( 'content_load_sql_function', $selectSql, $joinSql, $whereSql, $bindVars );
 
 			$query = "SELECT e.*, lc.*, " .
 				"uue.`login` AS modifier_user, uue.`real_name` AS modifier_real_name, " .

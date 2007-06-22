@@ -1,9 +1,15 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_events/admin/admin_events_inc.php,v 1.3 2007/04/05 15:08:43 nickpalmer Exp $
-// Copyright (c) 2005 bitweaver Tags
-// All Rights Reserved. See copyright.txt for details and a complete list of authors.
-// Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
+/**
+ * @version $Header: /cvsroot/bitweaver/_bit_events/admin/admin_events_inc.php,v 1.4 2007/06/22 07:22:36 lsces Exp $
+ *
+ * @author nickpalmer
+ * @package events
+ * @subpackage functions
+ */
 
+/**
+ * required setup
+ */
 $formEventsDisplayOptions = array(
   // This should pobably be a generic setting in kernel or something that is
   // site wide for all html_select_times and such.

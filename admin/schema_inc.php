@@ -3,7 +3,7 @@
 /* repeating events schema explained: Designed to capture RFC2455 repeating format excluding secondly repeats.
 	If an event repeats then it gets the following:
 	frequency: enum(norepeat=0, minutely=1, hourly, daily, weekly, monthly, yearly}
-	count: If this is < 0 then the event repeats indefinately. If count is > 0 this overrides end_date and specifies the total number of repeats.
+	r_count: If this is < 0 then the event repeats indefinately. If r_count is > 0 this overrides end_date and specifies the total number of repeats.
 	end_date: The end date to end repeating on.
 	interval: The interval at which the repeat is done. >=1
 	bylists: RFC2455 formatted bylists which can be used to expand the event into the events_on table.
@@ -29,7 +29,7 @@ $tables = array(
 		location_id I4,
 		frequency I4 NOTNULL,
 		event_interval I4,
-		count I4,
+		r_count I4,
 		end_date I4,
 		bylists X
 		CONSTRAINT '
@@ -73,10 +73,7 @@ $gBitInstaller->registerPackageInfo( EVENTS_PKG_NAME, array(
 // ### Indexes
 
 $indices = array(
-	'events_events_id_idx' => array('table' => 'events', 'cols' => 'events_id', 'opts' => NULL ),
 	'events_events_location_idx' => array('table' => 'events', 'cols' => 'location_id', 'opts' => NULL ),
-	'events_types_id_idx' => array('table' => 'events_types', 'cols' => 'type_id', 'opts' => NULL ),
-	'events_on_on_idx' => array('table' => 'events_on', 'cols' => 'event_on', 'opts' => NULL ),
 	'events_invites_event_idx' => array('table' => 'events_invites', 'cols' => 'event_content_id', 'opts' => NULL),
 	'events_invites_user_idx' => array('table' => 'events_invites', 'cols' => 'user_id', 'opts' => NULL),
 );
