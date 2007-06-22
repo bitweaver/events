@@ -1,12 +1,12 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/display_events_inc.php,v 1.2 2007/06/22 07:22:36 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/display_events_inc.php,v 1.3 2007/06/22 23:57:59 nickpalmer Exp $
  * @package events
  * @subpackage functions
  */
 
 global $gContent, $gBitSystem, $gBitSmarty;
-$displayHash = array( 'perm_name' => 'bit_p_read_events' );
+$displayHash = array( 'perm_name' => 'p_events_view' );
 $gContent->invokeServices( 'content_display_function', $displayHash );
 
 $gContent->addHit();

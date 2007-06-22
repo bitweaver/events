@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/events_rss.php,v 1.3 2006/05/04 18:43:22 squareing Exp $
- * @package wiki
+ * @version $Header: /cvsroot/bitweaver/_bit_events/events_rss.php,v 1.4 2007/06/22 23:57:59 nickpalmer Exp $
+ * @package article
  * @subpackage functions
  */
 
@@ -9,65 +9,79 @@
  * Initialization
  */
 require_once( "../bit_setup_inc.php" );
-require_once( RSS_PKG_PATH."rss_inc.php" );
-require_once( EVENTS_PKG_PATH."BitEvents.php" );
 
-$gBitSystem->verifyPackage( 'events' );
 $gBitSystem->verifyPackage( 'rss' );
+$gBitSystem->verifyPackage( 'events' );
 $gBitSystem->verifyFeature( 'events_rss' );
 
-$rss->title = $gBitSystem->getConfig( 'events_rss_title', $gBitSystem->mPrefs['siteTitle'].' - '.tra( 'Events' ) );
-$rss->description = $gBitSystem->getConfig( 'events_rss_description', $gBitSystem->mPrefs['siteTitle'].' - '.tra( 'RSS Feed' ) );
+require_once( EVENTS_PKG_PATH.'BitEvents.php' );
+require_once( RSS_PKG_PATH."rss_inc.php" );
 
-// check if we want to use the cache file
-$cacheFile = TEMP_PKG_PATH.RSS_PKG_NAME.'/'.EVENTS_PKG_NAME.'_'.$version.'.xml';
-$rss->useCached( $cacheFile ); // use cached version if age < 1 hour
+// default feed info
+$rss->title = $gBitSystem->getConfig( 'events_rss_title', $gBitSystem->getConfig( 'site_title' ).' - '.tra( 'Events' ) );
+$rss->description = $gBitSystem->getConfig( 'events_rss_description', $gBitSystem->getConfig( 'site_title' ).' - '.tra( 'RSS Feed' ) );
 
-$events = new BitEvents();
-$pParamHash = array();
-$pParamHash['find'] ='';
-//TODO allow proper sort order
-//$pParamHash['sort_mode'] = "event_date_desc";
-$pParamHash['sort_mode'] = "last_modified_desc";
-$max_records = $gBitSystem->getConfig( 'events_rss_max_records', 10 );
-$pParamHash['offset'] = 0;
-$feeds = $events->getList( $pParamHash );
-$feeds = $feeds['data'];
+// check permission to view wiki pages
+if( !$gBitUser->hasPermission( 'p_events_view' ) ) {
+	require_once( RSS_PKG_PATH."rss_error.php" );
+} else {
+	// check if we want to use the cache file
+	$cacheFile = TEMP_PKG_PATH.RSS_PKG_NAME.'/'.EVENTS_PKG_NAME.( !empty( $_REQUEST['user_id'] ) ? "_".$_REQUEST['user_id'] : "" ).( !empty( $_REQUEST['event_id'] ) ? "_".$_REQUEST['event_id'] : "" ).'_'.$rss_version_name.'.xml';
+	$rss->useCached( $rss_version_name, $cacheFile, $gBitSystem->getConfig( 'rssfeed_cache_time' ));
 
-// get all the data ready for the feed creator
-foreach( $feeds as $feed ) {
-	/*
-	echo "<pre>";
-	var_dump($feed);
-	//*/
-	$item = new FeedItem();
-	$item->title = date("d M Y H:i",$feed['event_time'])." - ".$feed['title'];
-		
-	$item->link = BIT_BASE_URI."/?content_id=".$feed['content_id'];
-	$item->description =  $feed['description'];
-			
-	//TODO allow proper sort order
-	//$item->date = ( int )$feed['event_date'];
-	
-	$item->date = ( int )$feed['event_time'];
-	$item->source = 'http://'.$_SERVER['HTTP_HOST'].BIT_ROOT_URL;
-	$user = new BitUser($feed['modifier_user_id']);
-	$user->load();
-	
-	$item->author = $user->getDisplayName();//$gBitUser->getDisplayName( FALSE, array( 'user_id' => $feed['modifier_user_id'] ) );
-	$item->authorEmail = $user->mInfo['email'];
+	$event = new BitEvents();
+	$listHash['sort_mode'] = 'last_modified_desc';
+	$listHash['max_records'] = $gBitSystem->getConfig( 'events_rss_max_records', 10 );
+	$listHash['parse_data'] = TRUE;
+	$listHash['full_data'] = TRUE;
+	if( !empty( $_REQUEST['user_id'] ) ) {
+		require_once( USERS_PKG_PATH.'BitUser.php' );
+		$eventUser = new BitUser();
+		$userData = $eventUser->getUserInfo( array('user_id' => $_REQUEST['user_id']) );
+		// dont try and fool me
+		if (!empty($userData)){
+			$userName = $userData['real_name']?$userData['real_name']:$userData['login'];
+			$rss->title = $userName." at ".$gBitSystem->getConfig( 'site_title' );
+			$listHash['user_id'] = $_REQUEST['user_id'];
+		}
+	}
 
-	$item->descriptionTruncSize = $gBitSystem->getConfig( 'rssfeed_truncate', 1000 );
-	$item->descriptionHtmlSyndicated = FALSE;
-	/*
-	var_dump($item);
-	echo "</pre>";
-	die();
-	//*/
-	// pass the item on to the rss feed creator
-	$rss->addItem( $item );
+	if( !empty( $_REQUEST['event_id'] ) ) {
+		$listHash['event_id'] = $_REQUEST['event_id'];
+		$gEvent = new BitEvents( $_REQUEST['event_id'] );
+		$gEvent->load();
+		if( isset($gEvent->mContentId) ) {
+			// adjust feed title to event title
+			$rss->title = $gEvent->getTitle()." at ".$gBitSystem->getConfig( 'site_title' );
+			if (isset($userName)){
+				$rss->title = $userName."'s Events in ".$rss->title;
+			}
+			$rss->description = $gEvent->parseData();
+		}
+	}
+	$feeds = $event->getList( $listHash );
+
+	// set the rss link
+	$rss->link = 'http://'.$_SERVER['HTTP_HOST'].EVENTS_PKG_URL.( !empty( $_REQUEST['event_id'] ) ? "?event_id=".$_REQUEST['event_id'] : "" );
+	// get all the data ready for the feed creator
+	foreach( $feeds as $feed ) {
+		$item = new FeedItem();
+		$item->title = $event->getTitle( $feed );
+		$item->link = BIT_BASE_URI.$event->getDisplayUrl( $feed['content_id'] );
+		$item->description = $feed['parsed'];
+
+		$item->date = ( int )$feed['last_modified'];
+		$item->source = 'http://'.$_SERVER['HTTP_HOST'].BIT_ROOT_URL;
+		$item->author = $gBitUser->getDisplayName( FALSE, $feed );
+
+		$item->descriptionTruncSize = $gBitSystem->getConfig( 'rssfeed_truncate', 50000 );
+		$item->descriptionHtmlSyndicated = TRUE;
+
+		// pass the item on to the rss feed creator
+		$rss->addItem( $item );
+	}
+
+	// finally we are ready to serve the data
+	echo $rss->saveFeed( $rss_version_name, $cacheFile );
 }
-
-// finally we are ready to serve the data
-echo $rss->saveFeed( $rss_version_name, $cacheFile );
 ?>

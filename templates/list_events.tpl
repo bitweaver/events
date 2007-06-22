@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.11 2007/06/10 11:02:57 nickpalmer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.12 2007/06/22 23:58:00 nickpalmer Exp $ *}
 
 {strip}
 
@@ -40,7 +40,7 @@
 							<br />
 							<select name="submit_mult">
 								<option value="" selected="selected">{tr}with checked{/tr}:&nbsp;</option>
-									{if $gBitUser->hasPermission( 'p_remove_events' )}
+									{if $gBitUser->hasPermission( 'p_events_remove' )}
 										<option value="remove_events">{tr}remove{/tr}</option>
 									{/if}
 								<option value="open_events">{tr}display{/tr}</option>
@@ -74,7 +74,7 @@
 							<td>
 								<span class="actionicon">
 									{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='list' serviceHash=$listpages[changes]}
-									{if $gBitUser->hasPermission( 'p_edit_events' )}
+									{if $gBitUser->hasPermission( 'p_events_edit' )}
 										{smartlink ititle="Edit" ifile="edit.php" ibiticon="icons/accessories-text-editor" events_id=$list[changes].events_id}
 									{/if}
 									<input type="checkbox" name="events_id[]" id="ev_{$list[changes].events_id}" value="{$list[changes].events_id|escape}" />
