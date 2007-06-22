@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.20 2007/06/22 07:22:36 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.21 2007/06/22 11:13:14 lsces Exp $
  * Events class to illustrate best practices when creating a new bitweaver package that
  * builds on core bitweaver functionality, such as the Liberty CMS engine
  *
@@ -21,7 +21,6 @@ define( 'BITEVENTS_CONTENT_TYPE_GUID', 'bitevents' );
 
 /**
  * @package events
- * @subpackage BitEvents
  */
 class BitEvents extends LibertyAttachable {
 	/**
