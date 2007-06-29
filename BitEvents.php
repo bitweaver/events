@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.21 2007/06/22 11:13:14 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.22 2007/06/29 16:55:42 nickpalmer Exp $
  * Events class to illustrate best practices when creating a new bitweaver package that
  * builds on core bitweaver functionality, such as the Liberty CMS engine
  *
@@ -461,7 +461,7 @@ class BitEvents extends LibertyAttachable {
 	}
 
 	function getRenderFile() {
-		return EVENTS_PKG_PATH."display_event_inc.php";
+		return EVENTS_PKG_PATH."display_events_inc.php";
 	}
 }
 ?>
