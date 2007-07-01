@@ -8,7 +8,7 @@ $registerHash = array(
 $gBitSystem->registerPackage( $registerHash );
 
 
-if( $gBitSystem->isPackageActive( 'events' ) &&  $gBitUser->hasPermission( 'bit_p_read_events' ) ) {
+if( $gBitSystem->isPackageActive( 'events' ) &&  $gBitUser->hasPermission( 'p_events_view' )) {
 	$menuHash = array(
 		'package_name'  => EVENTS_PKG_NAME,
 		'index_url'     => EVENTS_PKG_URL.'index.php',
