@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/events_rss.php,v 1.4 2007/06/22 23:57:59 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/events_rss.php,v 1.5 2007/07/08 07:56:40 squareing Exp $
  * @package article
  * @subpackage functions
  */
@@ -26,7 +26,7 @@ if( !$gBitUser->hasPermission( 'p_events_view' ) ) {
 	require_once( RSS_PKG_PATH."rss_error.php" );
 } else {
 	// check if we want to use the cache file
-	$cacheFile = TEMP_PKG_PATH.RSS_PKG_NAME.'/'.EVENTS_PKG_NAME.( !empty( $_REQUEST['user_id'] ) ? "_".$_REQUEST['user_id'] : "" ).( !empty( $_REQUEST['event_id'] ) ? "_".$_REQUEST['event_id'] : "" ).'_'.$rss_version_name.'.xml';
+	$cacheFile = TEMP_PKG_PATH.RSS_PKG_NAME.'/'.EVENTS_PKG_NAME.'/'.( !empty( $_REQUEST['user_id'] ) ? "_".$_REQUEST['user_id'] : "" ).( !empty( $_REQUEST['event_id'] ) ? "_".$_REQUEST['event_id'] : "" ).$cacheFileTail;
 	$rss->useCached( $rss_version_name, $cacheFile, $gBitSystem->getConfig( 'rssfeed_cache_time' ));
 
 	$event = new BitEvents();
