@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.22 2007/06/29 16:55:42 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.23 2007/07/09 17:15:19 squareing Exp $
  * Events class to illustrate best practices when creating a new bitweaver package that
  * builds on core bitweaver functionality, such as the Liberty CMS engine
  *
@@ -397,13 +397,13 @@ class BitEvents extends LibertyAttachable {
 		}
 		
 		if (!empty($event_before)) {
-			$whereSql .= "AND lc.`event_time` <= ?";
+			$whereSql .= " AND lc.`event_time` <= ? ";
 			$bindVars[] = $event_before;
 		}
 
 
 		if (!empty($event_after)) {
-			$whereSql .= "AND lc.`event_time` > ?";
+			$whereSql .= " AND lc.`event_time` > ? ";
 			$bindVars[] = $event_after;
 		}
 
