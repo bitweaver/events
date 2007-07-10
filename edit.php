@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.9 2007/07/09 22:03:18 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.10 2007/07/10 18:59:25 squareing Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -58,7 +58,7 @@ die;
 	}
 }
 
-$gBitSystem->loadAjax( 'prototype' );
+$gBitThemes->loadAjax( 'prototype' );
 
 // Display the template
 $gBitSystem->display('bitpackage:events/edit_events.tpl', tra('Events') );
