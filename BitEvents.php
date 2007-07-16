@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.23 2007/07/09 17:15:19 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.24 2007/07/16 15:27:20 squareing Exp $
  * Events class to illustrate best practices when creating a new bitweaver package that
  * builds on core bitweaver functionality, such as the Liberty CMS engine
  *
@@ -47,6 +47,11 @@ class BitEvents extends LibertyAttachable {
 		) );
 		$offset = BitDate::get_display_offset();
 		$this->mDate = new BitDate($offset);
+
+		// Permission setup
+		$this->mViewContentPerm  = 'p_events_view';
+		$this->mEditContentPerm  = 'p_events_edit';
+		$this->mAdminContentPerm = 'p_events_admin';
 	}
 
 	/**
