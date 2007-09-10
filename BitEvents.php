@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.24 2007/07/16 15:27:20 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.25 2007/09/10 15:17:24 squareing Exp $
  * Events class to illustrate best practices when creating a new bitweaver package that
  * builds on core bitweaver functionality, such as the Liberty CMS engine
  *
@@ -448,10 +448,12 @@ class BitEvents extends LibertyAttachable {
 	* @param pExistsHash the hash that was returned by LibertyContent::pageExists
 	* @return the link to display the page.
 	*/
-	function getDisplayUrl() {
+	function getDisplayUrl( $pEventsId = NULL, $pParamHash = NULL ) {
 		$ret = NULL;
 		if( @$this->verifyId( $this->mEventsId ) ) {
 			$ret = EVENTS_PKG_URL."index.php?events_id=".$this->mEventsId;
+		} else {
+			$ret = LibertyContent::getDisplayUrl( NULL, $pParamHash );
 		}
 		return $ret;
 	}
