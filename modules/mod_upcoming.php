@@ -3,7 +3,7 @@
  * Params: 
  * - title : if is "title", show the title of the post, else show the date of creation
  *
- * @version $Header: /cvsroot/bitweaver/_bit_events/modules/mod_upcoming.php,v 1.2 2007/06/10 11:02:57 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/modules/mod_upcoming.php,v 1.3 2007/09/27 20:52:38 nickpalmer Exp $
  * @package blogs
  * @subpackage modules
  */
@@ -22,12 +22,9 @@ global $gBitSmarty, $gQueryUserId, $gBitSystem, $moduleParams;
 
 $module_rows = $moduleParams['module_rows'];
 $module_params = $moduleParams['module_params'];
-$module_title = isset($moduleParams['title']) ? $moduleParams['title'] : NULL;
+$module_title = isset($moduleParams['title']) ? $moduleParams['title'] : tra( "Upcoming Events");
 
-if( empty( $module_title ) ) {
-	$title = tra( "Upcoming Events" );
-	$gBitSmarty->assign( 'moduleTitle', $title );
-}
+$gBitSmarty->assign( 'moduleTitle', $module_title );
 
 $listHash = array( 'max_records' => $module_rows, 'parse_split' => !empty($module_params['preview']) && $module_params['preview'] ? TRUE : FALSE ,
 		   'sort_mode' => !empty($module_params['random']) && $module_params['random'] ? 'random' : 'event_time_asc',
