@@ -40,7 +40,7 @@ $tables = array(
 	",
 	'events_on' => "
 		content_id I4 PRIMARY,
-		event_on I4 NOTNULL
+		event_on I4 PRIMARY
 		CONSTRAINT '
             , CONSTRAINT `events_on_content_ref` FOREIGN KEY (`content_id`) REFERENCES `".BIT_DB_PREFIX."liberty_content`( `content_id` )
 		'

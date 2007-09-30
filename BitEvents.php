@@ -1,10 +1,11 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.25 2007/09/10 15:17:24 squareing Exp $
- * Events class to illustrate best practices when creating a new bitweaver package that
- * builds on core bitweaver functionality, such as the Liberty CMS engine
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.26 2007/09/30 20:10:51 nickpalmer Exp $
  *
- * @author spider <spider@steelsun.com>
+ * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
+ * As well as supporting invites.
+ *
+ * @author nick <nick@overtsolutions.com>
  * @package events
  */
 
@@ -153,6 +154,7 @@ class BitEvents extends LibertyAttachable {
 
 			if( $this->mEventsId ) {
 				$result = $this->mDb->associateUpdate( $table, $pParamHash['events_store'], array( 'events_id' => $pParamHash['events_id'] ) );
+				$this->updateEventsOn($pParamHash);
 			} else {
 				$pParamHash['events_store']['content_id'] = $pParamHash['content_id'];
 				if( @$this->verifyId( $pParamHash['events_id'] ) ) {
@@ -164,13 +166,28 @@ class BitEvents extends LibertyAttachable {
 				$this->mEventsId = $pParamHash['events_store']['events_id'];
 
 				$result = $this->mDb->associateInsert( $table, $pParamHash['events_store'] );
+				$this->insertEventsOn($pParamHash);
 			}
-
 
 			$this->mDb->CompleteTrans();
 			$this->load();
 		}
 		return( count( $this->mErrors )== 0 );
+	}
+
+	function insertEventsOn($pParamHash) {
+		// TODO: This needs to be expanded to support repeating events.
+		$storeHash = array();
+		$storeHash['content_id'] = $pParamHash['content_id'];
+		$storeHash['event_on'] = $pParamHash['content_store']['event_time'];
+		$this->mDb->associateInsert( BIT_DB_PREFIX."events_on", $storeHash );
+	}
+
+	function updateEventsOn($pParamHash) {
+		// TODO: needs to be made to handle repeating events stuff.
+		// This should load up the existing events_on, generate the array of times. Delete any events_on not in the new set.
+		// And then add any from the array of times that don't exist already.
+		$this->mDb->associateUpdate( BIT_DB_PREFIX."events_on", array( 'event_on' => $pParamHash['event_time'] ), array( 'content_id' => $pParamHash['content_id'] ) );
 	}
 
 	/**
@@ -471,4 +488,13 @@ class BitEvents extends LibertyAttachable {
 		return EVENTS_PKG_PATH."display_events_inc.php";
 	}
 }
+
+function events_content_list_sql(&$pObject) {
+	if ( ACTIVE_PACKAGE == 'events' ) {
+		$ret['select_sql'] = ", eo.`event_on` ";
+		$ret['join_sql'] = " LEFT OUTER JOIN `".BIT_DB_PREFIX."events_on` eo ON (lc.`content_id` = eo.`content_id`) ";
+		return $ret;
+	}
+}
+
 ?>

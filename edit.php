@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.10 2007/07/10 18:59:25 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.11 2007/09/30 20:10:51 nickpalmer Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -52,7 +52,7 @@ if (!empty($_REQUEST["save_events"])) {
 	// disabled
 	if ($gContent->store( $_REQUEST ) ) {
 		header("Location: ".$gContent->getDisplayUrl() );
-die;
+		die;
 	} else {
 		$gBitSmarty->assign_by_ref('errors', $gContent->mErrors );
 	}

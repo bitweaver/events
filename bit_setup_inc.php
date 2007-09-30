@@ -15,5 +15,10 @@ if( $gBitSystem->isPackageActive( 'events' ) &&  $gBitUser->hasPermission( 'p_ev
 		'menu_template' => 'bitpackage:events/menu_events.tpl',
 	);
 	$gBitSystem->registerAppMenu( $menuHash );
+	$gLibertySystem->registerService( 'events', EVENTS_PKG_NAME, array(
+		'content_list_sql_function' => 'events_content_list_sql',
+		)
+	);
+
 }
 ?>
