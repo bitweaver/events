@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.11 2007/09/30 20:10:51 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.12 2007/10/10 18:07:15 wjames5 Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -57,8 +57,6 @@ if (!empty($_REQUEST["save_events"])) {
 		$gBitSmarty->assign_by_ref('errors', $gContent->mErrors );
 	}
 }
-
-$gBitThemes->loadAjax( 'prototype' );
 
 // Display the template
 $gBitSystem->display('bitpackage:events/edit_events.tpl', tra('Events') );
