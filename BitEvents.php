@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.26 2007/09/30 20:10:51 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.27 2007/10/24 21:23:54 nickpalmer Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -40,7 +40,7 @@ class BitEvents extends LibertyAttachable {
 		$this->mContentTypeGuid = BITEVENTS_CONTENT_TYPE_GUID;
 		$this->registerContentType( BITEVENTS_CONTENT_TYPE_GUID, array(
 			'content_type_guid' => BITEVENTS_CONTENT_TYPE_GUID,
-			'content_description' => 'Events',
+			'content_description' => 'Event',
 			'handler_class' => 'BitEvents',
 			'handler_package' => 'events',
 			'handler_file' => 'BitEvents.php',
