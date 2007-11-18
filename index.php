@@ -1,10 +1,15 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_events/index.php,v 1.6 2007/09/27 20:52:04 nickpalmer Exp $
-// Copyright (c) 2004 bitweaver Events
-// All Rights Reserved. See copyright.txt for details and a complete list of authors.
-// Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
+/**
+ * Access calendar package to display event calendar
+ *
+ * @package  events
+ * @version  $Header: /cvsroot/bitweaver/_bit_events/index.php,v 1.7 2007/11/18 12:00:19 lsces Exp $
+ * @author   nickpalmer
+ */
 
-// Initialization
+/**
+ * required setup
+ */
 require_once('../bit_setup_inc.php' );
 
 // Is package installed and enabled
