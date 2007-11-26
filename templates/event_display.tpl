@@ -5,6 +5,9 @@
 		{if $gBitUser->hasPermission( 'p_events_edit' )}
 			<a title="{tr}Edit{/tr}" href="edit.php?events_id={$gContent->mInfo.events_id}">{biticon ipackage="icons" iname="accessories-text-editor" iexplain="edit"}</a>
 		{/if}
+		{if $gBitUser->hasPermission( 'p_events_remove' )}
+			<a title="{tr}Delete{/tr}" href="edit.php?remove=1&events_id={$gContent->mInfo.events_id}">{biticon ipackage="icons" iname="edit-delete" iexplain="delete"}</a>
+		{/if}
 	</div><!-- end .floaticon -->
 
 	<div class="header">

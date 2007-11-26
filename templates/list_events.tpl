@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.12 2007/06/22 23:58:00 nickpalmer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.13 2007/11/26 17:24:06 nickpalmer Exp $ *}
 
 {strip}
 
@@ -32,7 +32,7 @@
 							{literal}
 								<script type="text/javascript">//<![CDATA[
 									// check / uncheck all.
-									document.write("<input name='switcher' id='switcher' type='checkbox' onclick=\"switchCheckboxes(this.form.id,'events_id[]','switcher')\" />");
+									document.write("<input name='switcher' id='switcher' type='checkbox' onclick=\"switchCheckboxes(this.form.id,'checked[]','switcher')\" />");
 									document.write("&nbsp;");
 									document.write("<label for='switcher'>{tr}Select All{/tr}</label> ");
 								//]]></script>
@@ -77,7 +77,7 @@
 									{if $gBitUser->hasPermission( 'p_events_edit' )}
 										{smartlink ititle="Edit" ifile="edit.php" ibiticon="icons/accessories-text-editor" events_id=$list[changes].events_id}
 									{/if}
-									<input type="checkbox" name="events_id[]" id="ev_{$list[changes].events_id}" value="{$list[changes].events_id|escape}" />
+									<input type="checkbox" name="checked[]" id="ev_{$list[changes].events_id}" value="{$list[changes].events_id|escape}" />
 								</span>
 								<label for="ev_{$list[changes].events_id}">	
 									{$list[changes].description}

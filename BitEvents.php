@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.27 2007/10/24 21:23:54 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.28 2007/11/26 17:24:05 nickpalmer Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -359,6 +359,10 @@ class BitEvents extends LibertyAttachable {
 		$ret = FALSE;
 		if( $this->isValid() ) {
 			$this->mDb->StartTrans();
+			$query = "DELETE FROM `".BIT_DB_PREFIX."events_on` WHERE `content_id` = ?";
+			$result = $this->mDb->query( $query, array( $this->mContentId ) );
+			$query = "DELETE FROM `".BIT_DB_PREFIX."events_invites` WHERE `content_id` = ?";
+			$result = $this->mDb->query( $query, array( $this->mContentId ) );
 			$query = "DELETE FROM `".BIT_DB_PREFIX."events` WHERE `content_id` = ?";
 			$result = $this->mDb->query( $query, array( $this->mContentId ) );
 			if( LibertyAttachable::expunge() ) {

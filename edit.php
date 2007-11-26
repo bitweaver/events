@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.12 2007/10/10 18:07:15 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.13 2007/11/26 17:24:06 nickpalmer Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -51,10 +51,32 @@ if (!empty($_REQUEST["save_events"])) {
 	// to avoid error messages. This can happen if some features are
 	// disabled
 	if ($gContent->store( $_REQUEST ) ) {
-		header("Location: ".$gContent->getDisplayUrl() );
+		bit_redirect($gContent->getDisplayUrl() );
 		die;
 	} else {
 		$gBitSmarty->assign_by_ref('errors', $gContent->mErrors );
+	}
+}
+
+// Remove events
+if ( !empty( $_REQUEST['remove'] ) ) {
+	if ( $gContent->isValid() && !empty( $gContent->mInfo ) ) {
+		if( empty( $_REQUEST['confirm'] ) ) {
+			$formHash['remove'] = TRUE;
+			$formHash['input'][] = '<input type="hidden" name="events_id" value="'.$_REQUEST['events_id'].'"/>';
+			$gBitSystem->confirmDialog( $formHash, array( 'warning' => tra('Are you sure you want to delete the "').htmlentities($gContent->mInfo['title']).tra('" event?'), 'error' => tra('This cannot be undone!') ) );
+		} else if ( $_REQUEST['confirm'] ) {
+			if ( $gContent->expunge() ) {
+				bit_redirect( EVENTS_PKG_URL );
+				die;
+			} else {
+				$gBitSmarty->assign_by_ref('errors', $gContent->mErrors );
+			}
+		}
+	}
+	else {
+		$gBitSystem->setHttpStatus(404);
+		$gBitSystem->fatalError( tra("No such event could be found to be removed.") );
 	}
 }
 
