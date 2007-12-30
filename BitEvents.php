@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.28 2007/11/26 17:24:05 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.29 2007/12/30 14:59:42 squareing Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -480,12 +480,12 @@ class BitEvents extends LibertyAttachable {
 	}
 
 	/* Limits content status types for users who can not enter all status */
-	function getContentStatus() {
-	  global $gBitSystem;
-	  if ($gBitSystem->isFeatureActive('events_moderation')) {
-		return LibertyContent::getContentStatus(-100,0);
-	  }
-	  return parent::getContentStatus();
+	function getAvailableContentStatuses() {
+		global $gBitSystem;
+		if ($gBitSystem->isFeatureActive('events_moderation')) {
+			return LibertyContent::getAvailableContentStatuses(-100,0);
+		}
+		return parent::getAvailableContentStatuses();
 	}
 
 	function getRenderFile() {
