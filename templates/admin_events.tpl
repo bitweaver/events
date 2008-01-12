@@ -23,7 +23,7 @@
 			{/foreach}
 		{/legend}
 		{/jstab}
-
+{* Not sure where this came from since we don't set any formEventsStripOptions...
 		{jstab title="Sanitation Settings"}
 		{legend legend="Santitation Settings"}
 			<input type="hidden" name="page" value="{$page}" />
@@ -44,6 +44,7 @@
 			{/foreach}
 		{/legend}
 		{/jstab}
+*}
 {*
 		{jstab title="Other Settings"}
 		{legend legend="Other Settings"}
