@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.29 2007/12/30 14:59:42 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.30 2008/01/12 15:08:49 nickpalmer Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -242,7 +242,7 @@ class BitEvents extends LibertyAttachable {
 
 		if( !empty( $pParamHash['start_date']) && !empty($pParamHash['start_time']) ) {
 			if (isset($pParamHash['start_time']['Meridian'])) {
-				$pParamHash['event_time'] = 
+				$pParamHash['event_time'] =
 					$this->mDate->gmmktime(($pParamHash['start_time']['Meridian'] == 'pm' ?
 							      $pParamHash['start_time']['Hour'] + 12 : 
 							      $pParamHash['start_time']['Hour']),
@@ -326,7 +326,12 @@ class BitEvents extends LibertyAttachable {
 		} else if( empty( $pParamHash['description'] ) ) {
 			unset( $pParamHash['description'] );
 		} else {
-			$pParamHash['events_store']['description'] = substr( $pParamHash['description'], 0, 200 );
+			if( strlen( $pParamHash['description'] > 160 ) ) {
+				$this->mErrors['error'][] = 'Description is too long.';
+			}
+			else {
+				$pParamHash['events_store']['description'] = substr( $pParamHash['description'], 0, 160 );
+			}
 		}
 
 		if( !empty( $pParamHash['data'] ) ) {

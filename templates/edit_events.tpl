@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.11 2007/06/16 10:16:35 lsces Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.12 2008/01/12 15:08:50 nickpalmer Exp $ *}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -65,7 +65,7 @@
 						<div class="row">
 							{formlabel label="Summary" for="description"}
 							{forminput}
-								<input size="50" type="text" name="description" id="description" value="{$gContent->mInfo.description|escape}" />
+								<input size="50" type="text" name="description" id="description" value="{$gContent->mInfo.description|escape}" maxlength=160 />
 								{formhelp note="Brief description of the event."}
 							{/forminput}
 						</div>
