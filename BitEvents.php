@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.31 2008/01/24 20:32:56 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.32 2008/02/09 22:54:40 nickpalmer Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -265,7 +265,7 @@ class BitEvents extends LibertyAttachable {
 							     );
 			}
 		}
-		
+
 		if( !empty($pParamHash['end_time']) && !empty($pParamHash['event_time']) ) {
 			if (empty($pParamHash['start_date'])) {
 				$pParamHash['start_date']['Month'] = $this->mDate->strftime("%m", $pParamHash['event_time'], true);
@@ -439,11 +439,13 @@ class BitEvents extends LibertyAttachable {
 
 
 		$query = "SELECT e.*, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS`creator_user_id`,
-			lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time`, lc.`format_guid`, lcps.`pref_value` AS `show_start_time`, lcpe.`pref_value` AS `show_end_time`  $selectSql
+			lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time`, lc.`format_guid`, lcps.`pref_value` AS `show_start_time`, lcpe.`pref_value` AS `show_end_time`,
+			la.`attachment_id` AS primary_attachment_id
 			$selectSql
 			FROM `".BIT_DB_PREFIX."events` e
 			INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) 
 			LEFT JOIN `".BIT_DB_PREFIX."liberty_content_prefs` lcps ON (lc.`content_id` = lcps.`content_id` AND lcps.`pref_name` = 'show_start_time')
+			LEFT JOIN `".BIT_DB_PREFIX."liberty_attachments` la ON (lc.`content_id` = la.`content_id` AND la.`is_primary` = 'y')
 			LEFT JOIN `".BIT_DB_PREFIX."liberty_content_prefs` lcpe ON (lc.`content_id` = lcpe.`content_id` AND lcpe.`pref_name` = 'show_end_time')
 			$joinSql
 			WHERE lc.`content_type_guid` = ? $whereSql
@@ -458,6 +460,8 @@ class BitEvents extends LibertyAttachable {
 			if (!empty($parse_split)) {
 				$res = array_merge($this->parseSplit($res), $res);
 			}
+			$res['display_url'] = $this->getDisplayUrl($res['events_id'], $res);
+			$res['primary_attachment'] = $this->getAttachment( $res['primary_attachment_id'] );
 			$ret[] = $res;
 		}
 		$pParamHash["data"] = $ret;
@@ -474,11 +478,15 @@ class BitEvents extends LibertyAttachable {
 	* @return the link to display the page.
 	*/
 	function getDisplayUrl( $pEventsId = NULL, $pParamHash = NULL ) {
-		$ret = NULL;
-		if( @$this->verifyId( $this->mEventsId ) ) {
-			$ret = EVENTS_PKG_URL."index.php?events_id=".$this->mEventsId;
+		if( @$this->verifyId( $pEventsId ) ) {
+			$ret = EVENTS_PKG_URL."index.php?events_id=".$pEventsId;
 		} else {
-			$ret = LibertyContent::getDisplayUrl( NULL, $pParamHash );
+			if (!empty($this->mEventsId) ) {
+				$ret = EVENTS_PKG_URL."index.php?events_id=".$this->mEventsId;
+			}
+			else {
+				$ret = LibertyContent::getDisplayUrl( NULL, $pParamHash );
+			}
 		}
 		return $ret;
 	}
