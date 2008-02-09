@@ -22,6 +22,7 @@
 
 	<div class="body">
 		{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='body' serviceHash=$gContent->mInfo}
+		{include file="bitpackage:events/image_display.tpl"}
 		<div class="content">
 			{$gContent->mInfo.parsed_data}
 		</div><!-- end .content -->

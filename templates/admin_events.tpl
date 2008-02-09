@@ -22,6 +22,23 @@
 				</div>
 			{/foreach}
 		{/legend}
+		{legend legend="Features"}
+			{foreach from=$formEventsFeatureOptions key=item item=output}
+				<div class="row">
+					{formlabel label=`$output.label` for=$item}
+					{forminput}
+						{if $output.type == 'numeric'}
+							{html_options name="$item" values=$numbers output=$numbers selected=$gBitSystem->getConfig($item) labels=false id=$item}
+						{elseif $output.type == 'input'}
+							<input type='text' name="{$item}" id="{$item}" value="{$gBitSystem->getConfig($item)}" />
+						{else}
+							{html_checkboxes name="$item" values="y" checked=$gBitSystem->getConfig($item) labels=false id=$item}
+						{/if}
+						{formhelp note=`$output.note` page=`$output.page`}
+					{/forminput}
+				</div>
+			{/foreach}
+		{/legend}
 		{/jstab}
 {* Not sure where this came from since we don't set any formEventsStripOptions...
 		{jstab title="Sanitation Settings"}

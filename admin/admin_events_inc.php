@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/admin/admin_events_inc.php,v 1.4 2007/06/22 07:22:36 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/admin/admin_events_inc.php,v 1.5 2008/02/09 22:51:04 nickpalmer Exp $
  *
  * @author nickpalmer
  * @package events
@@ -29,7 +29,12 @@ $gBitSmarty->assign( 'formEventsDisplayOptions', $formEventsDisplayOptions );
 $formEventsFeatureOptions = array(
 	"events_moderation" => array(
 		'label' => 'Events Moderation',
-		'note' => 'Use content status to moderate events.',
+		'note' => 'Use content status to moderate events. Note, there is no UI for doing the moderation yet.',
+		'type' => 'toggle',
+	),
+	"events_show_primary" => array(
+		'label' => 'Auto Show Primary',
+		'note' => 'Automatically show the primary attachment.',
 		'type' => 'toggle',
 	),
 );

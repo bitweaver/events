@@ -107,5 +107,6 @@ $gBitInstaller->registerPreferences( EVENTS_PKG_NAME, array(
 	array( EVENTS_PKG_NAME, 'events_end_year', '+1'),
 	//array( EVENTS_PKG_NAME, 'events_moderation', 'n'),
 	//array( EVENTS_PKG_NAME, 'events_use_24', 'n' ),
+	//array( EVENTS_PKG_NAME, 'events_show_primary', 'n'),
 ) );
 ?>
