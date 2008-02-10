@@ -3,7 +3,7 @@
  * Access calendar package to display event calendar
  *
  * @package  liberty
- * @version  $Header: /cvsroot/bitweaver/_bit_events/calendar.php,v 1.3 2008/02/09 22:52:02 nickpalmer Exp $
+ * @version  $Header: /cvsroot/bitweaver/_bit_events/calendar.php,v 1.4 2008/02/10 12:18:53 nickpalmer Exp $
  * @author   nickpalmer
  */
 
@@ -35,7 +35,7 @@ if ( $gBitSystem->isPackageActive( 'calendar' ) ) {
 	$gBitThemes->loadAjax('mochikit');
 
 	// And display it with a nice title.
-	$gCalendar->display(tra('Events Calendar'), FALSE);
+	$gCalendar->display(tra('Events Calendar'), FALSE, EVENTS_PKG_URL.'calendar.php');
 }
 
 ?>
