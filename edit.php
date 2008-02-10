@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.13 2007/11/26 17:24:06 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.14 2008/02/10 11:28:50 nickpalmer Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -78,6 +78,15 @@ if ( !empty( $_REQUEST['remove'] ) ) {
 		$gBitSystem->setHttpStatus(404);
 		$gBitSystem->fatalError( tra("No such event could be found to be removed.") );
 	}
+}
+
+if( $gBitSystem->isFeatureActive('events_use_types') ) {
+	$eventTypes = $gContent->loadEventTypes(FALSE);
+	if( $gBitSystem->isFeatureActive('events_allow_no_type') ) {
+		$eventTypes[-1] = '';
+		asort($eventTypes);
+	}
+	$gBitSmarty->assign('eventTypes', $eventTypes);
 }
 
 // Display the template

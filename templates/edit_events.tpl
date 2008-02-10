@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.12 2008/01/12 15:08:50 nickpalmer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.13 2008/02/10 11:28:52 nickpalmer Exp $ *}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -69,6 +69,16 @@
 								{formhelp note="Brief description of the event."}
 							{/forminput}
 						</div>
+
+						{if $gBitSystem->isFeatureActive('events_use_types')}
+							<div class="row">
+								{formlabel label="Type" for="type"}
+								{forminput}
+										{html_options name="type_id" options=$eventTypes selected=$gContent->mInfo.type_id}
+									{formhelp note="The type of event you are posting."}
+								{/forminput}
+							</div>
+						{/if}
 
 						<div class="row">
 							{formlabel label="Cost" for="cost"}

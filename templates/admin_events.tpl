@@ -84,6 +84,38 @@
 		{/legend}
 		{/jstab}
 *}
+		{jstab title="Event Types"}
+			{legend legend="Event Types"}
+				<table>
+					<tr><th>{tr}Type Name{/tr}</th><th>{tr}Description{/tr}<th>{tr}Delete{/tr}</th></tr>
+					{foreach from=$eventTypes key=id item=type}
+						<tr>
+							<td><p style="text-align:center"><input maxlength=30 name="update[{$id}][name]" value="{$type.name}" /></p></td>
+							<td><p style="text-align:center"><input maxlength=160 name="update[{$id}][desc]" value="{$type.description}" /></p></td>
+							<td><p style="text-align:center"><input type="checkbox" value="y" name="deleteType[{$id}]"/>
+						</tr>
+					{foreachelse}
+						<tr><td colspan=3><p style="text-align:center">{tr}There are no types yet{/tr}</p></td></tr>
+					{/foreach}
+				</table>				
+			{/legend}
+			{legend legend="Add Event Type"}
+				<div class="row"
+					{formlabel label="Type Name" for="typeName"}
+					{forminput}
+						<input maxlength=30 name="typeName" />
+						{formhelp note="The name of this type"}
+					{/forminput}
+				</div>
+				<div class="row">
+					{formlabel label="Type Description" for="typeDesc"}
+					{forminput}
+						<input maxlength=160 name="typeDesc" />
+						{formhelp note="The description of this type"}
+					{/forminput}
+				</div>
+			{/legend}
+		{/jstab}
 	{/jstabs}
 	<div class="row submit">
 		<input type="submit" name="events_preferences" value="{tr}Change preferences{/tr}" />

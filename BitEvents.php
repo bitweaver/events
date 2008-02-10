@@ -1,6 +1,7 @@
+
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.32 2008/02/09 22:54:40 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.33 2008/02/10 11:28:50 nickpalmer Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -69,11 +70,12 @@ class BitEvents extends LibertyAttachable {
 			array_push( $bindVars, $lookupId = @BitBase::verifyId( $this->mEventsId )? $this->mEventsId : $this->mContentId );
 			$this->getServicesSql( 'content_load_sql_function', $selectSql, $joinSql, $whereSql, $bindVars );
 
-			$query = "SELECT e.*, lc.*, " .
+			$query = "SELECT e.*, et.`name` as `type_name`, lc.*, " .
 				"uue.`login` AS modifier_user, uue.`real_name` AS modifier_real_name, " .
 				"uuc.`login` AS creator_user, uuc.`real_name` AS creator_real_name " .
 				"$selectSql " .
 				"FROM `".BIT_DB_PREFIX."events` e " .
+				"LEFT JOIN `".BIT_DB_PREFIX."events_types` et ON (e.`type_id` = et.`type_id`)".
 				"INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) $joinSql" .
 				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uue ON( uue.`user_id` = lc.`modifier_user_id` )" .
 				"LEFT JOIN `".BIT_DB_PREFIX."users_users` uuc ON( uuc.`user_id` = lc.`user_id` )" .
@@ -239,6 +241,10 @@ class BitEvents extends LibertyAttachable {
 			$pParamHash['events_store']['frequency'] = 0;
 		}
 
+		if( !empty( $pParamHash['type_id'] ) && $pParamHash['type_id'] > 0 ){
+			$pParamHash['events_store']['type_id'] = $pParamHash['type_id'];
+		}
+
 		if( !empty( $pParamHash['start_date']) && !empty($pParamHash['start_time']) ) {
 			if (isset($pParamHash['start_time']['Meridian'])) {
 				$pParamHash['event_time'] =
@@ -387,6 +393,52 @@ class BitEvents extends LibertyAttachable {
 	}
 
 	/**
+	 * Returns an assoicative array of event types
+	 **/
+	function loadEventTypes($pIncludeDesc = false) {
+		return $this->mDb->getAssoc("SELECT `type_id`, `name` ".($pIncludeDesc ? ', `description`' : '')." FROM `".BIT_DB_PREFIX."events_types` ORDER BY `name`");
+	}
+
+	/**
+	 * Removes a given type
+	 */
+	function expungeType($pTypeId) {
+		if( $this->verifyId( $pTypeId ) ) {
+			$this->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."events_types` WHERE type_id = ?", array($pTypeId) );
+		}
+	}
+
+	/**
+	 * Create the given type.
+	 */
+	function storeType($pId = NULL, $pName, $pDescription = NULL) {
+		$pName = substr($pName, 0, 30);
+		if( !empty($pDescription) ) {
+			if( $pDescription == '' ) {
+				$pDescription = NULL;
+			}
+			else {
+				$pDescription = substr($pDescription, 0, 160);
+			}
+		}
+		if( !empty($pName) ) {
+			$pName = substr($pName, 0, 30);
+		}
+		else {
+			// Probably should error out here
+			$pname = '';
+		}
+
+		if( empty($pId) ) {
+			$pId = $this->mDb->GenID( 'events_types_id_seq' );
+			$this->mDb->query("INSERT INTO `".BIT_DB_PREFIX."events_types` (`type_id`, `name`, `description`) VALUES (?, ?, ?)", array($pId, $pName, $pDescription));
+		}
+		else {
+			$this->mDb->query("UPDATE `".BIT_DB_PREFIX."events_types` SET `name` = ?, `description` = ? WHERE `type_id` = ?", array($pName, $pDescription, $pId));
+		}
+	}
+
+	/**
 	* This function generates a list of records from the liberty_content database for use in a list page
 	**/
 	function getList( &$pParamHash ) {
@@ -438,11 +490,12 @@ class BitEvents extends LibertyAttachable {
 		}
 
 
-		$query = "SELECT e.*, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS`creator_user_id`,
+		$query = "SELECT e.*, et.`name` as `type_name`, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS`creator_user_id`,
 			lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time`, lc.`format_guid`, lcps.`pref_value` AS `show_start_time`, lcpe.`pref_value` AS `show_end_time`,
 			la.`attachment_id` AS primary_attachment_id
 			$selectSql
 			FROM `".BIT_DB_PREFIX."events` e
+			LEFT JOIN `".BIT_DB_PREFIX."events_types` et ON (e.`type_id` = et.`type_id`)
 			INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) 
 			LEFT JOIN `".BIT_DB_PREFIX."liberty_content_prefs` lcps ON (lc.`content_id` = lcps.`content_id` AND lcps.`pref_name` = 'show_start_time')
 			LEFT JOIN `".BIT_DB_PREFIX."liberty_attachments` la ON (lc.`content_id` = la.`content_id` AND la.`is_primary` = 'y')
@@ -503,6 +556,7 @@ class BitEvents extends LibertyAttachable {
 	function getRenderFile() {
 		return EVENTS_PKG_PATH."display_events_inc.php";
 	}
+
 }
 
 function events_content_list_sql(&$pObject) {

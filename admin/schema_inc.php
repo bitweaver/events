@@ -105,6 +105,8 @@ $gBitInstaller->registerUserPermissions( EVENTS_PKG_NAME, array(
 $gBitInstaller->registerPreferences( EVENTS_PKG_NAME, array(
 	array( EVENTS_PKG_NAME, 'events_default_ordering', 'events_id_desc' ),
 	array( EVENTS_PKG_NAME, 'events_end_year', '+1'),
+	array( EVENTS_PKG_NAME, 'events_use_types', 'y'),
+	array( EVENTS_PKG_NAME, 'events_allow_no_type', 'y'),
 	//array( EVENTS_PKG_NAME, 'events_moderation', 'n'),
 	//array( EVENTS_PKG_NAME, 'events_use_24', 'n' ),
 	//array( EVENTS_PKG_NAME, 'events_show_primary', 'n'),
