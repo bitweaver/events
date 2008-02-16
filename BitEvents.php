@@ -1,7 +1,7 @@
 
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.33 2008/02/10 11:28:50 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.34 2008/02/16 15:55:58 nickpalmer Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -243,6 +243,9 @@ class BitEvents extends LibertyAttachable {
 
 		if( !empty( $pParamHash['type_id'] ) && $pParamHash['type_id'] > 0 ){
 			$pParamHash['events_store']['type_id'] = $pParamHash['type_id'];
+		}
+		else {
+			$pParamHash['events_store']['type_id'] = NULL;
 		}
 
 		if( !empty( $pParamHash['start_date']) && !empty($pParamHash['start_time']) ) {
