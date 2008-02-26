@@ -1,7 +1,7 @@
 
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.34 2008/02/16 15:55:58 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.35 2008/02/26 20:12:14 nickpalmer Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -116,7 +116,7 @@ class BitEvents extends LibertyAttachable {
 		LibertyAttachable::verify($pParamHash);
 		LibertyContent::verify($pParamHash);
 
-		$this->mInfo = array_merge($pParamHash['events_store'],$pParamHash['content_store'],$pParamHash['events_prefs_store']);
+		$this->mInfo = array_merge($pParamHash['events_store'], $pParamHash['content_store'], empty($pParamHash['events_prefs_store']) ? array() : $pParamHash['events_prefs_store']);
 		$this->mInfo['data'] = $pParamHash['edit'];
 		$this->mInfo['parsed'] = $this->parseData($pParamHash['edit'], empty($pParamHash['format_guid']) ? $pParamHash['format_guid'] : $gBitSystem->getConfig('default_format'));
 
