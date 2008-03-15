@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.14 2008/02/10 11:28:50 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.15 2008/03/15 10:37:29 nickpalmer Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -14,10 +14,15 @@ require_once('../bit_setup_inc.php' );
 // Is package installed and enabled
 $gBitSystem->verifyPackage('events' );
 
-// Now check permissions to access this page
-$gBitSystem->verifyPermission('p_events_edit' );
-
 require_once(EVENTS_PKG_PATH.'lookup_events_inc.php' );
+
+// Now check permissions to access this page
+if ($gContent->isValid()) {
+	$gContent->verifyPermission('p_events_edit' );
+}
+else {
+	$gBitUser->verifyPermission('p_events_create');
+}
 
 if (isset($_REQUEST["title"])) {
 	$gContent->mInfo["title"] = $_REQUEST["title"];

@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.13 2007/11/26 17:24:06 nickpalmer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.14 2008/03/15 10:37:30 nickpalmer Exp $ *}
 
 {strip}
 
@@ -26,6 +26,7 @@
 						<th>{smartlink ititle="Description" isort=description offset=$control.offset}</th>
 					</tr>
 				</thead>
+{*
 				<tfoot>
 					<tr>
 						<td colspan="3" class="actionicon">
@@ -48,6 +49,7 @@
 						</td>
 					</tr>
 				</tfoot>
+*}
 				<tbody>
 					{section name=changes loop=$list}
 						<tr class="{cycle values="even,odd"}" title="{$list[changes].title|escape}">
@@ -71,18 +73,21 @@
 									{$list[changes].title}
 								</a>
 							</td>
+
 							<td>
-								<span class="actionicon">
+{*								<span class="actionicon">
 									{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='list' serviceHash=$listpages[changes]}
 									{if $gBitUser->hasPermission( 'p_events_edit' )}
 										{smartlink ititle="Edit" ifile="edit.php" ibiticon="icons/accessories-text-editor" events_id=$list[changes].events_id}
 									{/if}
 									<input type="checkbox" name="checked[]" id="ev_{$list[changes].events_id}" value="{$list[changes].events_id|escape}" />
 								</span>
+*}
 								<label for="ev_{$list[changes].events_id}">	
 									{$list[changes].description}
 								</label>
 							</td>
+
 						</tr>
 					{sectionelse}
 						<tr class="norecords">
@@ -93,10 +98,11 @@
 					{/section}
 				</tbody>
 			</table>
-
+{*
 			<div class="row submit">
 				<input type="submit" value="{tr}Apply{/tr}" />
 			</div>
+*}
 		{/form}
 	</div><!-- end .body -->
 

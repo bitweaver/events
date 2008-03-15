@@ -1,6 +1,6 @@
 {strip}
 	{if !empty($contentHash.description)}
-		<div class="row events desc"><h4>{$contentHash.description}</h4></div>
+		<div class="row events desc">{$contentHash.description}</div>
 	{/if}
 	{if $gBitSystem->isPackageActive('calendar')}
 		<a href="{$smarty.const.CALENDAR_PKG_URL}index.php?view_mode=month&todate={math x=$contentHash.event_time y=$gBitSystem->get_display_offset() equation="x + y"}">
