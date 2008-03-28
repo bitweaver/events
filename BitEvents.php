@@ -1,7 +1,7 @@
 
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.35 2008/02/26 20:12:14 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.36 2008/03/28 21:41:08 nickpalmer Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -449,7 +449,7 @@ class BitEvents extends LibertyAttachable {
 		
 		if ( empty( $pParamHash['sort_mode'] ) ) {
 			if ( empty( $_REQUEST["sort_mode"] ) ) {
-				$pParamHash['sort_mode'] = 'event_time_desc';
+				$pParamHash['sort_mode'] = 'event_time_asc';
 			} else {
 			$pParamHash['sort_mode'] = $_REQUEST['sort_mode'];
 			}
@@ -491,7 +491,6 @@ class BitEvents extends LibertyAttachable {
 			$whereSql .= " AND lc.`event_time` > ? ";
 			$bindVars[] = $event_after;
 		}
-
 
 		$query = "SELECT e.*, et.`name` as `type_name`, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS`creator_user_id`,
 			lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time`, lc.`format_guid`, lcps.`pref_value` AS `show_start_time`, lcpe.`pref_value` AS `show_end_time`,

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.8 2007/06/22 23:57:59 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.9 2008/03/28 21:41:08 nickpalmer Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -54,6 +54,9 @@ if (isset($_REQUEST["submit_mult"]) && isset($_REQUEST["checked"]) && $_REQUEST[
 }
 
 $events = new BitEvents();
+if( empty( $_REQUEST['event_after'] ) ) {
+	$_REQUEST['event_after'] = $gBitSystem->getUTCTime();
+}
 $listevents = $events->getList( $_REQUEST );
 
 $gBitSmarty->assign_by_ref('listInfo', $_REQUEST['listInfo']);
