@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.37 2008/05/07 17:59:01 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.38 2008/06/05 23:32:17 wjames5 Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -12,7 +12,7 @@
 /**
  * required setup
  */
-require_once( LIBERTY_PKG_PATH.'LibertyAttachable.php' );
+require_once( LIBERTY_PKG_PATH.'LibertyMime.php' );
 include_once( KERNEL_PKG_PATH.'BitDate.php' );
 
 /**
@@ -23,7 +23,7 @@ define( 'BITEVENTS_CONTENT_TYPE_GUID', 'bitevents' );
 /**
  * @package events
  */
-class BitEvents extends LibertyAttachable {
+class BitEvents extends LibertyMime {
 	/**
 	* Primary key for our mythical Events class object & table
 	* @public
@@ -34,7 +34,7 @@ class BitEvents extends LibertyAttachable {
 	* During initialisation, be sure to call our base constructors
 	**/
 	function BitEvents( $pEventsId=NULL, $pContentId=NULL ) {
-		LibertyAttachable::LibertyAttachable();
+		LibertyMime::LibertyMime();
 		$this->mEventsId = $pEventsId;
 		$this->mContentId = $pContentId;
 		$this->mContentTypeGuid = BITEVENTS_CONTENT_TYPE_GUID;
@@ -101,7 +101,7 @@ class BitEvents extends LibertyAttachable {
 					}
 				}				
 
-				LibertyAttachable::load();
+				LibertyMime::load();
 			}
 		}
 		return( count( $this->mInfo ) );
@@ -112,7 +112,7 @@ class BitEvents extends LibertyAttachable {
 		$this->verify( $pParamHash );
 		// This is stupid! verify does NOT work how it should.
 		// verify should call the super class verify at all levels.
-		LibertyAttachable::verify($pParamHash);
+		LibertyMime::verify($pParamHash);
 		LibertyContent::verify($pParamHash);
 
 		$this->mInfo = array_merge($pParamHash['events_store'], $pParamHash['content_store'], empty($pParamHash['events_prefs_store']) ? array() : $pParamHash['events_prefs_store']);
@@ -139,7 +139,7 @@ class BitEvents extends LibertyAttachable {
 	**/
 	function store( &$pParamHash ) {
 		$this->mDb->StartTrans();
-		if( $this->verify( $pParamHash )&& LibertyAttachable::store( $pParamHash ) ) {
+		if( $this->verify( $pParamHash )&& LibertyMime::store( $pParamHash ) ) {
 			$table = BIT_DB_PREFIX."events";
 
 			$prefChecks = array('show_start_time', 'show_end_time');
@@ -377,7 +377,7 @@ class BitEvents extends LibertyAttachable {
 			$result = $this->mDb->query( $query, array( $this->mContentId ) );
 			$query = "DELETE FROM `".BIT_DB_PREFIX."events` WHERE `content_id` = ?";
 			$result = $this->mDb->query( $query, array( $this->mContentId ) );
-			if( LibertyAttachable::expunge() ) {
+			if( LibertyMime::expunge() ) {
 				$ret = TRUE;
 				$this->mDb->CompleteTrans();
 			} else {
