@@ -2,8 +2,8 @@
 /**
  * Access calendar package to display event calendar
  *
- * @package  liberty
- * @version  $Header: /cvsroot/bitweaver/_bit_events/calendar.php,v 1.4 2008/02/10 12:18:53 nickpalmer Exp $
+ * @package  events
+ * @version  $Header: /cvsroot/bitweaver/_bit_events/calendar.php,v 1.5 2008/06/19 07:12:44 lsces Exp $
  * @author   nickpalmer
  */
 
