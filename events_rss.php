@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/events_rss.php,v 1.5 2007/07/08 07:56:40 squareing Exp $
- * @package article
+ * @version $Header: /cvsroot/bitweaver/_bit_events/events_rss.php,v 1.6 2008/06/19 19:33:50 lsces Exp $
+ * @package events
  * @subpackage functions
  */
 
