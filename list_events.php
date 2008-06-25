@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.9 2008/03/28 21:41:08 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.10 2008/06/25 22:21:09 spiderr Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -63,6 +63,6 @@ $gBitSmarty->assign_by_ref('listInfo', $_REQUEST['listInfo']);
 $gBitSmarty->assign_by_ref('list', $listevents);
 
 // Display the template
-$gBitSystem->display('bitpackage:events/list_events.tpl', tra('Events') );
+$gBitSystem->display('bitpackage:events/list_events.tpl', tra('Events') , array( 'display_mode' => 'list' ));
 
 ?>

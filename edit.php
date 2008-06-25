@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.15 2008/03/15 10:37:29 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.16 2008/06/25 22:21:09 spiderr Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -95,5 +95,5 @@ if( $gBitSystem->isFeatureActive('events_use_types') ) {
 }
 
 // Display the template
-$gBitSystem->display('bitpackage:events/edit_events.tpl', tra('Events') );
+$gBitSystem->display('bitpackage:events/edit_events.tpl', tra('Events') , array( 'display_mode' => 'edit' ));
 ?>

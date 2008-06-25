@@ -3,7 +3,7 @@
  * Access calendar package to display event calendar
  *
  * @package  events
- * @version  $Header: /cvsroot/bitweaver/_bit_events/index.php,v 1.8 2007/11/26 17:24:06 nickpalmer Exp $
+ * @version  $Header: /cvsroot/bitweaver/_bit_events/index.php,v 1.9 2008/06/25 22:21:09 spiderr Exp $
  * @author   nickpalmer
  */
 
@@ -23,7 +23,7 @@ if (isset($_REQUEST['events_id'] ) ) {
 	$gContent->invokeServices( 'content_display_function' );
 	// Display the template
 	if ( $gContent->isValid() && !empty( $gContent->mInfo ) ) {
-		$gBitSystem->display('bitpackage:events/event_display.tpl', tra('Event: ') . (!empty($gContent->mInfo['title']) ? $gContent->mInfo['title'] : tra('Untitled') ));
+		$gBitSystem->display('bitpackage:events/event_display.tpl', tra('Event: ') . (!empty($gContent->mInfo['title']) ? $gContent->mInfo['title'] : tra('Untitled') ), array( 'display_mode' => 'display' ));
 	}
 	else {
 		$gBitSystem->setHttpStatus(404);
