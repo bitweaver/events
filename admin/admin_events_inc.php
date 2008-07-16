@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/admin/admin_events_inc.php,v 1.6 2008/02/10 11:28:51 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/admin/admin_events_inc.php,v 1.7 2008/07/16 13:25:49 lsces Exp $
  *
  * @author nickpalmer
  * @package events
@@ -23,6 +23,11 @@ $formEventsDisplayOptions = array(
 	"events_end_year" => array(
 		'label' => 'Events End Year',
 		'note' => 'End year in events date set. Can be a specific year or +# (i.e. +1) to allow events a certain number of years in the future.',
+		'type' => 'input',
+	),
+	"events_upcoming_limit" => array(
+		'label' => 'Look ahead limit',
+		'note' => 'Number of days look ahead period to be used with upcoming events displays such as upcoming module.',
 		'type' => 'input',
 	),
 );
