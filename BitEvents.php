@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.38 2008/06/05 23:32:17 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.39 2008/08/27 12:14:22 laetzer Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -491,7 +491,7 @@ class BitEvents extends LibertyMime {
 			$bindVars[] = $event_after;
 		}
 
-		$query = "SELECT e.*, et.`name` as `type_name`, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS`creator_user_id`,
+		$query = "SELECT e.*, et.`name` as `type_name`, lc.`content_id`, lc.`title`, lc.`data`, lc.`modifier_user_id` AS `modifier_user_id`, lc.`user_id` AS `creator_user_id`,
 			lc.`last_modified` AS `last_modified`, lc.`event_time` AS `event_time`, lc.`format_guid`, lcps.`pref_value` AS `show_start_time`, lcpe.`pref_value` AS `show_end_time`,
 			la.`attachment_id` AS primary_attachment_id
 			$selectSql
