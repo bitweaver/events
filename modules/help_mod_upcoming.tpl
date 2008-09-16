@@ -10,7 +10,7 @@
 
 	<dt class="param"><kbd>sort_mode</kbd></dt>
 	<dd><em>{tr}String{/tr}</em></dd>
-	<dd><abbr class="default" title="default">event_time_asc</abbr>, random</dd>
+	<dd><abbr class="default" title="{tr}default{/tr}">event_time_asc</abbr>, random</dd>
 
 	<dt class="param"><kbd>pigeonholes</kbd></dt>
 	<dd><em>{tr}Numeric{/tr}</em></dd>
