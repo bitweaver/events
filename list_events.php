@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.10 2008/06/25 22:21:09 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/list_events.php,v 1.11 2008/09/19 01:34:36 laetzer Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -39,7 +39,12 @@ if (isset($_REQUEST["submit_mult"]) && isset($_REQUEST["checked"]) && $_REQUEST[
 		foreach( $_REQUEST["checked"] as $del ) {
 			$formHash['input'][] = '<input type="hidden" name="checked[]" value="'.$del.'"/>';
 		}
-		$gBitSystem->confirmDialog( $formHash, array( 'warning' => 'Are you sure you want to delete '.count($_REQUEST["checked"]).' events?', 'error' => 'This cannot be undone!' ) );
+		$gBitSystem->confirmDialog( $formHash, 
+			array( 
+				'warning' => tra('Are you sure you want to delete these events?') . ' (' . tra('Count: ') . count( $_REQUEST["checked"] ) . ')',				
+				'error' => tra('This cannot be undone!'),
+			)
+		);
 	} else {
 		foreach ($_REQUEST["checked"] as $deleteId) {
 			$tmpPage = new BitEvents( $deleteId );
