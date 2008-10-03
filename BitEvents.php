@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.39 2008/08/27 12:14:22 laetzer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.40 2008/10/03 17:20:15 wjames5 Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -51,6 +51,7 @@ class BitEvents extends LibertyMime {
 
 		// Permission setup
 		$this->mViewContentPerm  = 'p_events_view';
+		$this->mCreateContentPerm  = 'p_events_create';
 		$this->mEditContentPerm  = 'p_events_edit';
 		$this->mAdminContentPerm = 'p_events_admin';
 	}
