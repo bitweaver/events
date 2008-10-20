@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.18 2008/10/03 17:20:15 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.19 2008/10/20 21:40:09 spiderr Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -18,7 +18,7 @@ require_once(EVENTS_PKG_PATH.'lookup_events_inc.php' );
 
 // Now check permissions to access this page
 if ($gContent->isValid()) {
-	$gContent->verifyEditPermission();
+	$gContent->verifyUpdatePermission();
 }
 else {
 	$gContent->verifyCreatePermission();

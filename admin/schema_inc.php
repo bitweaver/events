@@ -96,7 +96,7 @@ $gBitInstaller->registerSchemaDefault( EVENTS_PKG_NAME, array(
 $gBitInstaller->registerUserPermissions( EVENTS_PKG_NAME, array(
 	array( 'p_events_admin', 'Can admin events', 'admin', EVENTS_PKG_NAME ),
 	array( 'p_events_create', 'Can create events', 'registered', EVENTS_PKG_NAME ),
-	array( 'p_events_edit', 'Can edit any events', 'editors', EVENTS_PKG_NAME ),
+	array( 'p_events_update', 'Can update any event', 'editors', EVENTS_PKG_NAME ),
 	array( 'p_events_view', 'Can read events', 'basic',  EVENTS_PKG_NAME ),
 	array( 'p_events_remove', 'Can delete any events', 'admin',  EVENTS_PKG_NAME ),
 ) );

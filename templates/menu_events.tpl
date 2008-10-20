@@ -1,7 +1,7 @@
 {strip}
 <ul>
 	<li><a class="item" href="{$smarty.const.EVENTS_PKG_URL}list_events.php">{biticon iname="format-justify-fill" iexplain="List Events" ilocation=menu}</a></li>
-	{if $gBitUser->hasPermission( 'p_events_create' ) || $gBitUser->hasPermission( 'p_events_edit' ) }
+	{if $gBitUser->hasPermission( 'p_events_create' )}
 		<li><a class="item" href="{$smarty.const.EVENTS_PKG_URL}edit.php">{biticon iname="appointment-new" iexplain="Create Event" ilocation=menu}</a></li>
 	{/if}
 	{if $gBitSystem->isPackageActive('calendar')}

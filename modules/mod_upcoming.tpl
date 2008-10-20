@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/modules/mod_upcoming.tpl,v 1.4 2008/03/15 10:37:30 nickpalmer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/modules/mod_upcoming.tpl,v 1.5 2008/10/20 21:40:09 spiderr Exp $ *}
 {strip}
 {if $eventsPackageActive}
 	{if count($modUpcomingEvents) > 0}
@@ -17,11 +17,9 @@
 						<div class="event info">
 							{include file="bitpackage:events/render_header_inc.tpl" contentHash=$modUpcomingEvents[ix]}
 							{if !empty($modUpcomingEvents[ix].parsed_description)}
-								<br/>
-								{$modUpcomingEvents[ix].parsed_description}
-								<br/>
+								{$modUpcomingEvents[ix].parsed_description|truncate:$maxPreviewLength}
 								{if $modUpcomingEvents[ix].has_more}
-									<a class="more" href="{$modUpcomingEvents[ix].display_url}">{tr}Read More&hellip;{/tr}</a>
+									<a class="more" href="$modUpcomingEvents[ix].display_url}">{tr}Read More&hellip;{/tr}</a>
 								{/if}
 							{/if}
 						</div>
