@@ -2,7 +2,7 @@
 {if $liberty_preview || $preview || $gContent->isValid()}
 	<div class="floaticon">
 		{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='icon' serviceHash=$gContent->mInfo}
-		{if $gContent->hasEditPermission()}
+		{if $gContent->hasUpdatePermission()}
 			<a title="{tr}Edit{/tr}" href="edit.php?events_id={$gContent->mInfo.events_id}">{biticon ipackage="icons" iname="accessories-text-editor" iexplain="edit"}</a>
 		{/if}
 		{if $gContent->hasUserPermission( 'p_events_remove' )}

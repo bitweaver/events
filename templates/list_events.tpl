@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.15 2008/10/20 21:40:10 spiderr Exp $ *}
+{	* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.16 2008/10/21 02:38:21 wjames5 Exp $ *}
 
 {strip}
 
@@ -77,7 +77,7 @@
 							<td>
 {*								<span class="actionicon">
 									{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='list' serviceHash=$listpages[changes]}
-									{if $gContent->hasEditPermission()}
+									{if $gContent->hasUpdatePermission()}
 										{smartlink ititle="Edit" ifile="edit.php" ibiticon="icons/accessories-text-editor" events_id=$list[changes].events_id}
 									{/if}
 									<input type="checkbox" name="checked[]" id="ev_{$list[changes].events_id}" value="{$list[changes].events_id|escape}" />
