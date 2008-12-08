@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/admin/admin_events_inc.php,v 1.7 2008/07/16 13:25:49 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/admin/admin_events_inc.php,v 1.8 2008/12/08 09:06:10 lsces Exp $
  *
  * @author nickpalmer
  * @package events
@@ -19,6 +19,11 @@ $formEventsDisplayOptions = array(
 		'label' => 'Use 24 Hour',
 		'note' => 'Time display uses 24 hour format.',
 		'type' => 'toggle',
+	),
+	"events_minute_interval" => array(
+		'label' => 'Minutes Interval',
+		'note' => 'Number of minute steps for the event time minute drop down ( default is 15 minutes ). Multiple of this time should be 60 minutes.',
+		'type' => 'input',
 	),
 	"events_end_year" => array(
 		'label' => 'Events End Year',
