@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.13 2008/02/10 11:28:52 nickpalmer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_events/templates/edit_events.tpl,v 1.14 2009/01/20 22:18:07 dansut Exp $ *}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -138,7 +138,7 @@
 
 						{textarea label="Description" help="The long description of the event including any images."}{$gContent->mInfo.data}{/textarea}
 			
-						{include file="bitpackage:liberty/edit_services_inc.tpl serviceFile=content_edit_mini_tpl}
+						{include file="bitpackage:liberty/edit_services_inc.tpl" serviceFile="content_edit_mini_tpl"}
 
 						<div class="row submit">
 							<input type="submit" name="preview" value="{tr}Preview{/tr}" /> 
@@ -160,7 +160,7 @@
 					{/jstab}
 				{/if}
 
-				{include file="bitpackage:liberty/edit_services_inc.tpl serviceFile=content_edit_tab_tpl}
+				{include file="bitpackage:liberty/edit_services_inc.tpl" serviceFile="content_edit_tab_tpl"}
 
 			{/jstabs}
 		{/form}
