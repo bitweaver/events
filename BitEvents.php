@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.42 2008/11/18 23:29:58 pppspoonman Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.43 2009/05/01 15:53:15 wjames5 Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -529,7 +529,6 @@ class BitEvents extends LibertyMime {
 
 	/**
 	* Generates the URL to the events page
-	* @param pExistsHash the hash that was returned by LibertyContent::pageExists
 	* @return the link to display the page.
 	*/
 	function getDisplayUrl( $pEventsId = NULL, $pParamHash = NULL ) {
