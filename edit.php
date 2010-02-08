@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.19 2008/10/20 21:40:09 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.20 2010/02/08 21:27:22 wjames5 Exp $
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
@@ -9,7 +9,7 @@
 /**
  * required setup
  */
-require_once('../bit_setup_inc.php' );
+require_once('../kernel/setup_inc.php' );
 
 // Is package installed and enabled
 $gBitSystem->verifyPackage('events' );

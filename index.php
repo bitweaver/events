@@ -3,14 +3,14 @@
  * Access calendar package to display event calendar
  *
  * @package  events
- * @version  $Header: /cvsroot/bitweaver/_bit_events/index.php,v 1.9 2008/06/25 22:21:09 spiderr Exp $
+ * @version  $Header: /cvsroot/bitweaver/_bit_events/index.php,v 1.10 2010/02/08 21:27:22 wjames5 Exp $
  * @author   nickpalmer
  */
 
 /**
  * required setup
  */
-require_once('../bit_setup_inc.php' );
+require_once('../kernel/setup_inc.php' );
 
 // Is package installed and enabled
 $gBitSystem->verifyPackage('events' );
