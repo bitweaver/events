@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.43 2009/05/01 15:53:15 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_events/BitEvents.php,v 1.44 2010/04/17 22:46:07 wjames5 Exp $
  *
  * Class for representing an event. Plans are to support RFC2455 style repeating events with iCal input and output.
  * As well as supporting invites.
@@ -40,7 +40,7 @@ class BitEvents extends LibertyMime {
 		$this->mContentTypeGuid = BITEVENTS_CONTENT_TYPE_GUID;
 		$this->registerContentType( BITEVENTS_CONTENT_TYPE_GUID, array(
 			'content_type_guid' => BITEVENTS_CONTENT_TYPE_GUID,
-			'content_description' => 'Event',
+			'content_name' => 'Event',
 			'handler_class' => 'BitEvents',
 			'handler_package' => 'events',
 			'handler_file' => 'BitEvents.php',

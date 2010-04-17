@@ -111,4 +111,8 @@ $gBitInstaller->registerPreferences( EVENTS_PKG_NAME, array(
 	//array( EVENTS_PKG_NAME, 'events_use_24', 'n' ),
 	//array( EVENTS_PKG_NAME, 'events_show_primary', 'n'),
 ) );
-?>
+
+// Requirements
+$gBitInstaller->registerRequirements( EVENTS_PKG_NAME, array(
+	'liberty' => array( 'min' => '2.1.4' ),
+));
