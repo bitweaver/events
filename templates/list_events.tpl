@@ -1,4 +1,4 @@
-{	* $Header: /cvsroot/bitweaver/_bit_events/templates/list_events.tpl,v 1.17 2010/02/09 17:21:21 wjames5 Exp $ *}
+{	* $Header$ *}
 
 {strip}
 

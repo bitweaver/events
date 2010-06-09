@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/display_events_inc.php,v 1.4 2008/06/25 22:21:09 spiderr Exp $
+ * @version $Header$
  * @package events
  * @subpackage functions
  */

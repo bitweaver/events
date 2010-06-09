@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/admin/admin_events_inc.php,v 1.8 2008/12/08 09:06:10 lsces Exp $
+ * @version $Header$
  *
  * @author nickpalmer
  * @package events

@@ -3,7 +3,7 @@
  * Params: 
  * - title : if is "title", show the title of the post, else show the date of creation
  *
- * @version $Header: /cvsroot/bitweaver/_bit_events/modules/mod_upcoming.php,v 1.3 2007/09/27 20:52:38 nickpalmer Exp $
+ * @version $Header$
  * @package blogs
  * @subpackage modules
  */

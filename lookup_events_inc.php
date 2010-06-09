@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/lookup_events_inc.php,v 1.2 2007/06/22 07:22:36 lsces Exp $
+ * @version $Header$
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions

@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_events/modules/mod_upcoming.tpl,v 1.5 2008/10/20 21:40:09 spiderr Exp $ *}
+{* $Header$ *}
 {strip}
 {if $eventsPackageActive}
 	{if count($modUpcomingEvents) > 0}

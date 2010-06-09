@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_events/edit.php,v 1.20 2010/02/08 21:27:22 wjames5 Exp $
+ * @version $Header$
  * Copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions

@@ -3,7 +3,7 @@
  * Access calendar package to display event calendar
  *
  * @package  events
- * @version  $Header: /cvsroot/bitweaver/_bit_events/calendar.php,v 1.6 2010/02/08 21:27:22 wjames5 Exp $
+ * @version  $Header$
  * @author   nickpalmer
  */
 
