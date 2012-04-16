@@ -60,7 +60,7 @@ class BitEvents extends LibertyMime {
 	* Load the data from the database
 	* @param pParamHash be sure to pass by reference in case we need to make modifcations to the hash
 	**/
-	function load() {
+	function load( $pContentId = NULL, $pPluginParams = NULL ) {
 		global $gBitSystem;
 		if( $this->verifyId( $this->mEventsId ) || $this->verifyId( $this->mContentId ) ) {
 			// LibertyContent::load()assumes you have joined already, and will not execute any sql!
@@ -89,7 +89,7 @@ class BitEvents extends LibertyMime {
 
 				$this->mInfo['creator'] =( isset( $result->fields['creator_real_name'] )? $result->fields['creator_real_name'] : $result->fields['creator_user'] );
 				$this->mInfo['editor'] =( isset( $result->fields['modifier_real_name'] )? $result->fields['modifier_real_name'] : $result->fields['modifier_user'] );
-				$this->mInfo['display_url'] = $this->getDisplayUrl();
+				$this->mInfo['display_url'] = $this->getContentUrl();
 				$this->mInfo['parsed_data'] = $this->parseData( $this->mInfo['data'], $this->mInfo['format_guid'] );
 
 				$prefChecks = array('show_start_time', 'show_end_time');
@@ -515,7 +515,7 @@ class BitEvents extends LibertyMime {
 			if (!empty($parse_split)) {
 				$res = array_merge($this->parseSplit($res), $res);
 			}
-			$res['display_url'] = $this->getDisplayUrl($res['events_id'], $res);
+			$res['display_url'] = $this->getContentUrl($res['events_id'], $res);
 			$res['primary_attachment'] = $this->getAttachment( $res['primary_attachment_id'] );
 			$ret[] = $res;
 		}
@@ -531,7 +531,7 @@ class BitEvents extends LibertyMime {
 	* Generates the URL to the events page
 	* @return the link to display the page.
 	*/
-	function getDisplayUrl( $pEventsId = NULL, $pParamHash = NULL ) {
+	function getContentUrl( $pEventsId = NULL ) {
 		if( @$this->verifyId( $pEventsId ) ) {
 			$ret = EVENTS_PKG_URL."index.php?events_id=".$pEventsId;
 		} else {
@@ -546,7 +546,7 @@ class BitEvents extends LibertyMime {
 	}
 
 	/* Limits content status types for users who can not enter all status */
-	function getAvailableContentStatuses() {
+	function getAvailableContentStatuses( $pUserMinimum=-100, $pUserMaximum=100 ) {
 		global $gBitSystem;
 		if ($gBitSystem->isFeatureActive('events_moderation')) {
 			return LibertyContent::getAvailableContentStatuses(-100,0);

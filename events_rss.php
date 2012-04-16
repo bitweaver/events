@@ -67,7 +67,7 @@ if( !$gBitUser->hasPermission( 'p_events_view' ) ) {
 	foreach( $feeds as $feed ) {
 		$item = new FeedItem();
 		$item->title = $event->getTitle( $feed );
-		$item->link = BIT_BASE_URI.$event->getDisplayUrl( $feed['content_id'] );
+		$item->link = BIT_BASE_URI.$event->getContentUrl( $feed['content_id'] );
 		$item->description = $feed['parsed'];
 
 		$item->date = ( int )$feed['last_modified'];

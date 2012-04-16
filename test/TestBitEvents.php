@@ -58,7 +58,7 @@ class TestBitEvents extends Test {
 
     function testUrlItem()
     {
-        Assert::equalsTrue($this->test->getDisplayUrl() != "");
+        Assert::equalsTrue($this->test->getContentUrl() != "");
     }
 
     function testExpungeItem()

@@ -56,7 +56,7 @@ if (!empty($_REQUEST["save_events"])) {
 	// to avoid error messages. This can happen if some features are
 	// disabled
 	if ($gContent->store( $_REQUEST ) ) {
-		bit_redirect($gContent->getDisplayUrl() );
+		bit_redirect($gContent->getContentUrl() );
 		die;
 	} else {
 		$gBitSmarty->assign_by_ref('errors', $gContent->mErrors );
