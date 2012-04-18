@@ -539,7 +539,7 @@ class BitEvents extends LibertyMime {
 				$ret = EVENTS_PKG_URL."index.php?events_id=".$this->mEventsId;
 			}
 			else {
-				$ret = LibertyContent::getDisplayUrl( NULL, $pParamHash );
+				$ret = LibertyContent::getDisplayUrlFromHash( NULL, $pParamHash );
 			}
 		}
 		return $ret;
