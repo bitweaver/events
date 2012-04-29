@@ -100,7 +100,7 @@ class BitEvents extends LibertyMime {
 					else {
 						$this->mInfo[$var] = 0;
 					}
-				}				
+				}
 
 				LibertyMime::load();
 			}
@@ -120,7 +120,7 @@ class BitEvents extends LibertyMime {
 		$this->mInfo['data'] = $pParamHash['edit'];
 		$this->mInfo['parsed'] = $this->parseData($pParamHash['edit'], empty($pParamHash['format_guid']) ? $pParamHash['format_guid'] : $gBitSystem->getConfig('default_format'));
 
-		$this->invokeServices( 'content_preview_function' );    
+		$this->invokeServices( 'content_preview_function' );
 
 		$gBitSmarty->assign('preview', true);
 
@@ -252,12 +252,12 @@ class BitEvents extends LibertyMime {
 			if (isset($pParamHash['start_time']['Meridian'])) {
 				$pParamHash['event_time'] =
 					$this->mDate->gmmktime(($pParamHash['start_time']['Meridian'] == 'pm' ?
-							      $pParamHash['start_time']['Hour'] + 12 : 
+							      $pParamHash['start_time']['Hour'] + 12 :
 							      $pParamHash['start_time']['Hour']),
 							     $pParamHash['start_time']['Minute'],
-							     isset($pParamHash['start_time']['Second']) ? 
-							     $pParamHash['start_time']['Second'] : 0, 
-							     $pParamHash['start_date']['Month'], 
+							     isset($pParamHash['start_time']['Second']) ?
+							     $pParamHash['start_time']['Second'] : 0,
+							     $pParamHash['start_date']['Month'],
 							     $pParamHash['start_date']['Day'],
 							     $pParamHash['start_date']['Year']
 							     );
@@ -266,9 +266,9 @@ class BitEvents extends LibertyMime {
 				$pParamHash['event_time'] =
 					$this->mDate->gmmktime($pParamHash['start_time']['Hour'],
 							     $pParamHash['start_time']['Minute'],
-							     isset($pParamHash['start_time']['Second']) ? 
-							     $pParamHash['start_time']['Second'] : 0, 
-							     $pParamHash['start_date']['Month'], 
+							     isset($pParamHash['start_time']['Second']) ?
+							     $pParamHash['start_time']['Second'] : 0,
+							     $pParamHash['start_date']['Month'],
 							     $pParamHash['start_date']['Day'],
 							     $pParamHash['start_date']['Year']
 							     );
@@ -281,25 +281,25 @@ class BitEvents extends LibertyMime {
 				$pParamHash['start_date']['Day'] = $this->mDate->strftime("%d", $pParamHash['event_time'], true);
 				$pParamHash['start_date']['Year'] = $this->mDate->strftime("%Y", $pParamHash['event_time'], true);
 			}
-			if ((!isset($pParamHash['end_time']['Meridian']) || 
+			if ((!isset($pParamHash['end_time']['Meridian']) ||
 			     ($pParamHash['end_time']['Meridian'] == 'am' ||
 			      $pParamHash['end_time']['Meridian'] == 'pm')) &&
 			    (isset($pParamHash['end_time']['Hour']) &&
-			     is_numeric($pParamHash['end_time']['Hour'])) && 				   
-			    (!isset($pParamHash['end_time']['Minute']) || 
-			     is_numeric($pParamHash['end_time']['Minute']) && 
-			     (!isset($pParamHash['end_time']['Second']) || 
+			     is_numeric($pParamHash['end_time']['Hour'])) &&
+			    (!isset($pParamHash['end_time']['Minute']) ||
+			     is_numeric($pParamHash['end_time']['Minute']) &&
+			     (!isset($pParamHash['end_time']['Second']) ||
 			      is_numeric($pParamHash['end_time']['Second'])))) {
-				
+
 				if (isset($pParamHash['end_time']['Meridian'])) {
-					$pParamHash['events_store']['end_time'] = 
+					$pParamHash['events_store']['end_time'] =
 					  $this->mDate->gmmktime(($pParamHash['end_time']['Meridian'] == 'pm' ?
-								      $pParamHash['end_time']['Hour'] + 12 : 
+								      $pParamHash['end_time']['Hour'] + 12 :
 								      $pParamHash['end_time']['Hour']),
 								     $pParamHash['end_time']['Minute'],
-								     isset($pParamHash['end_time']['Second']) ? 
+								     isset($pParamHash['end_time']['Second']) ?
 								     $pParamHash['end_time']['Second'] : 0,
-								     $pParamHash['start_date']['Month'], 
+								     $pParamHash['start_date']['Month'],
 								     $pParamHash['start_date']['Day'],
 								     $pParamHash['start_date']['Year']
 								     );
@@ -308,13 +308,13 @@ class BitEvents extends LibertyMime {
 					$pParamHash['events_store']['end_time'] =
 					  $this->mDate->gmmktime($pParamHash['end_time']['Hour'],
 								     $pParamHash['end_time']['Minute'],
-								     isset($pParamHash['end_time']['Second']) ? 
+								     isset($pParamHash['end_time']['Second']) ?
 								     $pParamHash['end_time']['Second'] : 0,
-								     $pParamHash['start_date']['Month'], 
+								     $pParamHash['start_date']['Month'],
 								     $pParamHash['start_date']['Day'],
 								     $pParamHash['start_date']['Year']
 								     );
-				}					       
+				}
 				$pParamHash['events_store']['end_time'] = $this->mDate->getUTCFromDisplayDate($pParamHash['events_store']['end_time']);
 			}
 		}
@@ -446,7 +446,7 @@ class BitEvents extends LibertyMime {
 	**/
 	function getList( &$pParamHash ) {
 		global $gBitSystem, $gBitUser;
-		
+
 		if ( empty( $pParamHash['sort_mode'] ) ) {
 			if ( empty( $_REQUEST["sort_mode"] ) ) {
 				$pParamHash['sort_mode'] = 'event_time_asc';
@@ -480,7 +480,7 @@ class BitEvents extends LibertyMime {
 			$whereSql .= " AND lc.`creator_user_id` = ? ";
 			$bindVars[] = array( $pUserId );
 		}
-		
+
 		if (!empty($event_before)) {
 			$whereSql .= " AND lc.`event_time` <= ? ";
 			$bindVars[] = $event_before;
@@ -498,7 +498,7 @@ class BitEvents extends LibertyMime {
 			$selectSql
 			FROM `".BIT_DB_PREFIX."events` e
 			LEFT JOIN `".BIT_DB_PREFIX."events_types` et ON (e.`type_id` = et.`type_id`)
-			INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` ) 
+			INNER JOIN `".BIT_DB_PREFIX."liberty_content` lc ON( lc.`content_id` = e.`content_id` )
 			LEFT JOIN `".BIT_DB_PREFIX."liberty_content_prefs` lcps ON (lc.`content_id` = lcps.`content_id` AND lcps.`pref_name` = 'show_start_time')
 			LEFT JOIN `".BIT_DB_PREFIX."liberty_attachments` la ON (lc.`content_id` = la.`content_id` AND la.`is_primary` = 'y')
 			LEFT JOIN `".BIT_DB_PREFIX."liberty_content_prefs` lcpe ON (lc.`content_id` = lcpe.`content_id` AND lcpe.`pref_name` = 'show_end_time')

@@ -3,11 +3,11 @@ require_once('../../kernel/setup_inc.php');
 require_once(EVENTS_PKG_PATH.'BitEvents.php');
 
 class TestBitEvents extends Test {
-    
+
     var $test;
     var $id;
     var $count;
-    
+
     function TestBitEvents()
     {
         global $gBitSystem;
@@ -37,19 +37,19 @@ class TestBitEvents extends Test {
 	);
         Assert::equalsTrue($this->test->store($newItemHash));
     }
-    
+
     function testIsValidItem()
     {
         Assert::equalsTrue($this->test->isValid());
     }
-    
+
     function testNullItem()
     {
 	$this->id = $this->test->mEventsId;
         $this->test = NULL;
         Assert::equals($this->test, NULL);
     }
-    
+
     function testLoadItem()
     {
         $this->test = new BitEvents($this->id);
