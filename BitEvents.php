@@ -89,7 +89,7 @@ class BitEvents extends LibertyMime {
 
 				$this->mInfo['creator'] =( isset( $result->fields['creator_real_name'] )? $result->fields['creator_real_name'] : $result->fields['creator_user'] );
 				$this->mInfo['editor'] =( isset( $result->fields['modifier_real_name'] )? $result->fields['modifier_real_name'] : $result->fields['modifier_user'] );
-				$this->mInfo['display_url'] = $this->getContentUrl();
+				$this->mInfo['display_url'] = $this->getDisplayUrl();
 				$this->mInfo['parsed_data'] = $this->parseData( $this->mInfo['data'], $this->mInfo['format_guid'] );
 
 				$prefChecks = array('show_start_time', 'show_end_time');
@@ -515,7 +515,7 @@ class BitEvents extends LibertyMime {
 			if (!empty($parse_split)) {
 				$res = array_merge($this->parseSplit($res), $res);
 			}
-			$res['display_url'] = $this->getContentUrl($res['events_id'], $res);
+			$res['display_url'] = $this->getDisplayUrl($res['events_id'], $res);
 			$res['primary_attachment'] = LibertyMime::loadAttachment( $res['primary_attachment_id'] );
 			$ret[] = $res;
 		}
@@ -524,24 +524,6 @@ class BitEvents extends LibertyMime {
 		$pParamHash["cant"] = $this->mDb->getOne( $query_cant, $bindVars );
 
 		LibertyContent::postGetList( $pParamHash );
-		return $ret;
-	}
-
-	/**
-	* Generates the URL to the events page
-	* @return the link to display the page.
-	*/
-	function getContentUrl( $pEventsId = NULL ) {
-		if( @$this->verifyId( $pEventsId ) ) {
-			$ret = EVENTS_PKG_URL."index.php?events_id=".$pEventsId;
-		} else {
-			if (!empty($this->mEventsId) ) {
-				$ret = EVENTS_PKG_URL."index.php?events_id=".$this->mEventsId;
-			}
-			else {
-				$ret = LibertyContent::getDisplayUrlFromHash( NULL, $pParamHash );
-			}
-		}
 		return $ret;
 	}
 
