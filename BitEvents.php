@@ -516,7 +516,7 @@ class BitEvents extends LibertyMime {
 				$res = array_merge($this->parseSplit($res), $res);
 			}
 			$res['display_url'] = $this->getContentUrl($res['events_id'], $res);
-			$res['primary_attachment'] = $this->getAttachment( $res['primary_attachment_id'] );
+			$res['primary_attachment'] = LibertyMime::loadAttachment( $res['primary_attachment_id'] );
 			$ret[] = $res;
 		}
 		$pParamHash["data"] = $ret;
