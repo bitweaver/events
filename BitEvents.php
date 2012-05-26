@@ -46,8 +46,9 @@ class BitEvents extends LibertyMime {
 			'handler_file' => 'BitEvents.php',
 			'maintainer_url' => 'http://wired.st-and.ac.uk/~hash9/'
 		) );
-		$offset = BitDate::get_display_offset();
-		$this->mDate = new BitDate($offset);
+
+		$this->mDate = new BitDate();
+		$this->mDate->get_display_offset();
 
 		// Permission setup
 		$this->mViewContentPerm  = 'p_events_view';
