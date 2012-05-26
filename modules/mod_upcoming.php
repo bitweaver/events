@@ -1,6 +1,6 @@
 <?php
 /**
- * Params: 
+ * Params:
  * - title : if is "title", show the title of the post, else show the date of creation
  *
  * @version $Header$
@@ -16,7 +16,7 @@ if( !defined( 'MAX_EVENTS_PREVIEW_LENGTH' ) ) {
 }
 
 include_once( EVENTS_PKG_PATH.'BitEvents.php' );
-require_once( USERS_PKG_PATH.'BitUser.php' );
+//require_once( USERS_PKG_PATH.'BitUser.php' );
 
 global $gBitSmarty, $gQueryUserId, $gBitSystem, $moduleParams;
 
