@@ -16,7 +16,6 @@ if( !defined( 'MAX_EVENTS_PREVIEW_LENGTH' ) ) {
 }
 
 include_once( EVENTS_PKG_PATH.'BitEvents.php' );
-//require_once( USERS_PKG_PATH.'BitUser.php' );
 
 global $gBitSmarty, $gQueryUserId, $gBitSystem, $moduleParams;
 

@@ -35,7 +35,11 @@ if( !$gBitUser->hasPermission( 'p_events_view' ) ) {
 	$listHash['parse_data'] = TRUE;
 	$listHash['full_data'] = TRUE;
 	if( !empty( $_REQUEST['user_id'] ) ) {
-		require_once( USERS_PKG_PATH.'BitUser.php' );
+		if ( $gBitSystem->getConfig( 'user_class', 'BitPermUser' ) == 'RolePermUser' ) {
+			require_once( USERS_PKG_PATH.'RoleUser.php' );
+		} else {
+			require_once( USERS_PKG_PATH.'BitUser.php' );
+		}
 		$eventUser = new BitUser();
 		$userData = $eventUser->getUserInfo( array('user_id' => $_REQUEST['user_id']) );
 		// dont try and fool me
