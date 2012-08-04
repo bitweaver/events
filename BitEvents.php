@@ -537,6 +537,38 @@ class BitEvents extends LibertyMime {
 		return parent::getAvailableContentStatuses();
 	}
 
+	/**
+	* Generates the URL to the article
+	* @return the link to the full article
+	*/
+	public static function getDisplayUrlFromHash( &$pParamHash ) {
+		global $gBitSystem;
+
+		$ret = NULL;
+
+		if( @BitBase::verifyId( $pParamHash['event_id'] ) ) {
+			if( $gBitSystem->isFeatureActive( 'pretty_urls_extended' ) ) {
+				// Not needed since it's a number:  $ret = EVENTS_PKG_URL."view/".$this->mEventsId;
+				$ret = EVENTS_PKG_URL.$pParamHash['event_id'];
+			} else if( $gBitSystem->isFeatureActive( 'pretty_urls' ) ) {
+				$ret = EVENTS_PKG_URL.$pParamHash['event_id'];
+			} else {
+				$ret = EVENTS_PKG_URL."index.php?events_id=".$pParamHash['event_id'];
+			}
+		}
+
+		return $ret;
+	}
+
+    /**
+    * Function that returns link to display an image
+    * @return the url to display the gallery.
+    */
+	public function getDisplayUrl() {
+		$info = array( 'event_id' => $this->mEventsId );
+		return self::getDisplayUrlFromHash( $info );
+	}
+
 	function getRenderFile() {
 		return EVENTS_PKG_PATH."display_events_inc.php";
 	}
