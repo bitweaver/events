@@ -78,7 +78,7 @@
 {*								<span class="actionicon">
 									{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='list' serviceHash=$listpages[changes]}
 									{if $gContent->hasUpdatePermission()}
-										{smartlink ititle="Edit" ifile="edit.php" ibiticon="icons/accessories-text-editor" events_id=$list[changes].events_id}
+										{smartlink ititle="Edit" ifile="edit.php" booticon="icon-edit" events_id=$list[changes].events_id}
 									{/if}
 									<input type="checkbox" name="checked[]" id="ev_{$list[changes].events_id}" value="{$list[changes].events_id|escape}" />
 								</span>
