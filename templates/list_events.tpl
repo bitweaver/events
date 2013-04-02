@@ -99,7 +99,7 @@
 				</tbody>
 			</table>
 {*
-			<div class="row submit">
+			<div class="control-group submit">
 				<input type="submit" value="{tr}Apply{/tr}" />
 			</div>
 *}
