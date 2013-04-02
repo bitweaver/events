@@ -3,10 +3,10 @@
 	<div class="floaticon">
 		{include file="bitpackage:liberty/services_inc.tpl" serviceLocation='icon' serviceHash=$gContent->mInfo}
 		{if $gContent->hasUpdatePermission()}
-			<a title="{tr}Edit{/tr}" href="edit.php?events_id={$gContent->mInfo.events_id}">{biticon ipackage="icons" iname="accessories-text-editor" iexplain="edit"}</a>
+			<a title="{tr}Edit{/tr}" href="edit.php?events_id={$gContent->mInfo.events_id}">{booticon iname="icon-edit" ipackage="icons" iexplain="edit"}</a>
 		{/if}
 		{if $gContent->hasUserPermission( 'p_events_remove' )}
-			<a title="{tr}Delete{/tr}" href="edit.php?remove=1&events_id={$gContent->mInfo.events_id}">{biticon ipackage="icons" iname="edit-delete" iexplain="delete"}</a>
+			<a title="{tr}Delete{/tr}" href="edit.php?remove=1&events_id={$gContent->mInfo.events_id}">{booticon iname="icon-trash" ipackage="icons" iexplain="delete"}</a>
 		{/if}
 	</div><!-- end .floaticon -->
 
