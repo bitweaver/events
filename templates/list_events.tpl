@@ -100,7 +100,7 @@
 			</table>
 {*
 			<div class="control-group submit">
-				<input type="submit" value="{tr}Apply{/tr}" />
+				<input type="submit" class="btn" value="{tr}Apply{/tr}" />
 			</div>
 *}
 		{/form}
