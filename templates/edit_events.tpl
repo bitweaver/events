@@ -22,13 +22,13 @@
 		<script type="text/javascript">/* <![CDATA[ */
  			alert( "{$errors.edit_conflict|strip_tags}" );
  		/* ]]> */</script>
- 		{formfeedback warning=`$errors.edit_conflict`}
+ 		{formfeedback warning=$errors.edit_conflict}
  	{/if}
 	
 	{if $preview}
 		<h2>Preview {$gContent->mInfo.title}</h2>
 		<div class="preview">
-			{include file="bitpackage:events/event_display.tpl" page=`$gContent->mInfo.events_id`}
+			{include file="bitpackage:events/event_display.tpl" page=$gContent->mInfo.events_id}
 		</div>
 	{/if}
 

@@ -1,5 +1,6 @@
 {strip}
-<ul>
+<a class="dropdown-toggle" data-toggle="dropdown" href="#"> {tr}{$packageMenuTitle}{/tr} <b class="caret"></b></a>
+<ul class="{$packageMenuClass}">
 	<li><a class="item" href="{$smarty.const.EVENTS_PKG_URL}list_events.php">{booticon iname="icon-list" iexplain="List Events" ilocation=menu}</a></li>
 	{if $gBitUser->hasPermission( 'p_events_create' )}
 		<li><a class="item" href="{$smarty.const.EVENTS_PKG_URL}edit.php">{booticon iname="icon-time" iexplain="Create Event" ilocation=menu}</a></li>
