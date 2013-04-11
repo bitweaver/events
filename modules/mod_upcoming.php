@@ -38,9 +38,9 @@ $events = new BitEvents();
 $list = $events->getList( $listHash );
 $maxPreviewLength = (!empty($module_params['max_preview_length']) ? $module_params['max_preview_length'] : MAX_EVENTS_PREVIEW_LENGTH);
 
-$gBitSmarty->assign('maxPreviewLength', $maxPreviewLength);
-$gBitSmarty->assign('modUpcomingEvents', $list);
+$_template->tpl_vars['maxPreviewLength'] = new Smarty_variable( $maxPreviewLength);
+$_template->tpl_vars['modUpcomingEvents'] = new Smarty_variable( $list);
 
-$gBitSmarty->assign('eventsPackageActive', $gBitSystem->isPackageActive('events'));
+$_template->tpl_vars['eventsPackageActive'] = new Smarty_variable( $gBitSystem->isPackageActive('events'));
 
 ?>
