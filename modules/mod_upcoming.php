@@ -23,7 +23,7 @@ $module_rows = $moduleParams['module_rows'];
 $module_params = $moduleParams['module_params'];
 $module_title = isset($moduleParams['title']) ? $moduleParams['title'] : tra( "Upcoming Events");
 
-$gBitSmarty->assign( 'moduleTitle', $module_title );
+$_template->tpl_vars['moduleTitle'] = new Smarty_variable( $module_title );
 
 $listHash = array( 'max_records' => $module_rows, 'parse_split' => !empty($module_params['preview']) && $module_params['preview'] ? TRUE : FALSE ,
 		   'sort_mode' => !empty($module_params['random']) && $module_params['random'] ? 'random' : 'event_time_asc',
