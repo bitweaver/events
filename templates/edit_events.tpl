@@ -136,7 +136,7 @@
 						{/forminput}
 
 
-						{textarea label="Description" help="The long description of the event including any images."}{$gContent->mInfo.data}{/textarea}
+						{textarea label="Description" help="The long description of the event including any images." edit=$gContent->mInfo.data}
 			
 						{include file="bitpackage:liberty/edit_services_inc.tpl" serviceFile="content_edit_mini_tpl"}
 
