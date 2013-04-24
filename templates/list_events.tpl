@@ -17,7 +17,7 @@
 			<input type="hidden" name="offset" value="{$control.offset|escape}" />
 			<input type="hidden" name="sort_mode" value="{$control.sort_mode|escape}" />
 
-			<table class="data">
+			<table class="table data">
 				<caption>{tr}List of Events{/tr}</caption>
 				<thead>
 					<tr>
