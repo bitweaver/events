@@ -5,7 +5,7 @@
 		{bitmodule title="$moduleTitle" name="upcoming_events"}
 			<ul>
 				{section name=ix loop=$modUpcomingEvents}
-					<li class="{cycle values="even,odd"} row">
+					<li class="{cycle values="even,odd"} eventrow">
 						<a href="{$modUpcomingEvents[ix].display_url}">
 							<div class="event icon"><p class="event image">
 								{if !empty($modUpcomingEvents[ix].primary_attachment)}
