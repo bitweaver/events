@@ -11,6 +11,7 @@
  * required setup
  */
 require_once( '../kernel/setup_inc.php' );
+require_once(EVENTS_PKG_PATH.'BitEvents.php' );
 
 if ( $gBitSystem->isPackageActive( 'calendar' ) ) {
 
@@ -25,14 +26,15 @@ if ( $gBitSystem->isPackageActive( 'calendar' ) ) {
 
 	// Setup which content types we want to view.
 	$listHash['content_type_guid'] = array('bitevents');
-	$listHash['time_limit_table'] = 'eo.';
-	$listHash['order_table'] = 'eo.';
-	$listHash['sort_mode'] = 'event_on_asc';
+
+	$events = new BitEvents();
+	if( empty( $_REQUEST['event_after'] ) ) {
+		$_REQUEST['event_after'] = $gBitSystem->getUTCTime();
+	}
+	$listevents = $events->getList( $_REQUEST );
 
 	// Build the calendar
 	$gCalendar->buildCalendar($listHash, $_SESSION['calendar']);
-
-	$gBitThemes->loadAjax('mochikit');
 
 	// And display it with a nice title.
 	$gCalendar->display(tra('Events Calendar'), FALSE, EVENTS_PKG_URL.'calendar.php');
