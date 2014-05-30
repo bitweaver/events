@@ -54,7 +54,7 @@
 						<input type="hidden" name="events_id" value="{$gContent->mInfo.events_id}" />
 						<input type="hidden" name="events_date" value="{$gContent->mInfo.events_date}" />
 
-						<div class="control-group">
+						<div class="form-group">
 							{formlabel label="Title" for="title"}
 							{forminput}
 								<input type="text" size="50" maxlength="200" name="title" id="title" value="{if $preview}{$gContent->mInfo.title}{else}{$gContent->mInfo.title}{/if}" />
@@ -62,7 +62,7 @@
 							{/forminput}
 						</div>
 
-						<div class="control-group">
+						<div class="form-group">
 							{formlabel label="Summary" for="description"}
 							{forminput}
 								<input size="50" type="text" name="description" id="description" value="{$gContent->mInfo.description|escape}" maxlength=160 />
@@ -71,7 +71,7 @@
 						</div>
 
 						{if $gBitSystem->isFeatureActive('events_use_types')}
-							<div class="control-group">
+							<div class="form-group">
 								{formlabel label="Type" for="type"}
 								{forminput}
 										{html_options name="type_id" options=$eventTypes selected=$gContent->mInfo.type_id}
@@ -80,7 +80,7 @@
 							</div>
 						{/if}
 
-						<div class="control-group">
+						<div class="form-group">
 							{formlabel label="Cost" for="cost"}
 							{forminput}
 								<input size="50" type="text" name="cost" id="cost" value="{$gContent->mInfo.cost|escape}" />
@@ -140,7 +140,7 @@
 			
 						{include file="bitpackage:liberty/edit_services_inc.tpl" serviceFile="content_edit_mini_tpl"}
 
-						<div class="control-group submit">
+						<div class="form-group submit">
 							<input type="submit" class="btn btn-default" name="preview" value="{tr}Preview{/tr}" /> 
 							<input type="submit" class="btn btn-default" name="save_events" value="{tr}Save{/tr}" />
 						</div>

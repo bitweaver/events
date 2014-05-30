@@ -7,7 +7,7 @@
 		{legend legend="Display Settings"}
 			<input type="hidden" name="page" value="{$page}" />
 			{foreach from=$formEventsDisplayOptions key=item item=output}
-				<div class="control-group">
+				<div class="form-group">
 					{formlabel label=$output.label for=$item}
 					{forminput}
 						{if $output.type == 'numeric'}
@@ -24,7 +24,7 @@
 		{/legend}
 		{legend legend="Features"}
 			{foreach from=$formEventsFeatureOptions key=item item=output}
-				<div class="control-group">
+				<div class="form-group">
 					{formlabel label=$output.label for=$item}
 					{forminput}
 						{if $output.type == 'numeric'}
@@ -45,7 +45,7 @@
 		{legend legend="Santitation Settings"}
 			<input type="hidden" name="page" value="{$page}" />
 			{foreach from=$formEventsStripOptions key=item item=output}
-				<div class="control-group">
+				<div class="form-group">
 					{formlabel label=$output.label for=$item}
 					{forminput}
 						{if $output.type == 'numeric'}
@@ -67,7 +67,7 @@
 		{legend legend="Other Settings"}
 			<input type="hidden" name="page" value="{$page}" />
 			{foreach from=$formEventsOtherOptions key=item item=output}
-				<div class="control-group">
+				<div class="form-group">
 					{formlabel label=$output.label for=$item}
 					{forminput}
 						{if $output.type == 'numeric'}
@@ -100,14 +100,14 @@
 				</table>				
 			{/legend}
 			{legend legend="Add Event Type"}
-				<div class="control-group"
+				<div class="form-group"
 					{formlabel label="Type Name" for="typeName"}
 					{forminput}
 						<input maxlength=30 name="typeName" />
 						{formhelp note="The name of this type"}
 					{/forminput}
 				</div>
-				<div class="control-group">
+				<div class="form-group">
 					{formlabel label="Type Description" for="typeDesc"}
 					{forminput}
 						<input maxlength=160 name="typeDesc" />
@@ -117,7 +117,7 @@
 			{/legend}
 		{/jstab}
 	{/jstabs}
-	<div class="control-group submit">
+	<div class="form-group submit">
 		<input type="submit" class="btn btn-default" name="events_preferences" value="{tr}Change preferences{/tr}" />
 	</div>
 {/form}
