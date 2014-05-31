@@ -3,7 +3,7 @@
 		<div class="eventrow desc">{$contentHash.description}</div>
 	{/if}
 	{if $gBitSystem->isPackageActive('calendar')}
-		<a href="{$smarty.const.CALENDAR_PKG_URL}index.php?view_mode=month&todate={math x=$contentHash.event_time y=$gBitSystem->get_display_offset() equation="x + y"}">
+		<a href="{$smarty.const.CALENDAR_PKG_URL}index.php?view_mode=month&amp;todate={math x=$contentHash.event_time y=$gBitSystem->get_display_offset() equation="x + y"}">
 	{/if}
 	{$contentHash.event_time|bit_long_date}
 	{if $gBitSystem->isPackageActive('calendar')}
