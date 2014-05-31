@@ -455,7 +455,9 @@ class BitEvents extends LibertyMime {
 			$pParamHash['sort_mode'] = $_REQUEST['sort_mode'];
 			}
 		}
-
+// Hack until sort_mode can be filtered to acceptable values
+		$pParamHash['sort_mode'] = 'event_time_asc';
+		
 		LibertyContent::prepGetList( $pParamHash );
 
 		$selectSql = '';
