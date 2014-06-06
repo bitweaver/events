@@ -96,8 +96,8 @@
 				</tbody>
 			</table>
 {*
-			<div class="control-group submit">
-				<input type="submit" class="ink-button" value="{tr}Apply{/tr}" />
+			<div class="form-group submit">
+				<input type="submit" class="btn btn-default" value="{tr}Apply{/tr}" />
 			</div>
 *}
 		{/form}
