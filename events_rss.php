@@ -70,7 +70,7 @@ if( !$gBitUser->hasPermission( 'p_events_view' ) ) {
 	// get all the data ready for the feed creator
 	foreach( $feeds as $feed ) {
 		$item = new FeedItem();
-		$item->title = $event->getTitle( $feed );
+		$item->title = $event->getTitleFromHash( $feed );
 		$item->link = BIT_BASE_URI.$event->getDisplayUrl( $feed['content_id'] );
 		$item->description = $feed['parsed'];
 
