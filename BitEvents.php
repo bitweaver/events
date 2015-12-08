@@ -33,7 +33,7 @@ class BitEvents extends LibertyMime {
 	/**
 	* During initialisation, be sure to call our base constructors
 	**/
-	function BitEvents( $pEventsId=NULL, $pContentId=NULL ) {
+	function __construct( $pEventsId=NULL, $pContentId=NULL ) {
 		parent::__construct();
 		$this->mEventsId = $pEventsId;
 		$this->mContentId = $pContentId;
