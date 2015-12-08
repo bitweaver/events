@@ -1,7 +1,13 @@
 <?php
 /**
- * @version $Header$
- * Copyright (c) 2004 bitweaver Events
+ * Script to produce a list of events
+ *
+ * URL parameters
+ * $_REQUEST["submit_mult"]
+ * $_REQUEST["checked"]
+ * $_REQUEST['event_after']
+ *
+ * @copyright (c) 2004 bitweaver Events
  * @package events
  * @subpackage functions
  */
