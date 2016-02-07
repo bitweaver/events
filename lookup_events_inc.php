@@ -33,6 +33,6 @@ require_once( LIBERTY_PKG_PATH.'lookup_content_inc.php' );
 		if( empty( $gContent->mEventsId ) && empty( $gContent->mContentId )  ) {
 		}
 		$gContent->load();
-		$gBitSmarty->assign_by_ref( "gContent", $gContent );
+		$gBitSmarty->assignByRef( "gContent", $gContent );
 	}
 ?>

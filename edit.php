@@ -59,7 +59,7 @@ if (!empty($_REQUEST["save_events"])) {
 		bit_redirect($gContent->getDisplayUrl() );
 		die;
 	} else {
-		$gBitSmarty->assign_by_ref('errors', $gContent->mErrors );
+		$gBitSmarty->assignByRef('errors', $gContent->mErrors );
 	}
 }
 
@@ -75,7 +75,7 @@ if ( !empty( $_REQUEST['remove'] ) ) {
 				bit_redirect( EVENTS_PKG_URL );
 				die;
 			} else {
-				$gBitSmarty->assign_by_ref('errors', $gContent->mErrors );
+				$gBitSmarty->assignByRef('errors', $gContent->mErrors );
 			}
 		}
 	}

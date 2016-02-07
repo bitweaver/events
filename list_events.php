@@ -59,7 +59,7 @@ if (isset($_REQUEST["submit_mult"]) && isset($_REQUEST["checked"]) && $_REQUEST[
 			}
 		}
 		if( !empty( $errors ) ) {
-			$gBitSmarty->assign_by_ref( 'errors', $errors );
+			$gBitSmarty->assignByRef( 'errors', $errors );
 		}
 	}
 }
@@ -70,8 +70,8 @@ if( empty( $_REQUEST['event_after'] ) ) {
 }
 $listevents = $events->getList( $_REQUEST );
 
-$gBitSmarty->assign_by_ref('listInfo', $_REQUEST['listInfo']);
-$gBitSmarty->assign_by_ref('list', $listevents);
+$gBitSmarty->assignByRef('listInfo', $_REQUEST['listInfo']);
+$gBitSmarty->assignByRef('list', $listevents);
 
 // Display the template
 $gBitSystem->display('bitpackage:events/list_events.tpl', tra('Events') , array( 'display_mode' => 'list' ));
