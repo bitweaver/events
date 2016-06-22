@@ -140,7 +140,7 @@ class BitEvents extends LibertyMime {
 	* @access public
 	**/
 	function store( &$pParamHash ) {
-		$this->mDb->StartTrans();
+		$this->StartTrans();
 		if( $this->verify( $pParamHash )&& LibertyMime::store( $pParamHash ) ) {
 			$table = BIT_DB_PREFIX."events";
 
@@ -171,7 +171,7 @@ class BitEvents extends LibertyMime {
 				$this->insertEventsOn($pParamHash);
 			}
 
-			$this->mDb->CompleteTrans();
+			$this->CompleteTrans();
 			$this->load();
 		}
 		return( count( $this->mErrors )== 0 );
@@ -372,7 +372,7 @@ class BitEvents extends LibertyMime {
 	function expunge() {
 		$ret = FALSE;
 		if( $this->isValid() ) {
-			$this->mDb->StartTrans();
+			$this->StartTrans();
 			$query = "DELETE FROM `".BIT_DB_PREFIX."events_on` WHERE `content_id` = ?";
 			$result = $this->mDb->query( $query, array( $this->mContentId ) );
 			$query = "DELETE FROM `".BIT_DB_PREFIX."events_invites` WHERE `content_id` = ?";
@@ -381,9 +381,9 @@ class BitEvents extends LibertyMime {
 			$result = $this->mDb->query( $query, array( $this->mContentId ) );
 			if( LibertyMime::expunge() ) {
 				$ret = TRUE;
-				$this->mDb->CompleteTrans();
+				$this->CompleteTrans();
 			} else {
-				$this->mDb->RollbackTrans();
+				$this->RollbackTrans();
 			}
 		}
 		return $ret;
