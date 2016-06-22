@@ -578,6 +578,7 @@ class BitEvents extends LibertyMime {
 }
 
 function events_content_list_sql(&$pObject) {
+	global $gBitSystem;
 	if ( $gBitSystem->getActivePackage() == 'events' ) {
 		$ret['select_sql'] = ", eo.`event_on` ";
 		$ret['join_sql'] = " LEFT OUTER JOIN `".BIT_DB_PREFIX."events_on` eo ON (lc.`content_id` = eo.`content_id`) ";
