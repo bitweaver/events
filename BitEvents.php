@@ -216,7 +216,7 @@ class BitEvents extends LibertyMime {
 		}
 
 		// It is possible a derived class set this to something different
-		if( @$this->verifyId( $pParamHash['content_type_guid'] ) ) {
+		if( empty( $pParamHash['content_type_guid'] ) ) {
 			$pParamHash['content_type_guid'] = $this->mContentTypeGuid;
 		}
 
